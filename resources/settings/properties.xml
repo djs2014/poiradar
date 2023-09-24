@@ -1,0 +1,4 @@
+<properties>	
+	<property id="poiAPIKey" type="string"></property>
+	<property id="poiUrl" type="string"></property>		
+</properties>
