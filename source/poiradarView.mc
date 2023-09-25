@@ -8,7 +8,6 @@ using Toybox.Position;
 
 class poiradarView extends WatchUi.DataField {
   var mBGServiceHandler as BGServiceHandler;
-  var mAlertHandler as AlertHandler;
   var mCurrentLocation as CurrentLocation = new CurrentLocation();
 
   var mLargeField as Boolean = false;
@@ -29,6 +28,7 @@ class poiradarView extends WatchUi.DataField {
   hidden var track as Number = 0;
 
   hidden var mWpts as Array<WayPoint> = [] as Array<WayPoint>;
+  hidden var mWptsSorted as Array<WayPoint> = [] as Array<WayPoint>;
   hidden var mPoiSet as String = "";
   hidden var mCurWpt as WayPoint = new WayPoint(0.0d, 0.0d);
   hidden var mDc as Dc?;
@@ -48,8 +48,7 @@ class poiradarView extends WatchUi.DataField {
     mBGServiceHandler = getApp().getBGServiceHandler();
     mBGServiceHandler.setOnBackgroundData(self, :onBackgroundData);
     mBGServiceHandler.setCurrentLocation(mCurrentLocation);
-    mAlertHandler = getApp().getAlertHandler();
-
+    
     // trigger to get optional cached location
     onLocationChanged();
 
@@ -359,10 +358,11 @@ class poiradarView extends WatchUi.DataField {
     //       return;
     //     }
 
-    for (var i = 0; i < mWpts.size(); i++) {
-      var wpt = mWpts[i];
+    // Draw longes distance first
+    for (var i = mWptsSorted.size() - 1; i >= 0; i--) {
+      var wpt = mWptsSorted[i];
 
-      var distanceKm = $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
+      var distanceKm = wpt.distanceMeters / 1000.0f;//  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
 
       if ($.gDebug) {
@@ -398,12 +398,12 @@ class poiradarView extends WatchUi.DataField {
 
       var pt = getBearingPointOnCircle(x1, y1, wptBearing, distanceKm * radius_km1);
       var text = "";
-      var distanceMeters = distanceKm * 1000.0f;
+      //var distanceMeters = distanceKm * 1000.0f;
       if (showDistance) {
         text =
-          getDistanceInMeterOrKm(distanceMeters).format(getFormatForMeterAndKm(distanceMeters)) +
+          getDistanceInMeterOrKm(wpt.distanceMeters).format(getFormatForMeterAndKm(wpt.distanceMeters)) +
           " " +
-          getUnitsInMeterOrKm(distanceMeters);
+          getUnitsInMeterOrKm(wpt.distanceMeters);
       }
       if (showDirection) {
         text = text + "(" + $.getCompassDirection(bearing) + ")";
@@ -437,8 +437,7 @@ class poiradarView extends WatchUi.DataField {
         }
       }
 
-
-      if (targetVisible || distanceKm <= mMinDistanceMeters / 1000.0) {
+      if (targetVisible || wpt.distanceMeters <= mMinDistanceMeters) {
         dc.setColor(mLineColor, Graphics.COLOR_TRANSPARENT);
         dc.setPenWidth(2);
         dc.drawLine(x1, y1, px, py);
@@ -446,9 +445,21 @@ class poiradarView extends WatchUi.DataField {
         if (text.length() > 0) {
           dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
           if (px < mWidth / 2) {
-            dc.drawText(px + mWptRadius + 2, py, mFontWptLabel, text, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER) ;
+            dc.drawText(
+              px + mWptRadius + 2,
+              py,
+              mFontWptLabel,
+              text,
+              Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+            );
           } else {
-            dc.drawText(px - mWptRadius - 2, py, mFontWptLabel, text, Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER) ;
+            dc.drawText(
+              px - mWptRadius - 2,
+              py,
+              mFontWptLabel,
+              text,
+              Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
+            );
           }
         }
 
@@ -465,7 +476,7 @@ class poiradarView extends WatchUi.DataField {
         //   var dotsCount = 1 + distanceKm % 10;
         //   for(var d=0)
         // }
-      } 
+      }
     }
 
     // Stats
@@ -523,71 +534,76 @@ class poiradarView extends WatchUi.DataField {
       wptsNeeded = $.g_tf_ZoomMinWayPoints;
       zoomOnOneMeters = $.g_tf_zoomOneMeters;
     }
-    
-    var sorted = [] as Array<Float>;
+
+    // Calc distance and bearing@@
+    // Sort from low to high
+    mWptsSorted = [] as Array<WayPoint>;
     var min = 0.0f;
     var max = 0.0f;
     var count = mWpts.size();
     for (var i = 0; i < count; i++) {
       var wpt = mWpts[i];
-      var distanceMeters = $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon) * 1000.0f;
-      if (max == 0.0f || distanceMeters > max) {
-        max = distanceMeters;
+      wpt.distanceMeters = $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon) * 1000.0f;
+      if (max == 0.0f || wpt.distanceMeters > max) {
+        max = wpt.distanceMeters;
       }
-      if (min == 0.0f || distanceMeters < min) {
-        min = distanceMeters;
+      if (min == 0.0f || wpt.distanceMeters < min) {
+        min = wpt.distanceMeters;
       }
 
-      if (wptsNeeded > 1) {
-        // Add sorted - small to long distance -> reverse is order to draw lines
-        var ssize = sorted.size();
-        if (ssize == 0) {
-          sorted.add(distanceMeters);
-        } else if (ssize == 1) {
-          sorted.add(distanceMeters);
-          if (distanceMeters < sorted[0]) {
-            sorted = sorted.reverse();
+      // if (wptsNeeded > 1) {
+      // Add sorted - small to long distance -> reverse is order to draw lines
+      var ssize = mWptsSorted.size();
+      if (ssize == 0) {
+        mWptsSorted.add(wpt);
+      } else if (ssize == 1) {
+        mWptsSorted.add(wpt);
+        if (wpt.distanceMeters < mWptsSorted[0].distanceMeters) {
+          mWptsSorted = mWptsSorted.reverse();
+        }
+      } else {
+        var idxA = 0;
+        var idxB = idxA + 1;
+        var insertIdx = -1; // insert before
+        while (idxB < ssize && insertIdx < 0) {
+          if (wpt.distanceMeters < mWptsSorted[idxA].distanceMeters) {
+            insertIdx = idxA;
+          } else if (
+            mWptsSorted[idxA].distanceMeters <= wpt.distanceMeters &&
+            wpt.distanceMeters <= mWptsSorted[idxB].distanceMeters
+          ) {
+            insertIdx = idxB;
           }
+
+          idxA++;
+          idxB = idxA + 1;
+        }
+        if (insertIdx < 0) {
+          // longest distance
+          mWptsSorted.add(wpt);
         } else {
-          var idxA = 0;
-          var idxB = idxA + 1;
-          var insertIdx = -1; // insert before
-          while (idxB < ssize && insertIdx < 0) {
-            if (distanceMeters < sorted[idxA]) {
-              insertIdx = idxA;
-            } else if (sorted[idxA] <= distanceMeters && distanceMeters <= sorted[idxB]) {
-              insertIdx = idxB;
-            }
-
-            idxA++;
-            idxB = idxA + 1;
-          }
-          if (insertIdx < 0) {
-            // nothing found,
-            sorted.add(distanceMeters);
-          } else {
-            var _sorted = [];
-            _sorted = sorted.slice(0, insertIdx);
-            _sorted.add(distanceMeters);
-            _sorted.addAll(sorted.slice(insertIdx, sorted.size()));
-            sorted = _sorted as Array<Float>;
-          }         
+          var _sorted = [] as Array<WayPoint>;
+          _sorted = mWptsSorted.slice(0, insertIdx);
+          _sorted.add(wpt);
+          _sorted.addAll(mWptsSorted.slice(insertIdx, mWptsSorted.size()));
+          mWptsSorted = _sorted as Array<WayPoint>;
         }
       }
+      //}
 
-      if ($.g_alert_closeRangeMeters > 0 && distanceMeters < $.g_alert_closeRangeMeters) {
+      if ($.g_alert_closeRangeMeters > 0 && wpt.distanceMeters < $.g_alert_closeRangeMeters) {
         numberInCloseRange = numberInCloseRange + processCloseRange(wpt);
       }
-      if ($.g_alert_proximityMeters > 0 && distanceMeters < $.g_alert_proximityMeters) {
+      if ($.g_alert_proximityMeters > 0 && wpt.distanceMeters < $.g_alert_proximityMeters) {
         numberProximity = numberProximity + processProximity(wpt);
       }
     }
 
     mWptCount = count;
     mMinDistanceMeters = min;
-    if (min > zoomOnOneMeters && wptsNeeded > 1 && wptsNeeded < sorted.size()) {
+    if (min > zoomOnOneMeters && wptsNeeded > 1 && wptsNeeded < mWptsSorted.size()) {
       // Include the needed wpts by minimal distance
-      mMinDistanceMeters = sorted[wptsNeeded];
+      mMinDistanceMeters = mWptsSorted[wptsNeeded].distanceMeters;
     }
     mMaxDistanceMeters = max;
     System.println(

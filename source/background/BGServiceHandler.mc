@@ -45,6 +45,9 @@ class BGServiceHandler {
     mMinimalGPSLevel = level;
   }
   function setUpdateFrequencyInMinutes(minutes as Number) as Void {
+    if (minutes < 5) {
+      minutes = 5;
+    }
     mUpdateFrequencyInMinutes = minutes;
   }
   function Disable() as Void {

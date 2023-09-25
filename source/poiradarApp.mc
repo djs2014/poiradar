@@ -8,7 +8,6 @@ import Toybox.Application.Storage;
 using Toybox.Position;
 
 var _BGServiceHandler as BGServiceHandler?;
-var _alertHandler as AlertHandler?;
 var _bgData as PoiData?;
 var gDebug as Boolean = false;
 var gCacheBgData as Boolean = false;
@@ -93,14 +92,6 @@ class poiradarApp extends Application.AppBase {
   }
 
   (:typecheck(disableBackgroundCheck))
-  function getAlertHandler() as AlertHandler {
-    if ($._alertHandler == null) {
-      $._alertHandler = new AlertHandler();
-    }
-    return $._alertHandler as AlertHandler;
-  }
-
-  (:typecheck(disableBackgroundCheck))
   function loadUserSettings() as Void {
     try {
       System.println("Loading user settings");
@@ -113,8 +104,8 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("cacheBgData", false);
 
         Storage.setValue("checkIntervalMinutes", 5);
-        Storage.setValue("maxRangeMeters", 5000);
-        Storage.setValue("maxWaypoints", 30);
+        Storage.setValue("maxRangeMeters", 15000);
+        Storage.setValue("maxWaypoints", 50);
 
         Storage.setValue("tf_showWptDirection", $.g_tf_ShowWptDirection);
         Storage.setValue("tf_showWptDistance", $.g_tf_ShowWptDistance);
@@ -184,19 +175,10 @@ class poiradarApp extends Application.AppBase {
       $.g_alert_proximity = $.getStorageValue("alert_proximity", $.g_alert_proximity) as Boolean;
       $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
       $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
-
-      // @@ Needed?
-      // var alertHandler = getAlertHandler();
-      //       alertHandler.setAlertPrecipitationChance($._alertLevelPrecipitationChance);
-      //       alertHandler.setAlertUVi($._alertLevelUVi);
-      //       alertHandler.setAlertRainMMfirstHour($._alertLevelRainMMfirstHour);
-      //       alertHandler.setAlertWindSpeed($._alertLevelWindSpeed);
-      //       alertHandler.setAlertDewpoint($._alertLevelDewpoint);
-      //       alertHandler.resetStatus();
-
+      
       var bgHandler = getBGServiceHandler();
-      //bgHandler.setObservationTimeDelayedMinutes($._observationTimeDelayedMinutesThreshold);
       bgHandler.setMinimalGPSLevel($.getStorageValue("minimalGPSquality", $.gMinimalGPSquality) as Number);
+      bgHandler.setUpdateFrequencyInMinutes($.getStorageValue("checkIntervalMinutes", 5) as Number);
       // @@ set interval
       bgHandler.Enable();
 

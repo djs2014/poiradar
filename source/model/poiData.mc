@@ -24,6 +24,7 @@ class PoiData {
 class WayPoint {
   var lat as Lang.Double = 0d;
   var lon as Lang.Double = 0d;
+  var distanceMeters as Lang.Float = 0f;
   // @@ TODO
   var name as Lang.String = "";
   var comment as Lang.String = "";

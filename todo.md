@@ -1,6 +1,21 @@
 
 # poi radar
+-##/## inrange/hit ipv found
+  + start after x km / x min 50km
+  + stop after x km / xmin 150km
+  - proximity meters - 20m
+  - proximity alert / beep
+  - range alert / beep
 
+- when close by -> label with distance 
+- focus on ahead -> and when distance of found > 1km
+- max values check for maxRange, maxResult 100km / 100
+- option CacheResult j/n
+- cache json result after request -> string
+- when start app -> use this data first
+
+-store stats of encounterd poi elapseddistance at time
+start after
 show wpts visible on top -> draw as last
 create test mode -
   - test set 
@@ -10,8 +25,6 @@ alert
   + count # close by < 500m
   + beep / beep beep
   + toast message?
-  + start after x km / x min 50km
-  + stop after x km / xmin 150km
   - reset start -> refilled bottle 
 
 min -> black color
