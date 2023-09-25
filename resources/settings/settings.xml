@@ -1,0 +1,8 @@
+<settings>	
+ 	<setting propertyKey="@Properties.poiAPIKey" title="@Strings.PoiAPIKey">
+		<settingConfig type="alphanumeric" />
+	</setting>	
+	<setting propertyKey="@Properties.poiUrl" title="@Strings.PoiUrl">
+		<settingConfig type="alphanumeric" />
+	</setting>	
+</settings>
