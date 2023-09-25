@@ -39,7 +39,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       var poiAPIKey = Storage.getValue("poiAPIKey");
       var apiVersion = "1.0";
       var maxRange = Storage.getValue("maxRangeMeters");
-      var maxWpts = Storage.getValue("maxWaypoints");
+      var maxWpts = Storage.getValue("maxWaypoints");      
       var poiSet = Storage.getValue("poiSet");
 
       System.println(
@@ -70,11 +70,13 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       if ((poiUrl as String).length() == 0) {
         return CustomErrors.ERROR_BG_NO_PROXY;
       }
-      if (maxRange == null) {
+      if (maxRange == null || (maxRange as Number) > 100000) {
         maxRange = 30000;
+        Storage.setValue("maxRangeMeters", maxRange);
       }
-      if (maxWpts == null) {
+      if (maxWpts == null || (maxWpts as Number) > 100) {
         maxWpts = 50;
+        Storage.setValue("maxWaypoints", maxWpts);
       }
       if (poiSet == null) {
         poiSet = "";

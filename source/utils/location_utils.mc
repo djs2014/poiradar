@@ -67,7 +67,7 @@ class CurrentLocation {
     if (!hasLocation()) {
       return "No location";
     }
-    return mLat.format("%04d") + "," + mLon.format("%04d");
+    return mLat.format("%2.4f") + "," + mLon.format("%2.4f");
   }
 
   function getAccuracy() as Quality {

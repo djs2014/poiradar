@@ -272,3 +272,26 @@ class BGServiceHandler {
     return mErrorMessage;
   }
 }
+
+// (:typecheck(disableBackgroundCheck))
+// function getCachedBgData() as Dictionary? {
+//   try {
+//     var data = Storage.getValue("latest_bgData");
+//     if (data == null) {
+//       return null;
+//     }
+//     return data as Dictionary;
+//   } catch (ex) {
+//     ex.printStackTrace();
+//   }
+//   return null;
+// }
+
+// (:typecheck(disableBackgroundCheck))
+// function setCachedBgData(data as Dictionary) as Void {
+//   try {
+//     Storage.setValue("latest_bgData", data as String) ;
+//   } catch (ex) {
+//     ex.printStackTrace();
+//   }
+// }

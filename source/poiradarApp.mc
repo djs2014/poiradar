@@ -11,20 +11,22 @@ var _BGServiceHandler as BGServiceHandler?;
 var _alertHandler as AlertHandler?;
 var _bgData as PoiData?;
 var gDebug as Boolean = false;
+var gCacheBgData as Boolean = false;
 var gMinimalGPSquality as Number = 3;
 
-var g_lf_ShowWptDirection as Boolean = true;
+var g_lf_ShowWptDirection as Boolean = false;
 var g_lf_ShowWptDistance as Boolean = true;
 var g_lf_ShowCircleDistance as Boolean = true;
 var g_lf_ExtraRangeInMeter as Number = 500;
 var g_lf_FixedRangeInMeter as Number = 0;
+// # include more wpts in zoom
 var g_lf_ZoomMinWayPoints as Number = 1;
 var g_lf_zoomOneMeters as Number = 500;
 
 var g_sf_ShowWptDirection as Boolean = false;
 var g_sf_ShowWptDistance as Boolean = true;
 var g_sf_ShowCircleDistance as Boolean = true;
-var g_sf_ExtraRangeInMeter as Number = 500;
+var g_sf_ExtraRangeInMeter as Number = 50;
 var g_sf_FixedRangeInMeter as Number = 0;
 var g_sf_ZoomMinWayPoints as Number = 1;
 var g_sf_zoomOneMeters as Number = 500;
@@ -39,17 +41,21 @@ var g_tf_zoomOneMeters as Number = 500;
 
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
+var g_alert_proximityMeters as Number = 25;
+var g_alert_proximity as Boolean = true;
+
 var g_alert_startAfterX as Number = 30;
 var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
 // var g_alert_stopAfterX as Number = 150;
 // var g_alert_stopAfterUnits as String = "km";
-
 
 (:background)
 var _mostRecentData as PoiData?;
 
 (:background)
 class poiradarApp extends Application.AppBase {
+  var mCachedDataLoaded as Boolean = false;
+
   function initialize() {
     AppBase.initialize();
   }
@@ -99,7 +105,13 @@ class poiradarApp extends Application.AppBase {
     try {
       System.println("Loading user settings");
       // @@ or reset
-      if (Storage.getValue("sf_showWptDirection") == null) {
+
+      var reset = Storage.getValue("resetDefaults");
+      if (reset == null || (reset as Boolean)) {
+        Storage.setValue("resetDefaults", false);
+        Storage.setValue("debug", false);
+        Storage.setValue("cacheBgData", false);
+
         Storage.setValue("checkIntervalMinutes", 5);
         Storage.setValue("maxRangeMeters", 5000);
         Storage.setValue("maxWaypoints", 30);
@@ -111,7 +123,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter);
         Storage.setValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints);
         Storage.setValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters);
-     
+
         Storage.setValue("sf_showWptDirection", $.g_sf_ShowWptDirection);
         Storage.setValue("sf_showWptDistance", $.g_sf_ShowWptDistance);
         Storage.setValue("sf_extraRangeMeters", $.g_sf_ExtraRangeInMeter);
@@ -130,6 +142,8 @@ class poiradarApp extends Application.AppBase {
 
         Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
+        Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
+        Storage.setValue("alert_proximity", $.g_alert_proximity);
         Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
 
@@ -138,6 +152,7 @@ class poiradarApp extends Application.AppBase {
       }
 
       $.gDebug = $.getStorageValue("debug", $.gDebug) as Boolean;
+      $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
 
       $.g_tf_ShowWptDirection = $.getStorageValue("tf_showWptDirection", $.g_tf_ShowWptDirection) as Boolean;
       $.g_tf_ShowWptDistance = $.getStorageValue("tf_showWptDistance", $.g_tf_ShowWptDistance) as Boolean;
@@ -146,7 +161,7 @@ class poiradarApp extends Application.AppBase {
       $.g_tf_FixedRangeInMeter = $.getStorageValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter) as Number;
       $.g_tf_ZoomMinWayPoints = $.getStorageValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints) as Number;
       $.g_tf_zoomOneMeters = $.getStorageValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters) as Number;
- 
+
       $.g_sf_ShowWptDirection = $.getStorageValue("sf_showWptDirection", $.g_sf_ShowWptDirection) as Boolean;
       $.g_sf_ShowWptDistance = $.getStorageValue("sf_showWptDistance", $.g_sf_ShowWptDistance) as Boolean;
       $.g_sf_ShowCircleDistance = $.getStorageValue("g_sf_ShowCircleDistance", $.g_sf_ShowCircleDistance) as Boolean;
@@ -163,13 +178,14 @@ class poiradarApp extends Application.AppBase {
       $.g_lf_ZoomMinWayPoints = $.getStorageValue("lf_zoomMinWaypoints", $.g_lf_ZoomMinWayPoints) as Number;
       $.g_lf_zoomOneMeters = $.getStorageValue("lf_zoomOneMeters", $.g_lf_zoomOneMeters) as Number;
 
-
       $.g_alert_closeRangeMeters = $.getStorageValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters) as Number;
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;
+      $.g_alert_proximityMeters = $.getStorageValue("alert_proximityMeters", $.g_alert_proximityMeters) as Number;
+      $.g_alert_proximity = $.getStorageValue("alert_proximity", $.g_alert_proximity) as Boolean;
       $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
       $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
 
-
+      // @@ Needed?
       // var alertHandler = getAlertHandler();
       //       alertHandler.setAlertPrecipitationChance($._alertLevelPrecipitationChance);
       //       alertHandler.setAlertUVi($._alertLevelUVi);
@@ -184,16 +200,13 @@ class poiradarApp extends Application.AppBase {
       // @@ set interval
       bgHandler.Enable();
 
+      
       // Storage.setValue("poiUrl", "http://localhost:4000/poi/");
       // Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
-      // Storage.setValue("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
-
-      // @@ app properties crash
+      
       setStorageValueIfChanged("poiUrl", "https://poi.castlephoto.info/poi/");
       setStorageValueIfChanged("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
-
-      //Storage.setValue("poi", $._maxHoursForecast + 1);
-
+      
       System.println("User settings loaded");
     } catch (ex) {
       System.println(ex.getErrorMessage());
@@ -243,12 +256,6 @@ class poiradarApp extends Application.AppBase {
     WatchUi.requestUpdate();
   }
 
-  // (:typecheck(disableBackgroundCheck))
-  // function updateBgData(bgHandler as BGServiceHandler, data as Dictionary) as Void {
-  //   var bgData = $.toPoiData(data);
-  //   $._bgData = bgData;
-  //   // bgHandler.setLastObservationMoment(bgData.getObservationTime());
-  // }
 }
 
 function getApp() as poiradarApp {
