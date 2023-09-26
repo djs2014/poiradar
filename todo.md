@@ -1,6 +1,7 @@
 
 # poi radar
--##/## inrange/hit ipv found
+color range distance lt grey to black (far way - closeby) when target not visibile
+
   + start after x km / x min 50km
   + stop after x km / xmin 150km
   - proximity meters - 20m

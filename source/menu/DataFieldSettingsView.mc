@@ -57,6 +57,8 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
 
     var boolean = false;
 
+    boolean = Storage.getValue("distance_grayscale") ? true : false;
+    menu.addItem(new WatchUi.ToggleMenuItem("Grayscale distance", null, "distance_grayscale", boolean, null));
     boolean = Storage.getValue("debug") ? true : false;
     menu.addItem(new WatchUi.ToggleMenuItem("Debug", null, "debug", boolean, null));
     boolean = Storage.getValue("resetDefaults") ? true : false;

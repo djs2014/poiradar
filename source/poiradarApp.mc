@@ -10,6 +10,7 @@ using Toybox.Position;
 var _BGServiceHandler as BGServiceHandler?;
 var _bgData as PoiData?;
 var gDebug as Boolean = false;
+var gDistance_grayscale as Boolean = false;
 var gCacheBgData as Boolean = false;
 var gMinimalGPSquality as Number = 3;
 
@@ -102,6 +103,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("resetDefaults", false);
         Storage.setValue("debug", false);
         Storage.setValue("cacheBgData", false);
+        Storage.setValue("distance_grayscale", false);
 
         Storage.setValue("checkIntervalMinutes", 5);
         Storage.setValue("maxRangeMeters", 15000);
@@ -144,6 +146,7 @@ class poiradarApp extends Application.AppBase {
 
       $.gDebug = $.getStorageValue("debug", $.gDebug) as Boolean;
       $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
+      $.gDistance_grayscale = $.getStorageValue("distance_grayscale", $.gDistance_grayscale) as Boolean;
 
       $.g_tf_ShowWptDirection = $.getStorageValue("tf_showWptDirection", $.g_tf_ShowWptDirection) as Boolean;
       $.g_tf_ShowWptDistance = $.getStorageValue("tf_showWptDistance", $.g_tf_ShowWptDistance) as Boolean;
