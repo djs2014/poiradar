@@ -27,6 +27,7 @@ class BGServiceHandler {
 
   var mLastRequestMoment as Time.Moment?;
   var mLastObservationMoment as Time.Moment?;
+  var mCacheBgData as Boolean = false;
   var mData as Object?;
 
   // var methodOnBeforeWebrequest = null;
@@ -227,7 +228,9 @@ class BGServiceHandler {
     }
 
     mHttpStatus = HTTP_OK;
-    mData = data;
+    if (mCacheBgData) {
+      mData = data;
+    }
     mError = CustomErrors.ERROR_BG_NONE;
     mRequestCounter = mRequestCounter + 1;
 

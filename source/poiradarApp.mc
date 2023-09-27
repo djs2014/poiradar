@@ -8,7 +8,7 @@ import Toybox.Application.Storage;
 using Toybox.Position;
 
 var _BGServiceHandler as BGServiceHandler?;
-var _bgData as PoiData?;
+// var _bgData as PoiData?;
 var gDebug as Boolean = false;
 var gDistance_grayscale as Boolean = false;
 var gCacheBgData as Boolean = false;
@@ -107,7 +107,7 @@ class poiradarApp extends Application.AppBase {
 
         Storage.setValue("checkIntervalMinutes", 5);
         Storage.setValue("maxRangeMeters", 15000);
-        Storage.setValue("maxWaypoints", 50);
+        Storage.setValue("maxWaypoints", 40);
 
         Storage.setValue("tf_showWptDirection", $.g_tf_ShowWptDirection);
         Storage.setValue("tf_showWptDistance", $.g_tf_ShowWptDistance);
