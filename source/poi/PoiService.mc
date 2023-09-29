@@ -14,8 +14,7 @@ function toPoiData(data as Dictionary) as PoiData {
          "lat": 52.15150518174673,
          "lon": 4.774347540760808,
          "set": "202307Drinkwaterkaart",
-         "range": 30000,
-         // @@ optimize size? xxx,xxx,xxx
+         "range": 30000, // meters
          "pts": [
             [52.150449857,4.779379378 ]
                          ..

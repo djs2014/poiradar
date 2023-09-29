@@ -30,8 +30,8 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       var value = getStorageValue(mi.getId() as String, $.gMinimalGPSquality) as Number;
       mi.setSubLabel($.getMinimalGPSqualityText(value));
       proxyMenu.addItem(mi);
-      // @@ url
-      // @@ apikey
+      // @@ url - text picker
+      // @@ apikey - text picker
       mi = new WatchUi.MenuItem("Checkinterval minutes", null, "checkIntervalMinutes", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       proxyMenu.addItem(mi);
@@ -41,7 +41,7 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi = new WatchUi.MenuItem("Max waypoints", null, "maxWaypoints", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       proxyMenu.addItem(mi);
-      // @@ set - watertappunt
+      // @@ set - watertappunt custom sets?
 
       // @@ need more testing ... max memory saving
       // var boolean = Storage.getValue("cacheBgData") ? true : false;
@@ -146,7 +146,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("alert_proximity") ? true : false;
       alertMenu.addItem(new WatchUi.ToggleMenuItem("Beep proximity", null, "alert_proximity", boolean, null));
 
-      // @@TODO
+      boolean = Storage.getValue("loosefocusafterhit") ? true : false;
+      alertMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
+
+      // @@TODO or store start location -> no beeps 'silent' in range start location < x km (for start of ride / end of ride)
       // mi = new WatchUi.MenuItem("Start after X", null, "alert_startAfterX", null);
       // mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       // alertMenu.addItem(mi);

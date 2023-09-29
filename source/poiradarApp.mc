@@ -17,7 +17,7 @@ var gMinimalGPSquality as Number = 3;
 var g_lf_ShowWptDirection as Boolean = false;
 var g_lf_ShowWptDistance as Boolean = true;
 var g_lf_ShowCircleDistance as Boolean = true;
-var g_lf_ExtraRangeInMeter as Number = 500;
+var g_lf_ExtraRangeInMeter as Number = 150;
 var g_lf_FixedRangeInMeter as Number = 0;
 // # include more wpts in zoom
 var g_lf_ZoomMinWayPoints as Number = 1;
@@ -34,7 +34,7 @@ var g_sf_zoomOneMeters as Number = 500;
 var g_tf_ShowWptDirection as Boolean = false;
 var g_tf_ShowWptDistance as Boolean = false;
 var g_tf_ShowCircleDistance as Boolean = false;
-var g_tf_ExtraRangeInMeter as Number = 300;
+var g_tf_ExtraRangeInMeter as Number = 50;
 var g_tf_FixedRangeInMeter as Number = 0;
 var g_tf_ZoomMinWayPoints as Number = 1;
 var g_tf_zoomOneMeters as Number = 500;
@@ -43,6 +43,8 @@ var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
 var g_alert_proximityMeters as Number = 25;
 var g_alert_proximity as Boolean = true;
+
+var g_loosefocusafterhit as Boolean = true;
 
 var g_alert_startAfterX as Number = 30;
 var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
@@ -96,10 +98,10 @@ class poiradarApp extends Application.AppBase {
   function loadUserSettings() as Void {
     try {
       System.println("Loading user settings");
-      // @@ or reset
-
+      
       var reset = Storage.getValue("resetDefaults");
       if (reset == null || (reset as Boolean)) {
+        System.println("Reset user settings");
         Storage.setValue("resetDefaults", false);
         Storage.setValue("debug", false);
         Storage.setValue("cacheBgData", false);
@@ -140,6 +142,8 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
 
+        Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
+
         Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
         Storage.setValue("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
       }
@@ -176,8 +180,14 @@ class poiradarApp extends Application.AppBase {
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;
       $.g_alert_proximityMeters = $.getStorageValue("alert_proximityMeters", $.g_alert_proximityMeters) as Number;
       $.g_alert_proximity = $.getStorageValue("alert_proximity", $.g_alert_proximity) as Boolean;
+      if ($.g_alert_proximityMeters > $.g_alert_closeRangeMeters) {
+        $.g_alert_proximityMeters  = $.g_alert_closeRangeMeters - 1;
+        Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
+      }
       $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
       $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
+
+      $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
       
       var bgHandler = getBGServiceHandler();
       bgHandler.setMinimalGPSLevel($.getStorageValue("minimalGPSquality", $.gMinimalGPSquality) as Number);
@@ -199,7 +209,6 @@ class poiradarApp extends Application.AppBase {
     }
   }
 
-  // @@TODO if space -> reset to default
   (:typecheck(disableBackgroundCheck))
   function setStorageValueIfChanged(key as String, def as String) as Void {
     try {

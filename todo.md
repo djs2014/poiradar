@@ -1,8 +1,13 @@
 
 # poi radar
 bug large field after exit settings
+- direction to wpt same as heading +/- 2 --> extra zoom out to see the wpt . It is blocked by the compass values.
+- calc bearing onlocationchanged
+- on pause fonts black / white
+setting alert -> use backlight j/n attention.backlight(1) .. after 5 sec ..0
 
 - focus on ahead -> and when distance of found > 1km
+  - ?? when hit / range? after x distance - ignore this wpt -> zoom 
   + start after x km / x min 50km
   + stop after x km / xmin 150km
 

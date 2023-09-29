@@ -24,11 +24,15 @@ class PoiData {
 class WayPoint {
   var lat as Lang.Double = 0d;
   var lon as Lang.Double = 0d;
-  var distanceMeters as Lang.Float = 0f;
+  
+  var distanceMeters as Float = 0f;
+  var bearing as Number = 0;
   var flashed as Boolean = false;
-  // @@ TODO
-  var name as Lang.String = "";
-  var comment as Lang.String = "";
+  var hit as Boolean = false;
+
+  // @@ Payload will be bigger!!
+  // var name as Lang.String = "";
+  // var comment as Lang.String = "";
   function initialize(lat as Double or Float, lon as Double or Float) {
     self.lat = lat.toDouble();
     self.lon = lon.toDouble();
