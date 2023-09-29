@@ -71,7 +71,8 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
   }
 
   function onBack() as Boolean {
-    getApp().onSettingsChanged();
+    getApp().onSettingsChanged();    
+    $.gExitedMenu = true;
     return false;
   }
 }

@@ -200,10 +200,15 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function onUpdate(dc as Dc) as Void {
+    if ($.gExitedMenu) {
+      // fix for leaving menu, draw complete screen, large field
+      dc.clearClip();
+    }
+
     dc.setColor(getBackgroundColor(), getBackgroundColor());
     dc.clear();
     dc.setAntiAlias(true);
-
+    
     var mFontWptLabel = Graphics.FONT_XTINY;
     var trackColor = Graphics.COLOR_BLACK;
     var km1RangeColor = Graphics.COLOR_DK_GREEN;

@@ -13,6 +13,7 @@ var gDebug as Boolean = false;
 var gDistance_grayscale as Boolean = false;
 var gCacheBgData as Boolean = false;
 var gMinimalGPSquality as Number = 3;
+var gExitedMenu as Boolean = false;
 
 var g_lf_ShowWptDirection as Boolean = false;
 var g_lf_ShowWptDistance as Boolean = true;
@@ -191,7 +192,12 @@ class poiradarApp extends Application.AppBase {
       
       var bgHandler = getBGServiceHandler();
       bgHandler.setMinimalGPSLevel($.getStorageValue("minimalGPSquality", $.gMinimalGPSquality) as Number);
-      bgHandler.setUpdateFrequencyInMinutes($.getStorageValue("checkIntervalMinutes", 5) as Number);
+      var interval = $.getStorageValue("checkIntervalMinutes", 5) as Number;
+      if (interval < 5) {
+        interval = 5;
+        Storage.setValue("checkIntervalMinutes", interval);
+      }
+      bgHandler.setUpdateFrequencyInMinutes(interval);
       // @@ set interval
       bgHandler.Enable();
 
