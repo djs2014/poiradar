@@ -186,16 +186,17 @@ class poiradarView extends WatchUi.DataField {
     if (mZoomRange < 0.0d) {
       mZoomRange = mZoomRange * -1.0;
     }
-
-    System.println(
-      Lang.format("Calculated: #wpts[$1$] distance min[$2$] +extraRange[$3$] max[$4$] zoom range[$5$]", [
-        mWptCount,
-        mMinDistanceMeters,
-        extraRange,
-        mMaxDistanceMeters,
-        mZoomRange,
-      ])
-    );
+    if ($.gDebug) {
+      System.println(
+        Lang.format("Calculated: #wpts[$1$] distance min[$2$] +extraRange[$3$] max[$4$] zoom range[$5$]", [
+          mWptCount,
+          mMinDistanceMeters,
+          extraRange,
+          mMaxDistanceMeters,
+          mZoomRange,
+        ])
+      );
+    }
   }
 
   function onUpdate(dc as Dc) as Void {
@@ -291,15 +292,16 @@ class poiradarView extends WatchUi.DataField {
     var mapLonRight = lon - mZoomRange;
     var mapLonLeft = lon + mZoomRange;
     var mapLatBottom = lat;
-
-    System.println(
-      Lang.format("Stats #wpts[$1$] distance min[$2$] max[$2$] zoom range[$3$]", [
-        mWptCount,
-        mMinDistanceMeters,
-        mMaxDistanceMeters,
-        mZoomRange,
-      ])
-    );
+    if ($.gDebug) {
+      System.println(
+        Lang.format("Stats #wpts[$1$] distance min[$2$] max[$2$] zoom range[$3$]", [
+          mWptCount,
+          mMinDistanceMeters,
+          mMaxDistanceMeters,
+          mZoomRange,
+        ])
+      );
+    }
 
     var wptKm1 = getWayPointByDistanceAndHeading(lat, lon, 90d, 1d);
     var ptkm1 = convertGeoToPixel(wptKm1.lat, wptKm1.lon, mWidth, mHeight, mapLonRight, mapLonLeft, mapLatBottom);
@@ -653,14 +655,16 @@ class poiradarView extends WatchUi.DataField {
       mMinDistanceMeters = mWptsSorted[wptsNeeded].distanceMeters;
     }
     mMaxDistanceMeters = max;
-    System.println(
-      Lang.format("Poi Stats #wpts[$1$] distance min[$2$]meter max[$2$]meter newInCloseRange[$3$]", [
-        mWptCount,
-        mMinDistanceMeters,
-        mMaxDistanceMeters,
-        numberInCloseRange,
-      ])
-    );
+    if ($.gDebug) {
+      System.println(
+        Lang.format("Poi Stats #wpts[$1$] distance min[$2$]meter max[$2$]meter newInCloseRange[$3$]", [
+          mWptCount,
+          mMinDistanceMeters,
+          mMaxDistanceMeters,
+          numberInCloseRange,
+        ])
+      );
+    }
 
     if ($.g_alert_closeRange && numberInCloseRange > 0) {
       mFlashWaypoint = true;

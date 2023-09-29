@@ -1,6 +1,6 @@
 
 # poi radar
-bug large field after exit settings
+bug large field after exit settings / or after first bg request payload?
 - direction to wpt same as heading +/- 2 --> extra zoom out to see the wpt . It is blocked by the compass values.
 - calc bearing onlocationchanged
 - on pause fonts black / white

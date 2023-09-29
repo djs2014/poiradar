@@ -49,7 +49,7 @@ class CurrentLocation {
     }
 
     if ((mLat == 0.0 || mLat >= 179.99 || mLat <= -179.99) && (mLon == 0.0 || mLon >= 179.99 || mLon <= -179.99)) {
-      System.println("Invalid location lat/lon: " + [mLat, mLon] + " accuracy: " + mAccuracy);
+      //System.println("Invalid location lat/lon: " + [mLat, mLon] + " accuracy: " + mAccuracy);
       return false;
     }
 
@@ -179,7 +179,7 @@ class CurrentLocation {
     var degrees = (location as Location).toDegrees();
 
     if ((degrees[0] >= 179.99 || degrees[0] <= -179.99) && (degrees[1] >= 179.99 || degrees[1] <= -179.99)) {
-      System.println("Invalid location lat/lon: " + degrees + " accuracy: " + mAccuracy);
+      //System.println("Invalid location lat/lon: " + degrees + " accuracy: " + mAccuracy);
       return false;
     }
     return true;
