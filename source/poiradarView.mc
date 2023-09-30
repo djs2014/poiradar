@@ -208,22 +208,25 @@ class poiradarView extends WatchUi.DataField {
     dc.setColor(getBackgroundColor(), getBackgroundColor());
     dc.clear();
     dc.setAntiAlias(true);
-    
+
     var mFontWptLabel = Graphics.FONT_XTINY;
     var trackColor = Graphics.COLOR_BLACK;
     var km1RangeColor = Graphics.COLOR_DK_GREEN;
     var showDistance = $.g_sf_ShowWptDistance;
     var showDirection = $.g_sf_ShowWptDirection;
     var showCircleDistance = $.g_sf_ShowCircleDistance;
+    var showTrack = $.g_sf_ShowTrack;
     if (mLargeField) {
       showDistance = $.g_lf_ShowWptDistance;
       showDirection = $.g_lf_ShowWptDirection;
       showCircleDistance = $.g_lf_ShowCircleDistance;
       mFontWptLabel = Graphics.FONT_TINY;
+      showTrack = $.g_lf_ShowTrack;
     } else if (mTinyField) {
       showDistance = $.g_tf_ShowWptDistance;
       showDirection = $.g_tf_ShowWptDirection;
       showCircleDistance = $.g_tf_ShowCircleDistance;
+      showTrack = $.g_tf_ShowTrack;
     }
     mLineColor = Graphics.COLOR_BLACK;
     if (getBackgroundColor() == Graphics.COLOR_BLACK) {
@@ -330,7 +333,7 @@ class poiradarView extends WatchUi.DataField {
     dc.drawCircle(x1, y1, radius_km1);
     if (showCircleDistance) {
       dc.drawText(
-        x1 + radius_km1 - 2,
+        x1 + radius_km1 - 3,
         y1,
         Graphics.FONT_TINY,
         "1",
@@ -344,7 +347,7 @@ class poiradarView extends WatchUi.DataField {
       dc.drawCircle(x1, y1, cradius);
       if (showCircleDistance) {
         dc.drawText(
-          x1 + cradius - 2,
+          x1 + cradius - 3,
           y1,
           Graphics.FONT_TINY,
           circle_km.format("%d"),
@@ -539,12 +542,14 @@ class poiradarView extends WatchUi.DataField {
     dc.drawText(mWidth, mHeight - statsWH[1], Graphics.FONT_XTINY, stats, Graphics.TEXT_JUSTIFY_RIGHT);
 
     // Show track on top
-    dc.setColor(trackColor, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(mWidth / 2, 0, Graphics.FONT_SMALL, $.getCompassDirection(track), Graphics.TEXT_JUSTIFY_CENTER);
-    if (!mTinyField) {
-      var trackH1 = dc.getFontHeight(Graphics.FONT_SMALL);
-      dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(mWidth / 2, trackH1, Graphics.FONT_SYSTEM_TINY, track.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+    if (showTrack) {
+      dc.setColor(trackColor, Graphics.COLOR_TRANSPARENT);
+      dc.drawText(mWidth / 2, 0, Graphics.FONT_SMALL, $.getCompassDirection(track), Graphics.TEXT_JUSTIFY_CENTER);
+      if (!mTinyField) {
+        var trackH1 = dc.getFontHeight(Graphics.FONT_SMALL);
+        dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(mWidth / 2, trackH1, Graphics.FONT_SYSTEM_TINY, track.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+      }
     }
     if (mWptCount == 0 && mBGServiceHandler.getRequestCounter() == 0) {
       var next = mBGServiceHandler.getWhenNextRequest("");

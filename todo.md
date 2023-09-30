@@ -1,7 +1,11 @@
 
 # poi radar
-bug large field after exit settings / or after first bg request payload?
-- direction to wpt same as heading +/- 2 --> extra zoom out to see the wpt . It is blocked by the compass values.
+hide track info field ENE and degrees
+show outer search range
+
+
+label distance circles 1 px left
+??- direction to wpt same as heading +/- 2 --> extra zoom out to see the wpt . It is blocked by the compass values.
 - calc bearing onlocationchanged
 - on pause fonts black / white
 setting alert -> use backlight j/n attention.backlight(1) .. after 5 sec ..0

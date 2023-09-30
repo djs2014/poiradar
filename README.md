@@ -29,9 +29,9 @@ Currently only data from the Netherlands ([drinkwaterkaart.nl](https://drinkwate
   - See Large field
 
 - Alerts
-  - Set the close by range in meters
+  - Set the close by range in meters. Orange circle.
   - Beep on close by
-  - Set the proximity in meters (should be less than close by)
+  - Set the proximity in meters (should be less than close by). Red circle.
   - Boop on proximity (hit)
   - Loose focus after hit
     - Will zoom out ignore the poi after hit and distance greater than close by range. Effect: you will see sooner the other poi.

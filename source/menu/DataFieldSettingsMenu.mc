@@ -56,7 +56,9 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("lf_showWptDistance") ? true : false;
       lfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint distance", null, "lf_showWptDistance", boolean, null));
       boolean = Storage.getValue("lf_ShowCircleDistance") ? true : false;
-      lfMenu.addItem(new WatchUi.ToggleMenuItem("Range distance lable", null, "lf_ShowCircleDistance", boolean, null));
+      lfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "lf_ShowCircleDistance", boolean, null));
+      boolean = Storage.getValue("lf_ShowTrack") ? true : false;
+      lfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "lf_ShowTrack", boolean, null));
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "lf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -83,7 +85,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("sf_showWptDistance") ? true : false;
       sfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint distance", null, "sf_showWptDistance", boolean, null));
       boolean = Storage.getValue("sf_ShowCircleDistance") ? true : false;
-      sfMenu.addItem(new WatchUi.ToggleMenuItem("Range distance lable", null, "sf_ShowCircleDistance", boolean, null));
+      sfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "sf_ShowCircleDistance", boolean, null));
+      boolean = Storage.getValue("sf_ShowTrack") ? true : false;
+      sfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "sf_ShowTrack", boolean, null));
+
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "sf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -110,7 +115,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("tf_showWptDistance") ? true : false;
       tfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint distance", null, "tf_showWptDistance", boolean, null));
       boolean = Storage.getValue("tf_ShowCircleDistance") ? true : false;
-      tfMenu.addItem(new WatchUi.ToggleMenuItem("Range distance lable", null, "tf_ShowCircleDistance", boolean, null));
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "tf_ShowCircleDistance", boolean, null));
+      boolean = Storage.getValue("tf_ShowTrack") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "tf_ShowTrack", boolean, null));
+
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "tf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
