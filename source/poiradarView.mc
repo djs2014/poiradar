@@ -22,6 +22,7 @@ class poiradarView extends WatchUi.DataField {
   hidden var mLineColor as Graphics.ColorType = Graphics.COLOR_BLACK;
   hidden var mLongLineColor as Graphics.ColorType = Graphics.COLOR_LT_GRAY;
   hidden var mFontColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
+  hidden var mFontStatsColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
   hidden var mTargetColor as Graphics.ColorType = Graphics.COLOR_BLUE;
 
   hidden var previousTrack as Float = 0.0f;
@@ -216,31 +217,45 @@ class poiradarView extends WatchUi.DataField {
     var showDirection = $.g_sf_ShowWptDirection;
     var showCircleDistance = $.g_sf_ShowCircleDistance;
     var showTrack = $.g_sf_ShowTrack;
+    var highContrast = $.g_sf_HighContrast;
     if (mLargeField) {
       showDistance = $.g_lf_ShowWptDistance;
       showDirection = $.g_lf_ShowWptDirection;
       showCircleDistance = $.g_lf_ShowCircleDistance;
       mFontWptLabel = Graphics.FONT_TINY;
       showTrack = $.g_lf_ShowTrack;
+       highContrast = $.g_lf_HighContrast;
     } else if (mTinyField) {
       showDistance = $.g_tf_ShowWptDistance;
       showDirection = $.g_tf_ShowWptDirection;
       showCircleDistance = $.g_tf_ShowCircleDistance;
       showTrack = $.g_tf_ShowTrack;
+      highContrast = $.g_tf_HighContrast;
     }
     mLineColor = Graphics.COLOR_BLACK;
     if (getBackgroundColor() == Graphics.COLOR_BLACK) {
       mLineColor = Graphics.COLOR_WHITE;
       mFontColor = Graphics.COLOR_LT_GRAY;
+      if (highContrast) {
+        mFontStatsColor = Graphics.COLOR_WHITE;
+      } else {
+        mFontStatsColor = Graphics.COLOR_LT_GRAY;
+      }
       trackColor = Graphics.COLOR_WHITE;
       km1RangeColor = Graphics.COLOR_GREEN;
     } else {
       mLineColor = Graphics.COLOR_BLACK;
       mFontColor = Graphics.COLOR_DK_GRAY;
+      if (highContrast) {
+        mFontStatsColor = Graphics.COLOR_BLACK;
+      } else {
+        mFontStatsColor = Graphics.COLOR_DK_GRAY;
+      }
     }
 
-    dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
+    
 
+    dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
     var statsWptsTop = "";
     if (mTinyField) {
       statsWptsTop =
@@ -256,6 +271,7 @@ class poiradarView extends WatchUi.DataField {
         getUnitsInMeterOrKm(mMaxDistanceMeters);
       dc.drawText(mWidth, 0, Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_RIGHT);
     } else {
+      dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
       dc.drawText(mWidth, 0, Graphics.FONT_XTINY, mPoiSet, Graphics.TEXT_JUSTIFY_RIGHT);
       var statsProxy = mCurrentLocation.infoLocation() + " " + mCurrentLocation.infoAccuracy();
       dc.drawText(0, 0, Graphics.FONT_XTINY, statsProxy, Graphics.TEXT_JUSTIFY_LEFT);
@@ -270,9 +286,10 @@ class poiradarView extends WatchUi.DataField {
         " " +
         getUnitsInMeterOrKm(mMaxDistanceMeters);
       var statsWptsTopWH = dc.getTextDimensions(statsWptsTop, Graphics.FONT_XTINY);
+      dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
       dc.drawText(0, statsWptsTopWH[1], Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_LEFT);
     }
-
+    
     var statsTravel = "";
 
     if ($.g_alert_closeRangeMeters > 0 && mCloseRangeList.size() > 0) {
@@ -290,6 +307,7 @@ class poiradarView extends WatchUi.DataField {
       dc.drawText(mWidth, statsTravelWH[1], Graphics.FONT_XTINY, statsTravel, Graphics.TEXT_JUSTIFY_RIGHT);
     }
 
+    dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
     var x1 = mWidth / 2;
     var y1 = mHeight / 2;
     var lat = mCurWpt.lat;
