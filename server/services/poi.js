@@ -7,8 +7,8 @@ let waypoints = [];
 
 const { promises: { readFile } } = require("fs");
 const path = require("path");
-const gpxFile = '../data/202307Drinkwaterkaart.gpx';
-const gpxSet = '202307Drinkwaterkaart';
+const gpxFile = '../data/202309Drinkwaterkaart.gpx';
+const gpxSet = '202309Drinkwaterkaart';
 
 let isValidNumber = function (n) {
     return n != -1 && n != 0;

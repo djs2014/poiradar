@@ -1,7 +1,8 @@
 
 # poi radar
 show outer search range
-
+enable home beaken
+  - save start lat,lon -> highlight when going back / roundtrip
 
 ? setting alert -> use backlight j/n attention.backlight(1) .. after 5 sec ..0
 

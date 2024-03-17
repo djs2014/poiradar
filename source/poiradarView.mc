@@ -204,6 +204,7 @@ class poiradarView extends WatchUi.DataField {
     if ($.gExitedMenu) {
       // fix for leaving menu, draw complete screen, large field
       dc.clearClip();
+      $.gExitedMenu = false;
     }
 
     dc.setColor(getBackgroundColor(), getBackgroundColor());
@@ -703,7 +704,7 @@ class poiradarView extends WatchUi.DataField {
             new Attention.ToneProfile(1500, 150),
             new Attention.ToneProfile(3000, 0),
           ] as Lang.Array<Attention.ToneProfile>;
-        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange });
+        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
       }
     }
 
@@ -715,7 +716,7 @@ class poiradarView extends WatchUi.DataField {
             new Attention.ToneProfile(1500, 50),
             new Attention.ToneProfile(3000, 0),
           ] as Lang.Array<Attention.ToneProfile>;
-        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity });
+        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
       }
     }
   }
