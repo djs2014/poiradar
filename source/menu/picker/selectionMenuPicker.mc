@@ -9,6 +9,7 @@ class selectionMenuPicker {
   var _menu as WatchUi.Menu2;
   var _onSelectedCb as Method?;
   var _storageKey as String;
+  var _mi as MenuItem?;
 
   function initialize(title as String, storageKey as String) {
     _menu = new WatchUi.Menu2({ :title => title });
@@ -22,16 +23,20 @@ class selectionMenuPicker {
   }
 
   // :onselect(value)
-  function setOnSelected(objInstance as Object, method as Symbol) as Void {
-    _onSelectedCb = new Method(objInstance, method);
+  function setOnSelected(objInstance as Object, method as Symbol, mi as MenuItem) as Void {
+    _onSelectedCb = new Method(objInstance, method) as Method;
+    _mi = mi;
   }
 
-  function onSelected(value as Object) as Void {
+  function onSelected(value as Object, label as String) as Void {
     if (_onSelectedCb == null) {
       return;
     }
     //(_onSelectedCb as Method(value as Object, storageKey as String)).invoke(value, _storageKey);
     (_onSelectedCb as Method).invoke(value, _storageKey);
+    if (_mi != null) {
+    _mi.setSubLabel(label);
+    }
   }
 
   function show() as Void {
@@ -50,7 +55,7 @@ class SelectionMenuDelegate extends WatchUi.Menu2InputDelegate {
    function onSelect(item as MenuItem) as Void {
     var id = item.getId();
     if (id != null) {
-    _delegate.onSelected(id as Object);
+    _delegate.onSelected(id as Object, item.getLabel());
     }
     onBack();
     return;

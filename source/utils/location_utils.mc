@@ -33,7 +33,7 @@ class CurrentLocation {
 
   var methodLocationChanged as Method?;
   function setOnLocationChanged(objInstance as Object?, callback as Symbol) as Void {
-    methodLocationChanged = new Lang.Method(objInstance, callback);
+    methodLocationChanged = new Lang.Method(objInstance, callback) as Method;
   }
   function initialize() {}
 
@@ -143,7 +143,7 @@ class CurrentLocation {
     if (methodLocationChanged == null) {
       return;
     }
-    (methodLocationChanged as Method).invoke();
+    (methodLocationChanged as Method).invoke(getCurrentDegrees() as Array<Double>);    
   }
   hidden function locationChanged(location as Location?) as Boolean {
     if (location == null) {

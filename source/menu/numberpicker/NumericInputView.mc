@@ -30,35 +30,22 @@ class NumericInputView extends WatchUi.View {
   hidden var _space as Number = 2;
   hidden var _redrawKeyPad as Boolean = true;
 
+  hidden var _options as NumericOptions = new NumericOptions();
+
   var _onAccept as Method?;
   var _onKeypressed as Method?;
 
   //! Constructor
   function initialize(debug as Boolean, prompt as String, value as Numeric) {
     WatchUi.View.initialize();
-    _prompt = prompt;
     _debug = debug;
 
+    _prompt = prompt;
     _currentValue = value;
-    _negative = _currentValue < 0;
 
-    switch (_currentValue) {
-      case instanceof Long:
-      case instanceof Number:
-        _valueFormat = "%0d";
-        if (_negative) {
-          _currentValue = _currentValue * -1;
-        }
-        break;
-      case instanceof Float:
-      case instanceof Double:
-        _valueFormat = "%0.2f";
-        _keys.add(".");
-        if (_negative) {
-          _currentValue = _currentValue * -1.0;
-        }
-        break;
-    }
+    _options = $.parseLabelToOptions(_prompt);
+    processOptions(_options);
+
     _editData = buildEditedValue(_currentValue, _valueFormat);
     _cursorPos = _currentValue.format(_valueFormat).length();
 
@@ -66,11 +53,6 @@ class NumericInputView extends WatchUi.View {
     _controlCoord = _controlCoord.slice(0, 0);
   }
 
-  function useNegative(negative as Boolean) as Void {
-    if (negative) {
-      _keys.add("-");
-    }
-  }
   function setEditData(editData as Array<Char>, cursorPos as Number?, insert as Boolean, negative as Boolean) as Void {
     _editData = editData;
     _currentValue = buildCurrentValue(_editData);
@@ -83,8 +65,51 @@ class NumericInputView extends WatchUi.View {
     _negative = negative;
   }
 
+  function processOptions(options as NumericOptions) as Void {
+    if (options.isFloat) {
+      _currentValue = _currentValue.toFloat();
+    } else {
+      _currentValue = _currentValue.toNumber();
+    }
+
+    switch (_currentValue) {
+      case instanceof Long:
+      case instanceof Number:
+        _valueFormat = "%0d";
+        if (_currentValue < 0) {
+          _negative = true;
+          _currentValue = _currentValue * -1;
+        }
+        break;
+      case instanceof Float:
+      case instanceof Double:
+        _valueFormat = "%0.2f";
+        _keys.add(".");
+        if (_currentValue < 0) {
+          _negative = true;
+          _currentValue = _currentValue * -1.0;
+        }
+        break;
+    }
+
+    if (options.useMinus) {
+      _keys.add("-");
+    }
+  }
+
+  function validateCurrentValue(value as Numeric) as Numeric {
+    if (_options.minValue != 0 or _options.maxValue != 0) {
+      if (_currentValue < _options.minValue) {
+        _currentValue = _options.minValue;
+      } else if (_options.maxValue > _options.minValue and _currentValue > _options.maxValue) {
+        _currentValue = _options.maxValue;
+      }
+    }
+    return _currentValue;
+  }
+
   function setOnAccept(objInstance as Object, method as Symbol) as Void {
-    _onAccept = new Method(objInstance, method);
+    _onAccept = new Method(objInstance, method) as Method;
   }
 
   function onAccept(value as Numeric) as Void {
@@ -96,7 +121,7 @@ class NumericInputView extends WatchUi.View {
   }
 
   function setOnKeypressed(objInstance as Object, method as Symbol) as Void {
-    _onKeypressed = new Method(objInstance, method);
+    _onKeypressed = new Method(objInstance, method) as Method;
   }
 
   function refreshUi() as Void {
@@ -104,7 +129,7 @@ class NumericInputView extends WatchUi.View {
     if (_onKeypressed == null) {
       return;
     }
-    (_onKeypressed as Method).invoke(_editData, _cursorPos, _insert, _negative);
+    (_onKeypressed as Method).invoke(_editData, _cursorPos, _insert, _negative, _options);
     // (
     //   _onKeypressed as
     //     (Method
@@ -168,6 +193,8 @@ class NumericInputView extends WatchUi.View {
     // }
   }
 
+  // @@ TODO check if value still ok _minValue, _maxValue
+
   hidden function buildCurrentValue(data as Array<Char>) as Numeric {
     try {
       var stringValue = StringUtil.charArrayToString(data);
@@ -179,6 +206,7 @@ class NumericInputView extends WatchUi.View {
           break;
         case instanceof Number:
           value = stringValue.toNumber();
+
           break;
         case instanceof Float:
           value = stringValue.toFloat();
@@ -191,6 +219,7 @@ class NumericInputView extends WatchUi.View {
       if (value != null) {
         return value as Numeric;
       }
+
       return _currentValue;
     } catch (ex) {
       ex.printStackTrace();
@@ -319,6 +348,9 @@ class NumericInputView extends WatchUi.View {
             break;
         }
       }
+
+      _currentValue = validateCurrentValue(_currentValue);
+
       onAccept(_currentValue);
       WatchUi.popView(WatchUi.SLIDE_RIGHT);
       return;
@@ -492,4 +524,53 @@ class NumericInputView extends WatchUi.View {
       _controlCoord.add([x, x + width, y, y + width] as Lang.Array<Number>);
     }
   }
+}
+
+// Implement min/max + display range (min-max) + check
+class NumericOptions {
+  public var minValue as Number or Float = 0;
+  public var maxValue as Number or Float = 0;
+  public var isFloat as Boolean = false;
+  public var useMinus as Boolean = false;
+  // flags @@TODO
+  // public var negative as Boolean = false;
+
+  public function initialize() {}
+}
+
+// |1~100 or |1.0~99.3 or |-1~30
+function parseLabelToOptions(label as String?) as NumericOptions {
+  var options = new NumericOptions();
+  if (label == null) {
+    return options;
+  }
+  var pos = label.find("|");
+  if (pos == null) {
+    return options;
+  }
+  var minmax = label.substring(pos + 1, null);
+  if (minmax == null) {
+    return options;
+  }
+  options.useMinus = minmax.find("-") != null;
+  pos = minmax.find("~");
+  if (pos == null) {
+    options.minValue = minmax.toNumber() as Number;
+  } else {
+    var min = minmax.substring(null, pos);
+    var max = minmax.substring(pos + 1, null);
+    if (min == null || max == null) {
+      return options;
+    }
+    if (min.find(".") != null || max.find(",") != null) {
+      options.isFloat = true;
+      options.minValue = min.toFloat() as Float;
+      options.maxValue = max.toFloat() as Float;
+    } else {
+      options.minValue = min.toNumber() as Number;
+      options.maxValue = max.toNumber() as Number;
+    }
+  }
+
+  return options;
 }

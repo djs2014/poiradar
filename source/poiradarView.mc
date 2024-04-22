@@ -53,34 +53,15 @@ class poiradarView extends WatchUi.DataField {
     mBGServiceHandler.setCurrentLocation(mCurrentLocation);
 
     // trigger to get optional cached location
-    onLocationChanged();
+    onLocationChanged(mCurrentLocation.getCurrentDegrees());
+  }
 
-    // @@TODO Only cached data for first time
-    // if ($.gCacheBgData && !gCachedDataLoaded) {
-    //   $._bgData = getCachedBgData();
-    //   $.gCachedDataLoaded = true;
-    // }
+  function onLocationChanged(degrees as Array<Double>) as Void {
+    mCurWpt = new WayPoint(degrees[0], degrees[1]);
 
-    // @@ set testset
-    // var curWpt = new WayPoint(52.25309763068757d, 4.869143058934727d);
-    // var wpt = new WayPoint(52.26357988134586d, 4.863469746018189d);
-    // wpt.name = "N";
-    // mWpts.add(wpt);
-    // wpt = new WayPoint(52.24994604031605d, 4.880909930169028d);
-    // wpt.name = "E";
-    // mWpts.add(wpt);
-
-    // wpt = new WayPoint(52.23984657942435d, 4.864940604922476d);
-    // wpt.name = "S";
-    // mWpts.add(wpt);
-
-    // wpt = new WayPoint(52.25091083665867d, 4.843508089459999d);
-    // wpt.name = "W";
-    // mWpts.add(wpt);
-
-    // wpt = new WayPoint(52.211221473859155, 4.72525498202701);
-    // wpt.name = "S far";
-    // mWpts.add(wpt);
+    if (mDc != null) {
+      calculateOptimalZoom(mDc as Dc);
+    }
   }
 
   function onLayout(dc as Dc) as Void {
@@ -143,15 +124,6 @@ class poiradarView extends WatchUi.DataField {
     }
 
     // bgHandler.setLastObservationMoment(bgData.getObservationTime());
-  }
-
-  function onLocationChanged() as Void {
-    var degrees = mCurrentLocation.getCurrentDegrees();
-    mCurWpt = new WayPoint(degrees[0], degrees[1]);
-
-    if (mDc != null) {
-      calculateOptimalZoom(mDc as Dc);
-    }
   }
 
   function calculateOptimalZoom(dc as Dc) as Void {
@@ -225,7 +197,7 @@ class poiradarView extends WatchUi.DataField {
       showCircleDistance = $.g_lf_ShowCircleDistance;
       mFontWptLabel = Graphics.FONT_TINY;
       showTrack = $.g_lf_ShowTrack;
-       highContrast = $.g_lf_HighContrast;
+      highContrast = $.g_lf_HighContrast;
     } else if (mTinyField) {
       showDistance = $.g_tf_ShowWptDistance;
       showDirection = $.g_tf_ShowWptDirection;
@@ -253,8 +225,6 @@ class poiradarView extends WatchUi.DataField {
         mFontStatsColor = Graphics.COLOR_DK_GRAY;
       }
     }
-
-    
 
     dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
     var statsWptsTop = "";
@@ -290,7 +260,7 @@ class poiradarView extends WatchUi.DataField {
       dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
       dc.drawText(0, statsWptsTopWH[1], Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_LEFT);
     }
-    
+
     var statsTravel = "";
 
     if ($.g_alert_closeRangeMeters > 0 && mCloseRangeList.size() > 0) {
@@ -579,6 +549,9 @@ class poiradarView extends WatchUi.DataField {
         status = mBGServiceHandler.getStatus();
       }
       stats = mBGServiceHandler.getErrorMessage() + " " + status + "(" + next + ")";
+      if (mBGServiceHandler.isDisabled()) {
+        stats = "App paused!";
+      }
 
       dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
       dc.drawText(
@@ -697,28 +670,63 @@ class poiradarView extends WatchUi.DataField {
 
     if ($.g_alert_closeRange && numberInCloseRange > 0) {
       mFlashWaypoint = true;
-      if (Attention has :ToneProfile) {
-        var toneProfile =
-          [
-            new Attention.ToneProfile(1000, 40),
-            new Attention.ToneProfile(1500, 150),
-            new Attention.ToneProfile(3000, 0),
-          ] as Lang.Array<Attention.ToneProfile>;
-        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
-      }
+      playAlertCloseRange(numberInCloseRange);
+      // if (Attention has :ToneProfile) {
+      //   var toneProfile =
+      //     [
+      //       new Attention.ToneProfile(1000, 40),
+      //       new Attention.ToneProfile(1500, 150),
+      //       new Attention.ToneProfile(3000, 0),
+      //     ] as Lang.Array<Attention.ToneProfile>;
+      //   Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
+      // }
     }
 
     if ($.g_alert_proximity && numberProximity > 0) {
-      if (Attention has :ToneProfile) {
-        var toneProfile =
-          [
-            new Attention.ToneProfile(1000, 30),
-            new Attention.ToneProfile(1500, 50),
-            new Attention.ToneProfile(3000, 0),
-          ] as Lang.Array<Attention.ToneProfile>;
-        Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
-      }
+      playAlertProximity(numberProximity);
+      // if (Attention has :ToneProfile) {
+      //   var toneProfile =
+      //     [
+      //       new Attention.ToneProfile(1000, 30),
+      //       new Attention.ToneProfile(1500, 50),
+      //       new Attention.ToneProfile(3000, 0),
+      //     ] as Lang.Array<Attention.ToneProfile>;
+      //   Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
+      // }
     }
+  }
+
+  function playAlertCloseRange(numberInCloseRange as Number) as Void {
+    // $._soundMode == 0 ||
+    if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
+      return;
+    }
+
+    switch ($.gAlert_sound) {
+      case SMSilent:
+        return;
+      case SMOneBeep:
+        numberInCloseRange = 1;
+        break;
+      case SMBeepPerPoi:
+      default:
+        break;
+    }
+    var toneProfile =
+      [new Attention.ToneProfile(1000, 40), new Attention.ToneProfile(1500, 150), new Attention.ToneProfile(3000, 0)] as
+      Lang.Array<Attention.ToneProfile>;
+    Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
+  }
+
+  function playAlertProximity(numberProximity as Number) as Void {
+    // $._soundMode == 0 ||
+    if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
+      return;
+    }
+    var toneProfile =
+      [new Attention.ToneProfile(1000, 30), new Attention.ToneProfile(1500, 50), new Attention.ToneProfile(3000, 0)] as
+      Lang.Array<Attention.ToneProfile>;
+    Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
   }
 
   function processCloseRange(wpt as WayPoint) as Number {

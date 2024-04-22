@@ -10,6 +10,7 @@ using Toybox.Position;
 var _BGServiceHandler as BGServiceHandler?;
 // var _bgData as PoiData?;
 var gDebug as Boolean = false;
+var gPauseApp as Boolean = false;
 var gDistance_grayscale as Boolean = false;
 var gCacheBgData as Boolean = false;
 var gMinimalGPSquality as Number = 3;
@@ -54,6 +55,7 @@ var g_loosefocusafterhit as Boolean = true;
 
 var g_alert_startAfterX as Number = 30;
 var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
+var gAlert_sound as SoundMode = SMOneBeep;
 // var g_alert_stopAfterX as Number = 150;
 // var g_alert_stopAfterUnits as String = "km";
 
@@ -75,16 +77,16 @@ class poiradarApp extends Application.AppBase {
   function onStop(state as Dictionary?) as Void {}
 
   (:typecheck(disableBackgroundCheck))
-  function getInitialView() as Array<Views or InputDelegates>? {
+  function getInitialView() as [WatchUi.Views] or [WatchUi.Views, WatchUi.InputDelegates] {
     loadUserSettings();
-    return [new poiradarView()] as Array<Views or InputDelegates>;
+    return [new poiradarView()];
   }
 
   //! Return the settings view and delegate for the app
   //! @return Array Pair [View, Delegate]
   (:typecheck(disableBackgroundCheck))
-  function getSettingsView() as Array<Views or InputDelegates>? {
-    return [new $.DataFieldSettingsView(), new $.DataFieldSettingsDelegate()] as Array<Views or InputDelegates>;
+  function getSettingsView() as [WatchUi.Views] or [WatchUi.Views, WatchUi.InputDelegates] or Null {
+    return [new $.DataFieldSettingsView(), new $.DataFieldSettingsDelegate()];
   }
 
   (:typecheck(disableBackgroundCheck))
@@ -104,12 +106,13 @@ class poiradarApp extends Application.AppBase {
   function loadUserSettings() as Void {
     try {
       System.println("Loading user settings");
-      
+
       var reset = Storage.getValue("resetDefaults");
       if (reset == null || (reset as Boolean)) {
         System.println("Reset user settings");
         Storage.setValue("resetDefaults", false);
         Storage.setValue("debug", false);
+        Storage.setValue("pause_app", false);
         Storage.setValue("cacheBgData", false);
         Storage.setValue("distance_grayscale", false);
 
@@ -126,7 +129,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("lf_fixedRangeMeters", $.g_lf_FixedRangeInMeter);
         Storage.setValue("lf_zoomMinWaypoints", $.g_lf_ZoomMinWayPoints);
         Storage.setValue("lf_zoomOneMeters", $.g_lf_zoomOneMeters);
-        
+
         Storage.setValue("sf_showWptDirection", $.g_sf_ShowWptDirection);
         Storage.setValue("sf_showWptDistance", $.g_sf_ShowWptDistance);
         Storage.setValue("sf_extraRangeMeters", $.g_sf_ExtraRangeInMeter);
@@ -146,7 +149,6 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter);
         Storage.setValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints);
         Storage.setValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters);
-      
 
         Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
@@ -154,6 +156,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("alert_proximity", $.g_alert_proximity);
         Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
+        Storage.setValue("alert_sound", SMOneBeep);
 
         Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
 
@@ -162,6 +165,7 @@ class poiradarApp extends Application.AppBase {
       }
 
       $.gDebug = $.getStorageValue("debug", $.gDebug) as Boolean;
+      $.gPauseApp = $.getStorageValue("pause_app", $.gDebug) as Boolean;
       $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
       $.gDistance_grayscale = $.getStorageValue("distance_grayscale", $.gDistance_grayscale) as Boolean;
 
@@ -194,20 +198,21 @@ class poiradarApp extends Application.AppBase {
       $.g_tf_FixedRangeInMeter = $.getStorageValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter) as Number;
       $.g_tf_ZoomMinWayPoints = $.getStorageValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints) as Number;
       $.g_tf_zoomOneMeters = $.getStorageValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters) as Number;
-      
+
       $.g_alert_closeRangeMeters = $.getStorageValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters) as Number;
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;
       $.g_alert_proximityMeters = $.getStorageValue("alert_proximityMeters", $.g_alert_proximityMeters) as Number;
       $.g_alert_proximity = $.getStorageValue("alert_proximity", $.g_alert_proximity) as Boolean;
       if ($.g_alert_proximityMeters > $.g_alert_closeRangeMeters) {
-        $.g_alert_proximityMeters  = $.g_alert_closeRangeMeters - 1;
+        $.g_alert_proximityMeters = $.g_alert_closeRangeMeters - 1;
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
       }
       $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
       $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
-
-      $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
+      $.gAlert_sound = $.getStorageValue("alert_sound", $.gAlert_sound) as SoundMode;
       
+      $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
+
       var bgHandler = getBGServiceHandler();
       bgHandler.setMinimalGPSLevel($.getStorageValue("minimalGPSquality", $.gMinimalGPSquality) as Number);
       var interval = $.getStorageValue("checkIntervalMinutes", 5) as Number;
@@ -216,16 +221,18 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("checkIntervalMinutes", interval);
       }
       bgHandler.setUpdateFrequencyInMinutes(interval);
-      // @@ set interval
-      bgHandler.Enable();
+      if ($.gPauseApp) {
+        bgHandler.Disable();
+      } else {
+        bgHandler.Enable();
+      }
 
-      
       // Storage.setValue("poiUrl", "http://localhost:4000/poi/");
       // Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
-      
+
       setStorageValueIfChanged("poiUrl", "https://poi.castlephoto.info/poi/");
       setStorageValueIfChanged("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
-      
+
       System.println("User settings loaded");
     } catch (ex) {
       System.println(ex.getErrorMessage());
@@ -253,12 +260,12 @@ class poiradarApp extends Application.AppBase {
     }
   }
 
-  public function getServiceDelegate() as Array<System.ServiceDelegate> {
-    return [new BackgroundServiceDelegate()] as Array<System.ServiceDelegate>;
+  public function getServiceDelegate() as [System.ServiceDelegate] {
+    return [new BackgroundServiceDelegate()];
   }
 
   (:typecheck(disableBackgroundCheck))
-  function onBackgroundData(data) {
+  function onBackgroundData(data as Application.PersistableType) as Void {
     System.println("Background data recieved");
     // System.println(data);
 
@@ -273,7 +280,6 @@ class poiradarApp extends Application.AppBase {
 
     WatchUi.requestUpdate();
   }
-
 }
 
 function getApp() as poiradarApp {

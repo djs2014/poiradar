@@ -56,6 +56,8 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Alerts", null, "alerts", null);
     menu.addItem(mi);
+    mi = new WatchUi.MenuItem("Sound", null, "sound", null);
+    menu.addItem(mi);
 
     var boolean = false;
 
@@ -65,7 +67,9 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(new WatchUi.ToggleMenuItem("Debug", null, "debug", boolean, null));
     boolean = Storage.getValue("resetDefaults") ? true : false;
     menu.addItem(new WatchUi.ToggleMenuItem("Reset to defaults", null, "resetDefaults", boolean, null));
-  
+    
+    boolean = Storage.getValue("pause_app") ? true : false;
+    menu.addItem(new WatchUi.ToggleMenuItem("Pause app", null, "pause_app", boolean, null));
 
     var view = new $.DataFieldSettingsView();
     WatchUi.pushView(menu, new $.DataFieldSettingsMenuDelegate(view), WatchUi.SLIDE_IMMEDIATE);
@@ -109,6 +113,18 @@ function getStartAfterUnitsText(value as AfterXUnits) as String {
       return "Minutes";
     default:
       return "Kilometer";
+  }
+}
+function getSoundModeText(value as SoundMode) as String {
+  switch (value) {
+    case SMSilent:
+      return "No sound";
+    case SMOneBeep:
+      return "1 beep";
+    case SMBeepPerPoi:
+      return "Beep per poi";
+    default:
+      return "--";
   }
 }
 

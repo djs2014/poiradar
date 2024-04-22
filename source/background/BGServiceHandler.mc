@@ -12,7 +12,7 @@ import Toybox.Application.Storage;
 
 class BGServiceHandler {
   const HTTP_OK as Number = 200;
-  var mCurrentLocation as CurrentLocation ? ;
+  var mCurrentLocation as CurrentLocation?;
   var mError as Number = 0;
   var mHttpStatus as Number = HTTP_OK;
   var mPhoneConnected as Boolean = false;
@@ -25,18 +25,23 @@ class BGServiceHandler {
   var mObservationTimeDelayedMinutesThreshold as Number = 10;
   var mMinimalGPSLevel as Number = 3;
 
-  var mLastRequestMoment as Time.Moment ? ;
-  var mLastObservationMoment as Time.Moment ? ;
+  var mLastRequestMoment as Time.Moment?;
+  var mLastObservationMoment as Time.Moment?;
   var mCacheBgData as Boolean = false;
-  var mData as Object ? ;
+  var mData as Object?;
 
+  function isDisabled() as Boolean {
+    return mBGDisabled;
+  }
   // var methodOnBeforeWebrequest = null;
 
-  var methodBackgroundData as Method ? ;
+  var methodBackgroundData as Method?;
   function setOnBackgroundData(objInstance as Object?, callback as Symbol) as Void {
-    methodBackgroundData = new Lang.Method(objInstance, callback);
+    methodBackgroundData = new Lang.Method(objInstance, callback) as Method;
   }
-  function getRequestCounter() as Number { return mRequestCounter; }
+  function getRequestCounter() as Number {
+    return mRequestCounter;
+  }
   function initialize() {}
   function setCurrentLocation(currentLocation as CurrentLocation) as Void {
     mCurrentLocation = currentLocation;
@@ -51,7 +56,15 @@ class BGServiceHandler {
     }
     mUpdateFrequencyInMinutes = minutes;
   }
-  function Disable() as Void { mBGDisabled = true; }
+  function Disable() as Void {
+    try {
+      Background.deleteTemporalEvent();
+    } catch (ex) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+    }
+    mBGDisabled = true;
+  }
   function Enable() as Void {
     mBGDisabled = false;
     reset();
@@ -60,11 +73,14 @@ class BGServiceHandler {
     mObservationTimeDelayedMinutesThreshold = minutes;
   }
   function isDataDelayed() as Boolean {
-    return $.isDelayedFor(mLastObservationMoment,
-                          mObservationTimeDelayedMinutesThreshold);
+    return $.isDelayedFor(mLastObservationMoment, mObservationTimeDelayedMinutesThreshold);
   }
-  function isEnabled() as Boolean { return !mBGDisabled; }
-  function isActive() as Boolean { return !mBGActive; }
+  function isEnabled() as Boolean {
+    return !mBGDisabled;
+  }
+  function isActive() as Boolean {
+    return !mBGActive;
+  }
   function hasError() as Boolean {
     return mError != CustomErrors.ERROR_BG_NONE || mHttpStatus != HTTP_OK;
   }
@@ -111,10 +127,12 @@ class BGServiceHandler {
   }
 
   hidden function testOnNonFatalError() as Void {
-    if (mError == CustomErrors.ERROR_BG_GPS_LEVEL ||
-        mError == CustomErrors.ERROR_BG_NO_PHONE ||
-        mError == CustomErrors.ERROR_BG_NO_POSITION ||
-        mError == CustomErrors.ERROR_BG_EXCEPTION) {
+    if (
+      mError == CustomErrors.ERROR_BG_GPS_LEVEL ||
+      mError == CustomErrors.ERROR_BG_NO_PHONE ||
+      mError == CustomErrors.ERROR_BG_NO_POSITION ||
+      mError == CustomErrors.ERROR_BG_EXCEPTION
+    ) {
       mError = CustomErrors.ERROR_BG_NONE;
     }
 
@@ -123,8 +141,7 @@ class BGServiceHandler {
     } else if (mCurrentLocation != null) {
       var currentLocation = mCurrentLocation as CurrentLocation;
       // @@ first request, use last location
-      if (mRequestCounter > 0 &&
-          currentLocation.getAccuracy() < mMinimalGPSLevel) {
+      if (mRequestCounter > 0 && currentLocation.getAccuracy() < mMinimalGPSLevel) {
         mError = CustomErrors.ERROR_BG_GPS_LEVEL;
       } else if (!currentLocation.hasLocation()) {
         mError = CustomErrors.ERROR_BG_NO_POSITION;
@@ -161,18 +178,16 @@ class BGServiceHandler {
     }
 
     try {
-      if (Toybox.System has : ServiceDelegate) {
+      if (Toybox.System has :ServiceDelegate) {
         mBGActive = true;
         mError = CustomErrors.ERROR_BG_NONE;
         mHttpStatus = HTTP_OK;
-        Background.registerForTemporalEvent(
-            new Time.Duration(mUpdateFrequencyInMinutes * 60));
+        Background.registerForTemporalEvent(new Time.Duration(mUpdateFrequencyInMinutes * 60));
         System.println("startBGservice registerForTemporalEvent scheduled");
       } else {
-        System.println(
-            "Unable to start BGservice (no registerForTemporalEvent)");
+        System.println("Unable to start BGservice (no registerForTemporalEvent)");
         mBGActive = false;
-        mError = CustomErrors.ERROR_BG_NOT_SUPPORTED;        
+        mError = CustomErrors.ERROR_BG_NOT_SUPPORTED;
       }
     } catch (ex) {
       System.println("5");
@@ -197,9 +212,8 @@ class BGServiceHandler {
   }
 
   function onBackgroundData(
-      data as Application
-          .PropertyValueType /*, obj as Object, cbProcessData as Symbol*/
-      ) as Void {
+    data as Application.PropertyValueType /*, obj as Object, cbProcessData as Symbol*/
+  ) as Void {
     mLastRequestMoment = Time.now();
     mErrorMessage = "";
     if (data instanceof Lang.Number) {
@@ -218,9 +232,7 @@ class BGServiceHandler {
     if (data != null) {
       var bgData = data as Dictionary;
       if (bgData["error"] != null && bgData["status"] != null) {
-        mErrorMessage = Lang.format(
-            "$1$ $2$",
-            [ bgData["status"] as Number, bgData["error"] as String ]);
+        mErrorMessage = Lang.format("$1$ $2$", [bgData["status"] as Number, bgData["error"] as String]);
         System.println("onBackgroundData error OWM: " + mErrorMessage);
         return;
       }

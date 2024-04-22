@@ -47,8 +47,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       // var boolean = Storage.getValue("cacheBgData") ? true : false;
       // proxyMenu.addItem(new WatchUi.ToggleMenuItem("Cache waypoints", null, "cacheBgData", boolean, null));
 
-      WatchUi.pushView(proxyMenu, new $.ProxyMenuDelegate(self, proxyMenu), WatchUi.SLIDE_UP);
-    } else if (id instanceof String && id.equals("largefield")) {
+      WatchUi.pushView(proxyMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+    if (id instanceof String && id.equals("largefield")) {
       var lfMenu = new WatchUi.Menu2({ :title => "Large field" });
 
       var boolean = Storage.getValue("lf_showWptDirection") ? true : false;
@@ -76,8 +78,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       lfMenu.addItem(mi);
 
-      WatchUi.pushView(lfMenu, new $.FieldMenuDelegate(self, lfMenu), WatchUi.SLIDE_UP);
-    } else if (id instanceof String && id.equals("smallfield")) {
+      WatchUi.pushView(lfMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+    if (id instanceof String && id.equals("smallfield")) {
       var sfMenu = new WatchUi.Menu2({ :title => "Small field" });
 
       var boolean = Storage.getValue("sf_showWptDirection") ? true : false;
@@ -88,7 +92,6 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       sfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "sf_ShowCircleDistance", boolean, null));
       boolean = Storage.getValue("sf_ShowTrack") ? true : false;
       sfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "sf_ShowTrack", boolean, null));
-
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "sf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -106,8 +109,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       sfMenu.addItem(mi);
 
-      WatchUi.pushView(sfMenu, new $.FieldMenuDelegate(self, sfMenu), WatchUi.SLIDE_UP);
-    } else if (id instanceof String && id.equals("tinyfield")) {
+      WatchUi.pushView(sfMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+    if (id instanceof String && id.equals("tinyfield")) {
       var tfMenu = new WatchUi.Menu2({ :title => "Tiny field" });
 
       var boolean = Storage.getValue("tf_showWptDirection") ? true : false;
@@ -118,7 +123,6 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       tfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "tf_ShowCircleDistance", boolean, null));
       boolean = Storage.getValue("tf_ShowTrack") ? true : false;
       tfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "tf_ShowTrack", boolean, null));
-
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "tf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -136,8 +140,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       tfMenu.addItem(mi);
 
-      WatchUi.pushView(tfMenu, new $.FieldMenuDelegate(self, tfMenu), WatchUi.SLIDE_UP);
-    } else if (id instanceof String && id.equals("alerts")) {
+      WatchUi.pushView(tfMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+    if (id instanceof String && id.equals("alerts")) {
       var alertMenu = new WatchUi.Menu2({ :title => "Alerts" });
 
       var mi = new WatchUi.MenuItem("Close range meters", null, "alert_closeRangeMeters", null);
@@ -167,23 +173,35 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       // mi.setSubLabel($.getStartAfterUnitsText(value));
       // alertMenu.addItem(mi);
 
-      WatchUi.pushView(alertMenu, new $.FieldMenuDelegate(self, alertMenu), WatchUi.SLIDE_UP);
-    } else if (id instanceof String && menuItem instanceof ToggleMenuItem) {
+      WatchUi.pushView(alertMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+
+    if (id instanceof String && id.equals("sound")) {
+      var soundMenu = new WatchUi.Menu2({ :title => "Sound" });
+
+      var mi = new WatchUi.MenuItem("Alert sound", null, "alert_sound", null);
+      var value = getStorageValue(mi.getId() as String, $.gAlert_sound) as SoundMode;
+      mi.setSubLabel($.getSoundModeText(value));
+      soundMenu.addItem(mi);
+
+      WatchUi.pushView(soundMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+    if (id instanceof String && menuItem instanceof ToggleMenuItem) {
       Storage.setValue(id as String, menuItem.isEnabled());
       menuItem.setSubLabel($.subMenuToggleMenuItem(id as String));
     }
   }
 }
 
-class ProxyMenuDelegate extends WatchUi.Menu2InputDelegate {
-  hidden var _delegate as DataFieldSettingsMenuDelegate;
+class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
   hidden var _item as MenuItem?;
   hidden var _currentPrompt as String = "";
   hidden var _debug as Boolean = false;
 
-  function initialize(delegate as DataFieldSettingsMenuDelegate, menu as WatchUi.Menu2) {
+  function initialize() {
     Menu2InputDelegate.initialize();
-    _delegate = delegate;
   }
 
   function onSelect(item as MenuItem) as Void {
@@ -194,108 +212,57 @@ class ProxyMenuDelegate extends WatchUi.Menu2InputDelegate {
       for (var i = 0; i <= 4; i++) {
         sp.add($.getMinimalGPSqualityText(i), null, i);
       }
-      sp.setOnSelected(self, :onSelectedGPSquality);
+      sp.setOnSelected(self, :onSelectedSelection, item);
       sp.show();
-    } else if (id instanceof String && item instanceof ToggleMenuItem) {
-      Storage.setValue(id as String, item.isEnabled());
-      item.setSubLabel($.subMenuToggleMenuItem(id as String));
       return;
-    } else {
-      _currentPrompt = item.getLabel();
-
-      var currentValue = $.getStorageValue(id as String, 0) as Number;
-      var view = new $.NumericInputView(_debug, _currentPrompt, currentValue);
-
-      view.setOnAccept(self, :onAcceptNumericinput);
-      view.setOnKeypressed(self, :onNumericinput);
-
-      Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_RIGHT);
     }
-  }
 
-  function onAcceptNumericinput(value as Number) as Void {
-    try {
-      if (_item != null) {
-        var storageKey = _item.getId() as String;
-        Storage.setValue(storageKey, value);
-        (_item as MenuItem).setSubLabel(value.format("%.0d"));
-      }
-    } catch (ex) {
-      ex.printStackTrace();
-    }
-  }
-
-  function onNumericinput(
-    editData as Array<Char>,
-    cursorPos as Number,
-    insert as Boolean,
-    negative as Boolean
-  ) as Void {
-    // Hack to refresh screen
-    WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-    var view = new $.NumericInputView(_debug, _currentPrompt, 0);
-    view.setEditData(editData, cursorPos, insert, negative);
-    view.setOnAccept(self, :onAcceptNumericinput);
-    view.setOnKeypressed(self, :onNumericinput);
-
-    Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_IMMEDIATE);
-  }
-
-  function onSelectedGPSquality(value as Object, storageKey as String) as Void {
-    var quality = value as Number;
-    Storage.setValue(storageKey, quality);
-    if (_item != null) {
-      (_item as MenuItem).setSubLabel($.getMinimalGPSqualityText(quality));
-    }
-  }
-
-  //! Handle the back key being pressed
-
-  function onBack() as Void {
-    WatchUi.popView(WatchUi.SLIDE_DOWN);
-  }
-
-  //! Handle the done item being selected
-
-  function onDone() as Void {
-    WatchUi.popView(WatchUi.SLIDE_DOWN);
-  }
-}
-
-class FieldMenuDelegate extends WatchUi.Menu2InputDelegate {
-  hidden var _delegate as DataFieldSettingsMenuDelegate;
-  hidden var _item as MenuItem?;
-  hidden var _currentPrompt as String = "";
-  hidden var _debug as Boolean = false;
-
-  function initialize(delegate as DataFieldSettingsMenuDelegate, menu as WatchUi.Menu2) {
-    Menu2InputDelegate.initialize();
-    _delegate = delegate;
-  }
-
-  function onSelect(item as MenuItem) as Void {
-    _item = item;
-    var id = item.getId() as String;
-
-    if (id instanceof String && item instanceof ToggleMenuItem) {
-      Storage.setValue(id as String, item.isEnabled());
-      item.setSubLabel($.subMenuToggleMenuItem(id as String));
-      return;
-    } else if (id instanceof String && id.equals("alert_startAfterUnits")) {
+    if (id instanceof String && id.equals("alert_startAfterUnits")) {
       var sp = new selectionMenuPicker("Alert after", id as String);
 
       sp.add($.getStartAfterUnitsText(AfterXKilometer), null, AfterXKilometer);
       sp.add($.getStartAfterUnitsText(AfterXMinutes), null, AfterXMinutes);
 
-      sp.setOnSelected(self, :onSelectedAfterXUnits);
+      sp.setOnSelected(self, :onSelectedSelection, item);
+      sp.show();
+      return;
+    }
+    if (id instanceof String && id.equals("alert_sound")) {
+      var sp = new selectionMenuPicker("Alert sound", id as String);
+      for (var i = 0; i < 3; i++) {
+        sp.add($.getSoundModeText(i as SoundMode), null, i);
+      }
+      sp.setOnSelected(self, :onSelectedSelection, item);
       sp.show();
       return;
     }
 
-    _currentPrompt = item.getLabel();
+    // if (id instanceof String && id.equals("sound_mode")) {
+    //   var sp = new selectionMenuPicker("Sound level", id as String);
+    //   for (var i = 0; i <= 3; i++) {
+    //     sp.add($.getSoundModeText(i), null, i);
+    //   }
+    //   sp.setOnSelected(self, :onSelectedSelection, item);
+    //   sp.show();
+    //   return;
+    // }
 
-    var currentValue = $.getStorageValue(id as String, 0) as Number;
+    if (id instanceof String && item instanceof ToggleMenuItem) {
+      Storage.setValue(id as String, item.isEnabled());
+      return;
+    }
+
+    // @@ TODO cleanup and refactor
+    _currentPrompt = item.getLabel();
+    var numericOptions = $.parseLabelToOptions(_currentPrompt);
+
+    var currentValue = $.getStorageValue(id as String, 0) as Numeric;
+    if (numericOptions.isFloat) {
+      currentValue = currentValue.toFloat();
+    }
+
     var view = new $.NumericInputView(_debug, _currentPrompt, currentValue);
+    view.processOptions(numericOptions);
 
     view.setOnAccept(self, :onAcceptNumericinput);
     view.setOnKeypressed(self, :onNumericinput);
@@ -303,20 +270,30 @@ class FieldMenuDelegate extends WatchUi.Menu2InputDelegate {
     Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_RIGHT);
   }
 
-  function onSelectedAfterXUnits(value as Object, storageKey as String) as Void {
-    var unit = value as AfterXUnits;
-    Storage.setValue(storageKey, unit);
-    if (_item != null) {
-      (_item as MenuItem).setSubLabel($.getStartAfterUnitsText(unit));
-    }
-  }
+  // function onSelectedAfterXUnits(value as Object, storageKey as String) as Void {
+  //   var unit = value as AfterXUnits;
+  //   Storage.setValue(storageKey, unit);
+  //   if (_item != null) {
+  //     (_item as MenuItem).setSubLabel($.getStartAfterUnitsText(unit));
+  //   }
+  // }
 
-  function onAcceptNumericinput(value as Number) as Void {
+  function onAcceptNumericinput(value as Numeric) as Void {
     try {
       if (_item != null) {
         var storageKey = _item.getId() as String;
         Storage.setValue(storageKey, value);
-        (_item as MenuItem).setSubLabel(value.format("%.0d"));
+
+        switch (value) {
+          case instanceof Long:
+          case instanceof Number:
+            (_item as MenuItem).setSubLabel(value.format("%.0d"));
+            break;
+          case instanceof Float:
+          case instanceof Double:
+            (_item as MenuItem).setSubLabel(value.format("%.2f"));
+            break;
+        }
       }
     } catch (ex) {
       ex.printStackTrace();
@@ -327,11 +304,13 @@ class FieldMenuDelegate extends WatchUi.Menu2InputDelegate {
     editData as Array<Char>,
     cursorPos as Number,
     insert as Boolean,
-    negative as Boolean
+    negative as Boolean,
+    opt as NumericOptions
   ) as Void {
     // Hack to refresh screen
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
     var view = new $.NumericInputView(_debug, _currentPrompt, 0);
+    view.processOptions(opt);
     view.setEditData(editData, cursorPos, insert, negative);
     view.setOnAccept(self, :onAcceptNumericinput);
     view.setOnKeypressed(self, :onNumericinput);
@@ -349,5 +328,9 @@ class FieldMenuDelegate extends WatchUi.Menu2InputDelegate {
 
   function onDone() as Void {
     WatchUi.popView(WatchUi.SLIDE_DOWN);
+  }
+
+  function onSelectedSelection(value as Object, storageKey as String) as Void {
+    Storage.setValue(storageKey, value as Number);
   }
 }
