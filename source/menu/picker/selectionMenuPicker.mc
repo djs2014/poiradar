@@ -16,8 +16,8 @@ class selectionMenuPicker {
     _storageKey = storageKey;
   }
 
-  function add(label as String, subLabel as String?, value as Object) as Void {
-    // identifier will contain selected value
+  function add(label as String, subLabel as String?, value as Application.PropertyValueType) as Void {
+    // menu identifier will contain selected value
     var mi = new WatchUi.MenuItem(label, subLabel, value, null);
     _menu.addItem(mi);
   }
@@ -28,14 +28,13 @@ class selectionMenuPicker {
     _mi = mi;
   }
 
-  function onSelected(value as Object, label as String) as Void {
+  function onSelected(value as Application.PropertyValueType, label as String) as Void {
     if (_onSelectedCb == null) {
       return;
     }
-    //(_onSelectedCb as Method(value as Object, storageKey as String)).invoke(value, _storageKey);
-    (_onSelectedCb as Method).invoke(value, _storageKey);
+    (_onSelectedCb as Method).invoke(_storageKey, value);
     if (_mi != null) {
-    _mi.setSubLabel(label);
+      _mi.setSubLabel(label);
     }
   }
 
@@ -47,27 +46,27 @@ class selectionMenuPicker {
 class SelectionMenuDelegate extends WatchUi.Menu2InputDelegate {
   hidden var _delegate as selectionMenuPicker;
 
-   function initialize(delegate as selectionMenuPicker) {
+  function initialize(delegate as selectionMenuPicker) {
     Menu2InputDelegate.initialize();
     _delegate = delegate;
   }
 
-   function onSelect(item as MenuItem) as Void {
+  function onSelect(item as MenuItem) as Void {
     var id = item.getId();
     if (id != null) {
-    _delegate.onSelected(id as Object, item.getLabel());
+      _delegate.onSelected(id as Application.PropertyValueType, item.getLabel());
     }
     onBack();
     return;
   }
 
   //! Handle the back key being pressed
-   function onBack() as Void {
+  function onBack() as Void {
     WatchUi.popView(WatchUi.SLIDE_DOWN);
   }
 
   //! Handle the done item being selected
-   function onDone() as Void {
+  function onDone() as Void {
     WatchUi.popView(WatchUi.SLIDE_DOWN);
   }
 }

@@ -4,11 +4,12 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.Math;
 import Toybox.Attention;
-using Toybox.Position;
+import Toybox.Position;
 
 class poiradarView extends WatchUi.DataField {
   var mBGServiceHandler as BGServiceHandler;
   var mCurrentLocation as CurrentLocation = new CurrentLocation();
+  var mStartLatLon as [Lang.Double, Lang.Double] = [0.0d, 0.0d];
 
   var mLargeField as Boolean = false;
   var mSmallField as Boolean = false;
@@ -65,6 +66,8 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function onLayout(dc as Dc) as Void {
+    dc.clearClip();
+
     mDc = dc;
     mHeight = dc.getHeight();
     mWidth = dc.getWidth();
@@ -87,17 +90,29 @@ class poiradarView extends WatchUi.DataField {
 
   function compute(info as Activity.Info) as Void {
     try {
-      // if ($.gDebug) {
-      //   track = (track + 10) % 360;
-      // } else {
       track = getBearing(info as Activity.Info?);
-      // }
-      // if (info has :timerState && info.timerState != null) { mTimerState =
-      // info.timerState as Lang.Number; }
-      // get cached location
+
       mBGServiceHandler.onCompute(info);
       mBGServiceHandler.autoScheduleService();
 
+      if ($.g_alert_quiet_start > 0) {
+        if (mStartLatLon[0] == 0 && mStartLatLon[1] == 0) {
+          // var started =
+          //   ($.getActivityValue(info, :timerState, Activity.TIMER_STATE_OFF) as Number) == Activity.TIMER_STATE_ON;
+
+          var startLocation =
+            $.getActivityValue(
+              info,
+              :startLocation,
+              new Position.Location({
+                :latitude => 0,
+                :longitude => 0,
+                :format => :degrees,
+              })
+            ) as Position.Location;
+          mStartLatLon = startLocation.toDegrees();
+        }
+      }
       // get cached wpts
     } catch (ex) {
       ex.printStackTrace();
@@ -110,9 +125,6 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function onBackgroundData(data as Dictionary) as Void {
-    //$._bgData = $.toPoiData(data);
-    // var poiData = $._bgData as PoiData;
-
     var poiData = $.toPoiData(data);
     if (poiData.set.length() > 0) {
       mWpts = poiData.pts;
@@ -122,8 +134,6 @@ class poiradarView extends WatchUi.DataField {
     if (mDc != null) {
       calculateOptimalZoom(mDc as Dc);
     }
-
-    // bgHandler.setLastObservationMoment(bgData.getObservationTime());
   }
 
   function calculateOptimalZoom(dc as Dc) as Void {
@@ -712,6 +722,20 @@ class poiradarView extends WatchUi.DataField {
       default:
         break;
     }
+
+    if ($.g_alert_quiet_start > 0) {
+      // range in km
+
+      if (mStartLatLon[0] != 0 && mStartLatLon[1] != null && mCurrentLocation.hasLocation()) {
+        var currentLatLon = mCurrentLocation.getCurrentDegrees();
+        var distKm = $.getDistanceFromLatLonInKm(mStartLatLon[0], mStartLatLon[1], currentLatLon[0], currentLatLon[1]);
+        if (distKm <= $.g_alert_quiet_start) {
+          // Silent, in range of start location
+          return;
+        }
+      }
+    }
+
     var toneProfile =
       [new Attention.ToneProfile(1000, 40), new Attention.ToneProfile(1500, 150), new Attention.ToneProfile(3000, 0)] as
       Lang.Array<Attention.ToneProfile>;

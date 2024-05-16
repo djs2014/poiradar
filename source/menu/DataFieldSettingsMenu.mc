@@ -1,3 +1,4 @@
+import Toybox.Application;
 import Toybox.Application.Storage;
 import Toybox.Lang;
 import Toybox.WatchUi;
@@ -185,6 +186,10 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getSoundModeText(value));
       soundMenu.addItem(mi);
 
+      mi = new WatchUi.MenuItem("Quiet start range|0.0~200.0", null, "alert_quiet_start", null);
+      mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String) + " km");
+      soundMenu.addItem(mi);
+
       WatchUi.pushView(soundMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;
     }
@@ -218,6 +223,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     if (id instanceof String && id.equals("alert_startAfterUnits")) {
+      
       var sp = new selectionMenuPicker("Alert after", id as String);
 
       sp.add($.getStartAfterUnitsText(AfterXKilometer), null, AfterXKilometer);
@@ -241,7 +247,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     //   var sp = new selectionMenuPicker("Sound level", id as String);
     //   for (var i = 0; i <= 3; i++) {
     //     sp.add($.getSoundModeText(i), null, i);
-    //   }
+    //   }sound
     //   sp.setOnSelected(self, :onSelectedSelection, item);
     //   sp.show();
     //   return;
@@ -330,7 +336,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     WatchUi.popView(WatchUi.SLIDE_DOWN);
   }
 
-  function onSelectedSelection(value as Object, storageKey as String) as Void {
-    Storage.setValue(storageKey, value as Number);
+  function onSelectedSelection(storageKey as String, value as Application.PropertyValueType) as Void {
+    Storage.setValue(storageKey, value);
   }
 }

@@ -56,8 +56,9 @@ var g_loosefocusafterhit as Boolean = true;
 var g_alert_startAfterX as Number = 30;
 var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
 var gAlert_sound as SoundMode = SMOneBeep;
-// var g_alert_stopAfterX as Number = 150;
-// var g_alert_stopAfterUnits as String = "km";
+
+// x km from start quiet
+var g_alert_quiet_start as Float = 0.0f;
 
 (:background)
 var _mostRecentData as PoiData?;
@@ -154,9 +155,11 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
         Storage.setValue("alert_proximity", $.g_alert_proximity);
+        // @@ refactor, remove
         Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
         Storage.setValue("alert_sound", SMOneBeep);
+        Storage.setValue("alert_quiet_start", 0.0f);
 
         Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
 
@@ -210,6 +213,7 @@ class poiradarApp extends Application.AppBase {
       $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
       $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
       $.gAlert_sound = $.getStorageValue("alert_sound", $.gAlert_sound) as SoundMode;
+      $.g_alert_quiet_start = $.getStorageValue("alert_quiet_start", $.g_alert_quiet_start) as Float;
       
       $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
 

@@ -562,7 +562,7 @@ function parseLabelToOptions(label as String?) as NumericOptions {
     if (min == null || max == null) {
       return options;
     }
-    if (min.find(".") != null || max.find(",") != null) {
+    if (min.find(".") != null || max.find(".") != null) {
       options.isFloat = true;
       options.minValue = min.toFloat() as Float;
       options.maxValue = max.toFloat() as Float;

@@ -1,9 +1,5 @@
 - silent for x minutes / km
-- sound modes
-    silent/1 beep/ #waypoints beep
-
-- sync menu numberpicker from metrics/what weather/what tired
-
+  use activity startLocation 
 
 - weak references --> circular refs stuffs
 - 
