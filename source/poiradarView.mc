@@ -681,29 +681,29 @@ class poiradarView extends WatchUi.DataField {
     if ($.g_alert_closeRange && numberInCloseRange > 0) {
       mFlashWaypoint = true;
       playAlertCloseRange(numberInCloseRange);
-      // if (Attention has :ToneProfile) {
-      //   var toneProfile =
-      //     [
-      //       new Attention.ToneProfile(1000, 40),
-      //       new Attention.ToneProfile(1500, 150),
-      //       new Attention.ToneProfile(3000, 0),
-      //     ] as Lang.Array<Attention.ToneProfile>;
-      //   Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
-      // }
     }
 
     if ($.g_alert_proximity && numberProximity > 0) {
       playAlertProximity(numberProximity);
-      // if (Attention has :ToneProfile) {
-      //   var toneProfile =
-      //     [
-      //       new Attention.ToneProfile(1000, 30),
-      //       new Attention.ToneProfile(1500, 50),
-      //       new Attention.ToneProfile(3000, 0),
-      //     ] as Lang.Array<Attention.ToneProfile>;
-      //   Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
-      // }
     }
+  }
+
+  function beQuietCloseToStartLocation() as Boolean {
+    if ($.g_alert_quiet_start < 0) {
+      return false;
+    }
+    // range in km
+
+    if (mStartLatLon[0] != 0 && mStartLatLon[1] != null && mCurrentLocation.hasLocation()) {
+      var currentLatLon = mCurrentLocation.getCurrentDegrees();
+      var distKm = $.getDistanceFromLatLonInKm(mStartLatLon[0], mStartLatLon[1], currentLatLon[0], currentLatLon[1]);
+      if (distKm <= $.g_alert_quiet_start) {
+        // Silent, in range of start location
+        return true;
+      }
+    }
+
+    return false;
   }
 
   function playAlertCloseRange(numberInCloseRange as Number) as Void {
@@ -723,17 +723,8 @@ class poiradarView extends WatchUi.DataField {
         break;
     }
 
-    if ($.g_alert_quiet_start > 0) {
-      // range in km
-
-      if (mStartLatLon[0] != 0 && mStartLatLon[1] != null && mCurrentLocation.hasLocation()) {
-        var currentLatLon = mCurrentLocation.getCurrentDegrees();
-        var distKm = $.getDistanceFromLatLonInKm(mStartLatLon[0], mStartLatLon[1], currentLatLon[0], currentLatLon[1]);
-        if (distKm <= $.g_alert_quiet_start) {
-          // Silent, in range of start location
-          return;
-        }
-      }
+    if (beQuietCloseToStartLocation()) {
+      return;
     }
 
     var toneProfile =
@@ -747,6 +738,11 @@ class poiradarView extends WatchUi.DataField {
     if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
       return;
     }
+
+    if (beQuietCloseToStartLocation()) {
+      return;
+    }
+
     var toneProfile =
       [new Attention.ToneProfile(1000, 30), new Attention.ToneProfile(1500, 50), new Attention.ToneProfile(3000, 0)] as
       Lang.Array<Attention.ToneProfile>;
