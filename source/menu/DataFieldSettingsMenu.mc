@@ -186,7 +186,7 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getSoundModeText(value));
       soundMenu.addItem(mi);
 
-      mi = new WatchUi.MenuItem("Quiet start range|0.0~200.0", null, "alert_quiet_start", null);
+      mi = new WatchUi.MenuItem("Quiet start range|0.0~200.0 (km)", null, "alert_quiet_start", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String) + " km");
       soundMenu.addItem(mi);
 
@@ -223,7 +223,6 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     if (id instanceof String && id.equals("alert_startAfterUnits")) {
-      
       var sp = new selectionMenuPicker("Alert after", id as String);
 
       sp.add($.getStartAfterUnitsText(AfterXKilometer), null, AfterXKilometer);
@@ -258,48 +257,23 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
       return;
     }
 
-    // @@ TODO cleanup and refactor
-    _currentPrompt = item.getLabel();
-    var numericOptions = $.parseLabelToOptions(_currentPrompt);
-
-    var currentValue = $.getStorageValue(id as String, 0) as Numeric;
-    if (numericOptions.isFloat) {
-      currentValue = currentValue.toFloat();
-    }
-
-    var view = new $.NumericInputView(_debug, _currentPrompt, currentValue);
-    view.processOptions(numericOptions);
-
+    // Numeric input
+    var prompt = item.getLabel();
+    var value = $.getStorageValue(id as String, 0) as Numeric;
+    var view = $.getNumericInputView(prompt, value);
     view.setOnAccept(self, :onAcceptNumericinput);
     view.setOnKeypressed(self, :onNumericinput);
 
     Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_RIGHT);
   }
 
-  // function onSelectedAfterXUnits(value as Object, storageKey as String) as Void {
-  //   var unit = value as AfterXUnits;
-  //   Storage.setValue(storageKey, unit);
-  //   if (_item != null) {
-  //     (_item as MenuItem).setSubLabel($.getStartAfterUnitsText(unit));
-  //   }
-  // }
-
-  function onAcceptNumericinput(value as Numeric) as Void {
+  function onAcceptNumericinput(value as Numeric, subLabel as String) as Void {
     try {
       if (_item != null) {
         var storageKey = _item.getId() as String;
-        Storage.setValue(storageKey, value);
 
-        switch (value) {
-          case instanceof Long:
-          case instanceof Number:
-            (_item as MenuItem).setSubLabel(value.format("%.0d"));
-            break;
-          case instanceof Float:
-          case instanceof Double:
-            (_item as MenuItem).setSubLabel(value.format("%.2f"));
-            break;
-        }
+        Storage.setValue(storageKey, value);
+        (_item as MenuItem).setSubLabel(subLabel);
       }
     } catch (ex) {
       ex.printStackTrace();
@@ -315,7 +289,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
   ) as Void {
     // Hack to refresh screen
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-    var view = new $.NumericInputView(_debug, _currentPrompt, 0);
+    var view = new $.NumericInputView("", 0);
     view.processOptions(opt);
     view.setEditData(editData, cursorPos, insert, negative);
     view.setOnAccept(self, :onAcceptNumericinput);

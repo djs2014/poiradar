@@ -1,3 +1,4 @@
+// 2024-05-26 setLocation lat/lon toDouble
 import Toybox.Activity;
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -17,9 +18,15 @@ class CurrentLocation {
     }
     mLocation = location;
     var degrees = (mLocation as Location).toDegrees();
-    var lat = degrees[0];
-    var lon = degrees[1];
-    if (lat.toNumber() != 0 && lon.toNumber() != 0 && mLat != lat && mLon != lon) {
+    if (degrees.size() < 2) {
+      return;
+    }
+    var lat = degrees[0].toDouble();
+    var lon = degrees[1].toDouble();    
+    if (lat == null || lon == null) {
+      return;
+    }
+    if (lat != 0 && lon != 0 && mLat != lat && mLon != lon) {
       Storage.setValue("latest_latlng", degrees); // [lat,lng]
       System.println("Update cached location lat/lon: " + degrees);
     }

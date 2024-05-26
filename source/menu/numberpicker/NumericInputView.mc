@@ -1,3 +1,6 @@
+// v2024-05-25 2
+// parselabel: |. -> is float true
+
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
@@ -36,14 +39,11 @@ class NumericInputView extends WatchUi.View {
   var _onKeypressed as Method?;
 
   //! Constructor
-  function initialize(debug as Boolean, prompt as String, value as Numeric) {
+  function initialize(prompt as String, value as Numeric) {
     WatchUi.View.initialize();
-    _debug = debug;
 
-    _prompt = prompt;
     _currentValue = value;
-
-    _options = $.parseLabelToOptions(_prompt);
+    _options = $.parseLabelToOptions(prompt);
     processOptions(_options);
 
     _editData = buildEditedValue(_currentValue, _valueFormat);
@@ -66,6 +66,9 @@ class NumericInputView extends WatchUi.View {
   }
 
   function processOptions(options as NumericOptions) as Void {
+    _options = options;
+    _prompt = _options.prompt;
+
     if (options.isFloat) {
       _currentValue = _currentValue.toFloat();
     } else {
@@ -84,7 +87,9 @@ class NumericInputView extends WatchUi.View {
       case instanceof Float:
       case instanceof Double:
         _valueFormat = "%0.2f";
-        _keys.add(".");
+        if (_keys.indexOf(".") == -1) {
+          _keys.add(".");
+        }
         if (_currentValue < 0) {
           _negative = true;
           _currentValue = _currentValue * -1.0;
@@ -92,19 +97,23 @@ class NumericInputView extends WatchUi.View {
         break;
     }
 
-    if (options.useMinus) {
+    if (_options.useMinus and _keys.indexOf("-") == -1) {
       _keys.add("-");
     }
   }
 
   function validateCurrentValue(value as Numeric) as Numeric {
-    if (_options.minValue != 0 or _options.maxValue != 0) {
+    if (_options.hasMinValue) {
       if (_currentValue < _options.minValue) {
         _currentValue = _options.minValue;
-      } else if (_options.maxValue > _options.minValue and _currentValue > _options.maxValue) {
+      }
+    }
+    if (_options.hasMaxValue) {
+      if (_currentValue > _options.maxValue) {
         _currentValue = _options.maxValue;
       }
     }
+
     return _currentValue;
   }
 
@@ -116,8 +125,13 @@ class NumericInputView extends WatchUi.View {
     if (_onAccept == null) {
       return;
     }
-    (_onAccept as Method).invoke(value);
-    // (_onAccept as (Method(value as Numeric))).invoke(value);
+
+    var subLabel = value.format(_valueFormat) + " " + _options.units;
+    if (_options.isFloat && _options.factor != 0.0f) {
+      value = value / _options.factor;
+    }
+
+    (_onAccept as Method).invoke(value, subLabel);
   }
 
   function setOnKeypressed(objInstance as Object, method as Symbol) as Void {
@@ -513,6 +527,10 @@ class NumericInputView extends WatchUi.View {
           dc.fillRectangle(x, y, width, width);
           dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
         }
+      } else if (controls[idxCtrl].equals("OK")) {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.fillRectangle(x, y, width, width);
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
       }
       dc.drawText(
         x + halfWidth,
@@ -526,51 +544,155 @@ class NumericInputView extends WatchUi.View {
   }
 }
 
-// Implement min/max + display range (min-max) + check
-class NumericOptions {
-  public var minValue as Number or Float = 0;
-  public var maxValue as Number or Float = 0;
-  public var isFloat as Boolean = false;
-  public var useMinus as Boolean = false;
-  // flags @@TODO
-  // public var negative as Boolean = false;
-
-  public function initialize() {}
+function getNumericInputView(prompt as String, value as Numeric) as NumericInputView {
+  var options = $.parseLabelToOptions(prompt);
+  if (options.isFloat) {
+    value = value.toFloat();
+    if (options.factor != 0.0f) {
+      value = value * options.factor;
+    }
+  }
+  var view = new $.NumericInputView(prompt, value);
+  view.processOptions(options);
+  return view;
 }
 
-// |1~100 or |1.0~99.3 or |-1~30
+// @@ refactor null checks etc..
+// prompt-text|1~100 or |1.0~99.3 or |-1~30 or |.
+// (unit/factor (km/0.001) (multiply factor befor display)
 function parseLabelToOptions(label as String?) as NumericOptions {
   var options = new NumericOptions();
   if (label == null) {
     return options;
   }
+  label = label as String;
+  // process unit/factor
+  var posUnitFact = label.find("(");
+  if (posUnitFact != null) {
+    var unitfactor = label.substring(posUnitFact + 1, null);
+    // remove unit/factor
+    label = label.substring(0, posUnitFact);
+    if (unitfactor != null) {
+      unitfactor = unitfactor as String;
+      var posUnitFactEnd = unitfactor.find(")");
+      if (posUnitFactEnd != null) {
+        unitfactor = unitfactor.substring(0, posUnitFactEnd);
+      }
+      if (unitfactor == null) {
+        unitfactor = "";
+      }
+      var posSlash = unitfactor.find("/");
+      if (posSlash == null) {
+        options.units = unitfactor;
+      } else {
+        var units = unitfactor.substring(0, posSlash);
+        if (units != null) {
+          options.units = units;
+        }
+        var factor = unitfactor.substring(posSlash + 1, null);
+        if (factor != null) {
+          var factorValue = factor.toFloat();
+          if (factorValue != null) {
+            options.factor = factorValue;
+          }
+        }
+      }
+    }
+  }
+  if (label == null) {
+    label = "";
+  }
+  // process min/max
   var pos = label.find("|");
   if (pos == null) {
+    options.prompt = label;
+    if (options.units.length() > 0) {
+      options.prompt = options.prompt + " (" + options.units + ")";
+    }
     return options;
   }
+  var prompt = label.substring(0, pos);
+  if (prompt != null) {
+    options.prompt = prompt;
+    if (options.units.length() > 0) {
+      options.prompt = options.prompt + " (" + options.units + ")";
+    }
+  }
+
   var minmax = label.substring(pos + 1, null);
   if (minmax == null) {
     return options;
   }
+  // check if float
+  options.isFloat = minmax.find(".") != null;
   options.useMinus = minmax.find("-") != null;
+
+  var min = null;
+  var minValue = null;
+  var max = null;
+  var maxValue = null;
+  // check if range
   pos = minmax.find("~");
   if (pos == null) {
-    options.minValue = minmax.toNumber() as Number;
+    min = minmax;
   } else {
-    var min = minmax.substring(null, pos);
-    var max = minmax.substring(pos + 1, null);
-    if (min == null || max == null) {
-      return options;
-    }
-    if (min.find(".") != null || max.find(".") != null) {
-      options.isFloat = true;
-      options.minValue = min.toFloat() as Float;
-      options.maxValue = max.toFloat() as Float;
-    } else {
-      options.minValue = min.toNumber() as Number;
-      options.maxValue = max.toNumber() as Number;
-    }
+    min = minmax.substring(null, pos);
+    max = minmax.substring(pos + 1, null);
   }
 
+  if (min == null && max == null) {
+    return options;
+  }
+  if (options.isFloat) {
+    if (min != null) {
+      minValue = min.toFloat() as Float;
+    }
+    if (max != null) {
+      maxValue = max.toFloat() as Float;
+    }
+  } else {
+    if (min != null) {
+      minValue = min.toNumber() as Number;
+    }
+    if (max != null) {
+      maxValue = max.toNumber() as Number;
+    }
+  }
+  if (minValue != null) {
+    options.minValue = minValue;
+  }
+  if (maxValue != null) {
+    options.maxValue = maxValue;
+  }
+  options.hasMinValue = minValue != null;
+  options.hasMaxValue = maxValue != null;
+  if (options.hasMinValue && options.hasMaxValue) {
+    if (options.minValue > options.maxValue) {
+      var temp = options.minValue;
+      options.minValue = options.maxValue;
+      options.maxValue = temp;
+    }
+  }
   return options;
+}
+
+// Implement min/max + display range (min-max) + check
+class NumericOptions {
+  public var prompt as String = "";
+  public var minValue as Number or Float = 0;
+  public var maxValue as Number or Float = 0;
+  public var hasMinValue as Boolean = false;
+  public var hasMaxValue as Boolean = false;
+  public var isFloat as Boolean = false;
+  public var useMinus as Boolean = false;
+  public var units as String = "";
+  // Example factor: storage value meters (10000)
+  // -> factor = 0.001, unit = km
+  // Edit and display in km (10.0)
+  public var factor as Float = 1.0f;
+
+  // flags @@TODO
+  // public var negative as Boolean = false;
+
+  public function initialize() {}
 }
