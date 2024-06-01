@@ -27,15 +27,21 @@ class BGServiceHandler {
 
   var mLastRequestMoment as Time.Moment?;
   var mLastObservationMoment as Time.Moment?;
+  var mCacheBgData as Boolean = false;
   var mData as Object?;
 
+  function isDisabled() as Boolean {
+    return mBGDisabled;
+  }
   // var methodOnBeforeWebrequest = null;
 
   var methodBackgroundData as Method?;
   function setOnBackgroundData(objInstance as Object?, callback as Symbol) as Void {
-    methodBackgroundData = new Lang.Method(objInstance, callback);
+    methodBackgroundData = new Lang.Method(objInstance, callback) as Method;
   }
-
+  function getRequestCounter() as Number {
+    return mRequestCounter;
+  }
   function initialize() {}
   function setCurrentLocation(currentLocation as CurrentLocation) as Void {
     mCurrentLocation = currentLocation;
@@ -51,6 +57,12 @@ class BGServiceHandler {
     mUpdateFrequencyInMinutes = minutes;
   }
   function Disable() as Void {
+    try {
+      Background.deleteTemporalEvent();
+    } catch (ex) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+    }
     mBGDisabled = true;
   }
   function Enable() as Void {
@@ -93,7 +105,8 @@ class BGServiceHandler {
     try {
       testOnNonFatalError();
 
-      // @@?? disable temporary when position not changed ( less than x km distance) and last call < x minutes?
+      // @@?? disable temporary when position not changed ( less than x km
+      // distance) and last call < x minutes?
       if (hasError()) {
         stopBGservice();
         return;
@@ -175,7 +188,6 @@ class BGServiceHandler {
         System.println("Unable to start BGservice (no registerForTemporalEvent)");
         mBGActive = false;
         mError = CustomErrors.ERROR_BG_NOT_SUPPORTED;
-        // System.exit(); // @@ ??
       }
     } catch (ex) {
       System.println("5");
@@ -227,7 +239,9 @@ class BGServiceHandler {
     }
 
     mHttpStatus = HTTP_OK;
-    mData = data;
+    if (mCacheBgData) {
+      mData = data;
+    }
     mError = CustomErrors.ERROR_BG_NONE;
     mRequestCounter = mRequestCounter + 1;
 
@@ -243,14 +257,12 @@ class BGServiceHandler {
   }
 
   function getStatus() as Lang.String {
-    // @@ enum/const
     if (mBGDisabled) {
       return "Disabled";
     }
     if (mBGActive) {
       return "Active";
     }
-    // @@ + countdown minutes?
     if (!mBGActive) {
       return "Inactive";
     }

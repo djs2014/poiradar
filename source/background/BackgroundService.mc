@@ -95,7 +95,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
         "maxRange" => maxRange as Number,
         "maxWpts" => maxWpts as Boolean,
         "poiSet" => poiSet as String,
-      };
+      } as Lang.Dictionary<Lang.Object, Lang.Object>;		   
       requestData(poiUrl as String, poiAPIKey as String, params);
       return 0;
     } catch (ex) {
@@ -106,7 +106,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
     }
   }
 
-  function requestData(poiUrl as String, poiAPIKey as String, params as Lang.Dictionary) as Void {
+  function requestData(poiUrl as String, poiAPIKey as String, params as Lang.Dictionary<Lang.Object, Lang.Object>) as Void {
     var options = {
       :method => Communications.HTTP_REQUEST_METHOD_GET,
       :headers => {

@@ -1,3 +1,4 @@
+// 2024-05-26 setLocation lat/lon toDouble
 import Toybox.Activity;
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -17,9 +18,15 @@ class CurrentLocation {
     }
     mLocation = location;
     var degrees = (mLocation as Location).toDegrees();
-    var lat = degrees[0];
-    var lon = degrees[1];
-    if (lat.toNumber() != 0 && lon.toNumber() != 0 && mLat != lat && mLon != lon) {
+    if (degrees.size() < 2) {
+      return;
+    }
+    var lat = degrees[0].toDouble();
+    var lon = degrees[1].toDouble();    
+    if (lat == null || lon == null) {
+      return;
+    }
+    if (lat != 0 && lon != 0 && mLat != lat && mLon != lon) {
       Storage.setValue("latest_latlng", degrees); // [lat,lng]
       System.println("Update cached location lat/lon: " + degrees);
     }
@@ -33,7 +40,7 @@ class CurrentLocation {
 
   var methodLocationChanged as Method?;
   function setOnLocationChanged(objInstance as Object?, callback as Symbol) as Void {
-    methodLocationChanged = new Lang.Method(objInstance, callback);
+    methodLocationChanged = new Lang.Method(objInstance, callback) as Method;
   }
   function initialize() {}
 
@@ -49,7 +56,7 @@ class CurrentLocation {
     }
 
     if ((mLat == 0.0 || mLat >= 179.99 || mLat <= -179.99) && (mLon == 0.0 || mLon >= 179.99 || mLon <= -179.99)) {
-      System.println("Invalid location lat/lon: " + [mLat, mLon] + " accuracy: " + mAccuracy);
+      //System.println("Invalid location lat/lon: " + [mLat, mLon] + " accuracy: " + mAccuracy);
       return false;
     }
 
@@ -143,7 +150,7 @@ class CurrentLocation {
     if (methodLocationChanged == null) {
       return;
     }
-    (methodLocationChanged as Method).invoke();
+    (methodLocationChanged as Method).invoke(getCurrentDegrees() as Array<Double>);    
   }
   hidden function locationChanged(location as Location?) as Boolean {
     if (location == null) {
@@ -179,7 +186,7 @@ class CurrentLocation {
     var degrees = (location as Location).toDegrees();
 
     if ((degrees[0] >= 179.99 || degrees[0] <= -179.99) && (degrees[1] >= 179.99 || degrees[1] <= -179.99)) {
-      System.println("Invalid location lat/lon: " + degrees + " accuracy: " + mAccuracy);
+      //System.println("Invalid location lat/lon: " + degrees + " accuracy: " + mAccuracy);
       return false;
     }
     return true;

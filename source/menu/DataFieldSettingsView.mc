@@ -4,6 +4,8 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.Application;
 
+var gExitedMenu as Boolean = false;
+
 //! Initial view for the settings
 class DataFieldSettingsView extends WatchUi.View {
   //! Constructor
@@ -54,14 +56,20 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Alerts", null, "alerts", null);
     menu.addItem(mi);
+    mi = new WatchUi.MenuItem("Sound", null, "sound", null);
+    menu.addItem(mi);
 
     var boolean = false;
 
+    boolean = Storage.getValue("distance_grayscale") ? true : false;
+    menu.addItem(new WatchUi.ToggleMenuItem("Grayscale distance", null, "distance_grayscale", boolean, null));
     boolean = Storage.getValue("debug") ? true : false;
     menu.addItem(new WatchUi.ToggleMenuItem("Debug", null, "debug", boolean, null));
     boolean = Storage.getValue("resetDefaults") ? true : false;
     menu.addItem(new WatchUi.ToggleMenuItem("Reset to defaults", null, "resetDefaults", boolean, null));
-  
+    
+    boolean = Storage.getValue("pause_app") ? true : false;
+    menu.addItem(new WatchUi.ToggleMenuItem("Pause app", null, "pause_app", boolean, null));
 
     var view = new $.DataFieldSettingsView();
     WatchUi.pushView(menu, new $.DataFieldSettingsMenuDelegate(view), WatchUi.SLIDE_IMMEDIATE);
@@ -69,13 +77,14 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
   }
 
   function onBack() as Boolean {
-    getApp().onSettingsChanged();
+    getApp().onSettingsChanged();    
+    $.gExitedMenu = true;
     return false;
   }
 }
 
 function getStorageNumberAsString(key as String) as String {
-  return (getStorageValue(key, 0) as Number).format("%.0d");
+  return (getStorageValue(key, 0) as Number).format("%0d");
 }
 
 function getMinimalGPSqualityText(value as Number) as String {
@@ -104,6 +113,18 @@ function getStartAfterUnitsText(value as AfterXUnits) as String {
       return "Minutes";
     default:
       return "Kilometer";
+  }
+}
+function getSoundModeText(value as SoundMode) as String {
+  switch (value) {
+    case SMSilent:
+      return "No sound";
+    case SMOneBeep:
+      return "1 beep";
+    case SMBeepPerPoi:
+      return "Beep per poi";
+    default:
+      return "--";
   }
 }
 

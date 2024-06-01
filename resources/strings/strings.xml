@@ -1,6 +1,6 @@
 <strings>
     <string id="AppName">Poi radar</string>    
     <string id="AppNameBeta">Poi Radar Beta</string>    
-    <string id="PoiAPIKey">API key</string>
-    <string id="PoiUrl">Poi server url</string>    
+    <string id="PoiAPIKey">API key (empty is reset to default)</string>
+    <string id="PoiUrl">Poi server url (empty is reset to default)</string>    
 </strings>
