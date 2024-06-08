@@ -1,5 +1,5 @@
-// v2024-05-25 2
-// parselabel: |. -> is float true
+// v2024-06-8 
+// substring null -> .length()
 
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -569,7 +569,7 @@ function parseLabelToOptions(label as String?) as NumericOptions {
   // process unit/factor
   var posUnitFact = label.find("(");
   if (posUnitFact != null) {
-    var unitfactor = label.substring(posUnitFact + 1, null);
+    var unitfactor = label.substring(posUnitFact + 1, label.length());
     // remove unit/factor
     label = label.substring(0, posUnitFact);
     if (unitfactor != null) {
@@ -589,7 +589,7 @@ function parseLabelToOptions(label as String?) as NumericOptions {
         if (units != null) {
           options.units = units;
         }
-        var factor = unitfactor.substring(posSlash + 1, null);
+        var factor = unitfactor.substring(posSlash + 1, unitfactor.length());
         if (factor != null) {
           var factorValue = factor.toFloat();
           if (factorValue != null) {
@@ -619,7 +619,7 @@ function parseLabelToOptions(label as String?) as NumericOptions {
     }
   }
 
-  var minmax = label.substring(pos + 1, null);
+  var minmax = label.substring(pos + 1, label.length());
   if (minmax == null) {
     return options;
   }
@@ -636,8 +636,8 @@ function parseLabelToOptions(label as String?) as NumericOptions {
   if (pos == null) {
     min = minmax;
   } else {
-    min = minmax.substring(null, pos);
-    max = minmax.substring(pos + 1, null);
+    min = minmax.substring(0, pos);
+    max = minmax.substring(pos + 1, minmax.length());
   }
 
   if (min == null && max == null) {
