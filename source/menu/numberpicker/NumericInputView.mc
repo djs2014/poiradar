@@ -1,5 +1,6 @@
 // v2024-06-8 
 // substring null -> .length()
+// v2024-06-11 fix num of items edge 840
 
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -127,7 +128,7 @@ class NumericInputView extends WatchUi.View {
     }
 
     var subLabel = value.format(_valueFormat) + " " + _options.units;
-    if (_options.isFloat && _options.factor != 0.0f) {
+    if (_options.isFloat and _options.factor != 0.0f) {
       value = value / _options.factor;
     }
 
@@ -159,7 +160,7 @@ class NumericInputView extends WatchUi.View {
     _fontHeightMedium = dc.getFontHeight(Graphics.FONT_MEDIUM);
 
     if (dc.getHeight() < 400) {
-      _nrOfItemsInRow = 6;
+      _nrOfItemsInRow = 5;
     }
     // Size of key squares (include the spaces between key squares)
     _keyWidth = ((dc.getWidth() - 2 * (_nrOfItemsInRow - 1) * _space) / _nrOfItemsInRow) as Number;

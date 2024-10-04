@@ -7,6 +7,7 @@ import Toybox.Position;
 import Toybox.Weather;
 import Toybox.Time;
 import Toybox.Application.Storage;
+import Toybox.Application;
 
 class CurrentLocation {
   hidden var mLat as Lang.Double = 0.0d;
@@ -27,7 +28,7 @@ class CurrentLocation {
       return;
     }
     if (lat != 0 && lon != 0 && mLat != lat && mLon != lon) {
-      Storage.setValue("latest_latlng", degrees); // [lat,lng]
+      Storage.setValue("latest_latlng", degrees as Lang.Array<Application.PropertyValueType>); // [lat,lng]
       System.println("Update cached location lat/lon: " + degrees);
     }
     mLat = lat;
