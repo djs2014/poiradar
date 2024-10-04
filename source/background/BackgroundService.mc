@@ -39,7 +39,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       var poiAPIKey = Storage.getValue("poiAPIKey");
       var apiVersion = "1.0";
       var maxRange = Storage.getValue("maxRangeMeters");
-      var maxWpts = Storage.getValue("maxWaypoints");      
+      var maxWpts = Storage.getValue("maxWaypoints");
       var poiSet = Storage.getValue("poiSet");
 
       System.println(
@@ -81,21 +81,22 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       if (poiSet == null) {
         poiSet = "";
       }
+
       var lat = (location as Array)[0] as Double;
       var lon = (location as Array)[1] as Double;
       if ((lat >= 179.99 || lat <= -179.99) && (lon >= 179.99 || lon <= -179.99)) {
         System.println("1 Invalid location lat[" + lat + "] lon[" + lon + "] exit background service");
         return CustomErrors.ERROR_BG_NO_POSITION;
       }
-
-      var params = {
-        "version" => apiVersion as String,
-        "lat" => lat,
-        "lon" => lon,
-        "maxRange" => maxRange as Number,
-        "maxWpts" => maxWpts as Boolean,
-        "poiSet" => poiSet as String,
-      } as Lang.Dictionary<Lang.Object, Lang.Object>;		   
+      var params =
+        ({
+          "version" => apiVersion as String,
+          "lat" => lat,
+          "lon" => lon,
+          "maxRange" => maxRange as Number,
+          "maxWpts" => maxWpts as Boolean,
+          "poiSet" => poiSet as String,
+        }) as Lang.Dictionary<Lang.Object, Lang.Object>;
       requestData(poiUrl as String, poiAPIKey as String, params);
       return 0;
     } catch (ex) {
@@ -106,7 +107,11 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
     }
   }
 
-  function requestData(poiUrl as String, poiAPIKey as String, params as Lang.Dictionary<Lang.Object, Lang.Object>) as Void {
+  function requestData(
+    poiUrl as String,
+    poiAPIKey as String,
+    params as Lang.Dictionary<Lang.Object, Lang.Object>
+  ) as Void {
     var options = {
       :method => Communications.HTTP_REQUEST_METHOD_GET,
       :headers => {

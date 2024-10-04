@@ -1,3 +1,11 @@
+Download latest application/gml version 3.2
+https://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/55b7cf89-9f51-4775-8343-b7626ecfd3dc
+Convert to gpx
+https://mygeodata.cloud/converter/geojson-to-gpx
+Update poi.js 
+
+
+
 - silent for x minutes / km
   use activity startLocation 
 
