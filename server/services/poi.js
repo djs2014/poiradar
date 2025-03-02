@@ -7,33 +7,30 @@ let waypoints = [];
 
 const { promises: { readFile } } = require("fs");
 const path = require("path");
-// const gpxFile = '../data/202309Drinkwaterkaart.gpx';
-// const gpxSet = '202309Drinkwaterkaart';
-const gpxFile = '../data/rivm_20240502_drinkwaterkranen.gpx';
-const gpxSet = '20240502Drinkwaterkaart';
+
+// const gpxFile = '../data/rivm_20240502_drinkwaterkranen.gpx';
+// const gpxSet = '20240502Drinkwaterkaart';
+const gpxFile = '../data/rivm_drinkwaterkranen_actueel_20250302.json';
+const gpxSet = '20250302Drinkwaterkaart';
 
 let isValidNumber = function (n) {
     return n != -1 && n != 0;
 }
 let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts) {
     if (waypoints.length == 0) {
-        console.log("Current directory:", __dirname);
-
-        let wptsstring = "";
-        await readFile(path.resolve(__dirname, gpxFile)).then(fileBuffer => {
-            // console.log(fileBuffer.toString());
-            wptsstring = fileBuffer.toString();
-        }).catch(error => {
-            console.error(error.message);
-        });
-
-        gpxParse.parseGpx(wptsstring, function (error, data) {
-            //do stuff
-            waypoints = data.waypoints;
-            // todo load in sqllite
-        });
+        await loadWaypoints();
     }
+        // console.log("Current directory:", __dirname);
 
+        // let wptsstring = "";
+        // await readFile(path.resolve(__dirname, gpxFile)).then(fileBuffer => {
+        //     // console.log(fileBuffer.toString());
+        //     wptsstring = fileBuffer.toString();
+        // }).catch(errohttps://data.rivm.nl/geo/alo/wfs?request=GetFeature&service=WFS&version=1.1.0&outputFormat=application%2Fjson&typeName=alo:rivm_drinkwaterkranen_actueelr => {
+        //     console.error(error.message);
+        // });
+
+        // gpxParse.parseGpx(wptsstring, n
     // TODO sorted list on distance
     // TODO load both/all gpx files
     let wptsInRange = [];
@@ -78,7 +75,56 @@ let compress = function (waypoints) {
     return wpts;
 }
 
+let loadWaypoints = async function() {
+    console.log("Current directory:", __dirname);
 
+        //let wpts = [];
+        let wptsstring = "";
+        await readFile(path.resolve(__dirname, gpxFile)).then(fileBuffer => {
+            // console.log(fileBuffer.toString());
+            wptsstring = fileBuffer.toString();
+        }).catch(error => {
+            console.error(error.message);
+        });
+
+        // TODO file1/file2 as backup
+        let ext = path.extname(gpxFile); 
+        if (ext == '.gpx') {
+            
+             await gpxParse.parseGpx(wptsstring, function (error, data) {
+                //do stuff
+                waypoints = data.waypoints;
+                // todo load in sqllite
+            });
+        } else if (ext = '.json') {
+            waypoints = extractWaypoints(wptsstring);
+        }
+}
+
+let extractWaypoints = function(json) {
+    let wpts = []; // .lat .lon
+    try {
+        var data = JSON.parse(json);
+        for (const element of data.features) { 
+            //console.log(element);
+             
+            wpts.push( {
+                "lat" : element.properties.latitude,
+                "lon" : element.properties.longitude,
+            })            
+        }
+        
+    } catch(err) {
+        console.log(err);
+    }
+    return wpts;
+}
+
+exports.initialize = function () {
+    loadWaypoints().then(function (response) {
+        console.log("Loaded: " + waypoints.length + " waypoints");        
+      })    
+}
 
 exports.getInRange = async function (lat, lon, maxRangeMeters, maxWpts) {
 

@@ -73,7 +73,7 @@ function getCachedWayPoints() as Array<WayPoint> {
 (:typecheck(disableBackgroundCheck))
 function setCachedBgData(waypoints as Array<Array<Double> >) as Void {
   try {
-    Storage.setValue("latest_waypoints", waypoints);
+    Storage.setValue("latest_waypoints", waypoints); // TODO check documentation
   } catch (ex) {
     ex.printStackTrace();
   }
