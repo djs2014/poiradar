@@ -114,7 +114,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("resetDefaults", false);
         Storage.setValue("debug", false);
         Storage.setValue("pause_app", false);
-        Storage.setValue("cacheBgData", false);
+        // Storage.setValue("cacheBgData", false);
         Storage.setValue("distance_grayscale", false);
 
         Storage.setValue("checkIntervalMinutes", 5);
@@ -169,7 +169,7 @@ class poiradarApp extends Application.AppBase {
 
       $.gDebug = $.getStorageValue("debug", $.gDebug) as Boolean;
       $.gPauseApp = $.getStorageValue("pause_app", $.gDebug) as Boolean;
-      $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
+      // $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
       $.gDistance_grayscale = $.getStorageValue("distance_grayscale", $.gDistance_grayscale) as Boolean;
 
       $.g_lf_ShowWptDirection = $.getStorageValue("lf_showWptDirection", $.g_lf_ShowWptDirection) as Boolean;

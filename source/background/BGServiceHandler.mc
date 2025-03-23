@@ -239,9 +239,10 @@ class BGServiceHandler {
     }
 
     mHttpStatus = HTTP_OK;
-    if (mCacheBgData) {
-      mData = data;
-    }
+    // TODO
+    // if (mCacheBgData && data != null) {
+    //   mData = data;
+    // }
     mError = CustomErrors.ERROR_BG_NONE;
     mRequestCounter = mRequestCounter + 1;
 
