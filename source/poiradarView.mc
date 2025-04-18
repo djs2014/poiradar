@@ -14,7 +14,7 @@ class poiradarView extends WatchUi.DataField {
   var mLargeField as Boolean = false;
   var mSmallField as Boolean = false;
   var mWideField as Boolean = false;
-  var mTinyField as Boolean = false;
+  // var mTinyField as Boolean = false;
   var mHeight as Number = 0;
   var mWidth as Number = 0;
   var mFlashWaypoint as Boolean = false;
@@ -71,17 +71,24 @@ class poiradarView extends WatchUi.DataField {
     mDc = dc;
     mHeight = dc.getHeight();
     mWidth = dc.getWidth();
-    mLargeField = false;
-    mWideField = mWidth > 200;
-    if (mHeight <= 100) {
-      //  mFontText = Graphics.FONT_XTINY;
-      mSmallField = true;
-    } else {
-      //  mFontText = Graphics.FONT_SMALL;
-      mSmallField = false;
-      mLargeField = mHeight > 300;
-    }
-    mTinyField = mSmallField && !mWideField;
+
+    var ef = $.getEdgeField(dc);
+    mLargeField = ef == EfLarge;
+    mSmallField = ef == EfSmall;
+    mWideField = ef == EfWide;
+    //mTinyField = ;
+
+    // mLargeField = false;
+    // mWideField = mWidth > 200;
+    // if (mHeight <= 100) {
+    //   //  mFontText = Graphics.FONT_XTINY;
+    //   mSmallField = true;
+    // } else {
+    //   //  mFontText = Graphics.FONT_SMALL;
+    //   mSmallField = false;
+    //   mLargeField = mHeight > 300;
+    // }
+    // mTinyField = mSmallField && !mWideField;
 
     // large field -> bigger zoom possible
 
@@ -153,9 +160,9 @@ class poiradarView extends WatchUi.DataField {
     if (mLargeField) {
       extraRange = $.g_lf_ExtraRangeInMeter;
       fixedRange = $.g_lf_FixedRangeInMeter;
-    } else if (mTinyField) {
-      extraRange = $.g_tf_ExtraRangeInMeter;
-      fixedRange = $.g_tf_FixedRangeInMeter;
+    } else if (mSmallField) {
+      extraRange = $.g_wf_ExtraRangeInMeter;
+      fixedRange = $.g_wf_FixedRangeInMeter;
     }
     // fixedRange = 250;
     var wptClosest;
@@ -208,12 +215,12 @@ class poiradarView extends WatchUi.DataField {
       mFontWptLabel = Graphics.FONT_TINY;
       showTrack = $.g_lf_ShowTrack;
       highContrast = $.g_lf_HighContrast;
-    } else if (mTinyField) {
-      showDistance = $.g_tf_ShowWptDistance;
-      showDirection = $.g_tf_ShowWptDirection;
-      showCircleDistance = $.g_tf_ShowCircleDistance;
-      showTrack = $.g_tf_ShowTrack;
-      highContrast = $.g_tf_HighContrast;
+    } else if (mSmallField) {
+      showDistance = $.g_wf_ShowWptDistance;
+      showDirection = $.g_wf_ShowWptDirection;
+      showCircleDistance = $.g_wf_ShowCircleDistance;
+      showTrack = $.g_wf_ShowTrack;
+      highContrast = $.g_wf_HighContrast;
     }
     mLineColor = Graphics.COLOR_BLACK;
     if (getBackgroundColor() == Graphics.COLOR_BLACK) {
@@ -238,7 +245,7 @@ class poiradarView extends WatchUi.DataField {
 
     dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
     var statsWptsTop = "";
-    if (mTinyField) {
+    if (mSmallField) {
       statsWptsTop =
         "< " +
         getDistanceInMeterOrKm(mMinDistanceMeters).format(getFormatForMeterAndKm(mMinDistanceMeters)) +
@@ -281,7 +288,7 @@ class poiradarView extends WatchUi.DataField {
     }
     if (statsTravel.length() > 0) {
       statsTravel = statsTravel + " ";
-      if (!mTinyField) {
+      if (!mSmallField) {
         statsTravel = statsTravel + "range/hit";
       }
       var statsTravelWH = dc.getTextDimensions(statsTravel, Graphics.FONT_XTINY);
@@ -523,7 +530,7 @@ class poiradarView extends WatchUi.DataField {
     dc.drawText(0, mHeight - statsWptsWH[1], Graphics.FONT_XTINY, statsWpts, Graphics.TEXT_JUSTIFY_LEFT);
 
     var stats = "";
-    if (mTinyField) {
+    if (mSmallField) {
       stats = "#" + mBGServiceHandler.getCounterStats();
     } else {
       var counter = "#" + mBGServiceHandler.getCounterStats();
@@ -544,7 +551,7 @@ class poiradarView extends WatchUi.DataField {
     if (showTrack) {
       dc.setColor(trackColor, Graphics.COLOR_TRANSPARENT);
       dc.drawText(mWidth / 2, 0, Graphics.FONT_SMALL, $.getCompassDirection(track), Graphics.TEXT_JUSTIFY_CENTER);
-      if (!mTinyField) {
+      if (!mSmallField) {
         var trackH1 = dc.getFontHeight(Graphics.FONT_SMALL);
         dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(mWidth / 2, trackH1, Graphics.FONT_SYSTEM_TINY, track.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
@@ -586,9 +593,9 @@ class poiradarView extends WatchUi.DataField {
     if (mLargeField) {
       wptsNeeded = $.g_lf_ZoomMinWayPoints;
       zoomOnOneMeters = $.g_lf_zoomOneMeters;
-    } else if (mTinyField) {
-      wptsNeeded = $.g_tf_ZoomMinWayPoints;
-      zoomOnOneMeters = $.g_tf_zoomOneMeters;
+    } else if (mSmallField) {
+      wptsNeeded = $.g_wf_ZoomMinWayPoints;
+      zoomOnOneMeters = $.g_wf_zoomOneMeters;
     }
 
     mWptsSorted = [] as Array<WayPoint>;

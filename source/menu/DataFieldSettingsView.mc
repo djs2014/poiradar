@@ -50,9 +50,9 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Large field", null, "largefield", null);
     menu.addItem(mi);
-    mi = new WatchUi.MenuItem("Small field", null, "smallfield", null);
+    mi = new WatchUi.MenuItem("Wide field", null, "widefield", null);
     menu.addItem(mi);
-    mi = new WatchUi.MenuItem("Tiny field", null, "tinyfield", null);
+    mi = new WatchUi.MenuItem("Small field", null, "smallfield", null);
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Alerts", null, "alerts", null);
     menu.addItem(mi);

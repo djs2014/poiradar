@@ -113,31 +113,31 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       WatchUi.pushView(sfMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;
     }
-    if (id instanceof String && id.equals("tinyfield")) {
-      var tfMenu = new WatchUi.Menu2({ :title => "Tiny field" });
+    if (id instanceof String && id.equals("widefield")) {
+      var tfMenu = new WatchUi.Menu2({ :title => "Wide field" });
 
-      var boolean = Storage.getValue("tf_showWptDirection") ? true : false;
-      tfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint direction", null, "tf_showWptDirection", boolean, null));
-      boolean = Storage.getValue("tf_showWptDistance") ? true : false;
-      tfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint distance", null, "tf_showWptDistance", boolean, null));
-      boolean = Storage.getValue("tf_ShowCircleDistance") ? true : false;
-      tfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "tf_ShowCircleDistance", boolean, null));
-      boolean = Storage.getValue("tf_ShowTrack") ? true : false;
-      tfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "tf_ShowTrack", boolean, null));
+      var boolean = Storage.getValue("wf_showWptDirection") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint direction", null, "wf_showWptDirection", boolean, null));
+      boolean = Storage.getValue("wf_showWptDistance") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Waypoint distance", null, "wf_showWptDistance", boolean, null));
+      boolean = Storage.getValue("wf_ShowCircleDistance") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "wf_ShowCircleDistance", boolean, null));
+      boolean = Storage.getValue("wf_ShowTrack") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "wf_ShowTrack", boolean, null));
 
-      var mi = new WatchUi.MenuItem("Extra range meters", null, "tf_extraRangeMeters", null);
+      var mi = new WatchUi.MenuItem("Extra range meters", null, "wf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       tfMenu.addItem(mi);
 
-      mi = new WatchUi.MenuItem("Fixed range meters", null, "tf_fixedRangeMeters", null);
+      mi = new WatchUi.MenuItem("Fixed range meters", null, "wf_fixedRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       tfMenu.addItem(mi);
 
-      mi = new WatchUi.MenuItem("Zoom # waypoints", null, "tf_zoomMinWaypoints", null);
+      mi = new WatchUi.MenuItem("Zoom # waypoints", null, "wf_zoomMinWaypoints", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       tfMenu.addItem(mi);
 
-      mi = new WatchUi.MenuItem("Zoom on 1 meters", null, "tf_zoomOneMeters", null);
+      mi = new WatchUi.MenuItem("Zoom on 1 meters", null, "wf_zoomOneMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       tfMenu.addItem(mi);
 
