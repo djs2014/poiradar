@@ -26,25 +26,25 @@ var g_lf_FixedRangeInMeter as Number = 0;
 var g_lf_ZoomMinWayPoints as Number = 1;
 var g_lf_zoomOneMeters as Number = 500;
 
-var g_sf_ShowWptDirection as Boolean = false;
-var g_sf_ShowWptDistance as Boolean = true;
-var g_sf_ShowCircleDistance as Boolean = true;
-var g_sf_ShowTrack as Boolean = true;
-var g_sf_HighContrast as Boolean = true;
-var g_sf_ExtraRangeInMeter as Number = 50;
-var g_sf_FixedRangeInMeter as Number = 0;
-var g_sf_ZoomMinWayPoints as Number = 1;
-var g_sf_zoomOneMeters as Number = 500;
-
 var g_wf_ShowWptDirection as Boolean = false;
-var g_wf_ShowWptDistance as Boolean = false;
-var g_wf_ShowCircleDistance as Boolean = false;
-var g_wf_ShowTrack as Boolean = false;
-var g_wf_HighContrast as Boolean = false;
+var g_wf_ShowWptDistance as Boolean = true;
+var g_wf_ShowCircleDistance as Boolean = true;
+var g_wf_ShowTrack as Boolean = true;
+var g_wf_HighContrast as Boolean = true;
 var g_wf_ExtraRangeInMeter as Number = 50;
 var g_wf_FixedRangeInMeter as Number = 0;
 var g_wf_ZoomMinWayPoints as Number = 1;
 var g_wf_zoomOneMeters as Number = 500;
+
+var g_sf_ShowWptDirection as Boolean = false;
+var g_sf_ShowWptDistance as Boolean = false;
+var g_sf_ShowCircleDistance as Boolean = false;
+var g_sf_ShowTrack as Boolean = false;
+var g_sf_HighContrast as Boolean = false;
+var g_sf_ExtraRangeInMeter as Number = 50;
+var g_sf_FixedRangeInMeter as Number = 0;
+var g_sf_ZoomMinWayPoints as Number = 1;
+var g_sf_zoomOneMeters as Number = 500;
 
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;

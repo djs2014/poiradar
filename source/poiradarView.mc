@@ -73,25 +73,10 @@ class poiradarView extends WatchUi.DataField {
     mWidth = dc.getWidth();
 
     var ef = $.getEdgeField(dc);
-    mLargeField = ef == EfLarge;
+    mLargeField = ef == EfLarge || ef == EfOne;
     mSmallField = ef == EfSmall;
     mWideField = ef == EfWide;
-    //mTinyField = ;
-
-    // mLargeField = false;
-    // mWideField = mWidth > 200;
-    // if (mHeight <= 100) {
-    //   //  mFontText = Graphics.FONT_XTINY;
-    //   mSmallField = true;
-    // } else {
-    //   //  mFontText = Graphics.FONT_SMALL;
-    //   mSmallField = false;
-    //   mLargeField = mHeight > 300;
-    // }
-    // mTinyField = mSmallField && !mWideField;
-
-    // large field -> bigger zoom possible
-
+    
     calculateOptimalZoom(dc);
   }
 
@@ -155,14 +140,14 @@ class poiradarView extends WatchUi.DataField {
       return;
     }
 
-    var fixedRange = $.g_sf_FixedRangeInMeter;
-    var extraRange = $.g_sf_ExtraRangeInMeter;
-    if (mLargeField) {
-      extraRange = $.g_lf_ExtraRangeInMeter;
-      fixedRange = $.g_lf_FixedRangeInMeter;
-    } else if (mSmallField) {
+    var fixedRange = $.g_lf_FixedRangeInMeter;
+    var extraRange = $.g_lf_ExtraRangeInMeter;
+    if (mWideField) {
       extraRange = $.g_wf_ExtraRangeInMeter;
       fixedRange = $.g_wf_FixedRangeInMeter;
+    } else if (mSmallField) {
+      extraRange = $.g_sf_ExtraRangeInMeter;
+      fixedRange = $.g_sf_FixedRangeInMeter;
     }
     // fixedRange = 250;
     var wptClosest;
@@ -200,27 +185,30 @@ class poiradarView extends WatchUi.DataField {
     dc.clear();
     dc.setAntiAlias(true);
 
-    var mFontWptLabel = Graphics.FONT_XTINY;
+    var mFontWptLabel = Graphics.FONT_TINY;
+    
     var trackColor = Graphics.COLOR_BLACK;
     var km1RangeColor = Graphics.COLOR_DK_GREEN;
-    var showDistance = $.g_sf_ShowWptDistance;
-    var showDirection = $.g_sf_ShowWptDirection;
-    var showCircleDistance = $.g_sf_ShowCircleDistance;
-    var showTrack = $.g_sf_ShowTrack;
-    var highContrast = $.g_sf_HighContrast;
-    if (mLargeField) {
-      showDistance = $.g_lf_ShowWptDistance;
-      showDirection = $.g_lf_ShowWptDirection;
-      showCircleDistance = $.g_lf_ShowCircleDistance;
-      mFontWptLabel = Graphics.FONT_TINY;
-      showTrack = $.g_lf_ShowTrack;
-      highContrast = $.g_lf_HighContrast;
-    } else if (mSmallField) {
+
+    var showDistance = $.g_lf_ShowWptDistance;
+    var showDirection = $.g_lf_ShowWptDirection;
+    var showCircleDistance = $.g_lf_ShowCircleDistance;
+    var showTrack = $.g_lf_ShowTrack;
+    var highContrast = $.g_lf_HighContrast;
+    if (mWideField) {
       showDistance = $.g_wf_ShowWptDistance;
       showDirection = $.g_wf_ShowWptDirection;
       showCircleDistance = $.g_wf_ShowCircleDistance;
+      mFontWptLabel = Graphics.FONT_XTINY;
       showTrack = $.g_wf_ShowTrack;
       highContrast = $.g_wf_HighContrast;
+    } else if (mSmallField) {
+      mFontWptLabel = Graphics.FONT_XTINY;
+      showDistance = $.g_sf_ShowWptDistance;
+      showDirection = $.g_sf_ShowWptDirection;
+      showCircleDistance = $.g_sf_ShowCircleDistance;
+      showTrack = $.g_sf_ShowTrack;
+      highContrast = $.g_sf_HighContrast;
     }
     mLineColor = Graphics.COLOR_BLACK;
     if (getBackgroundColor() == Graphics.COLOR_BLACK) {
@@ -588,14 +576,14 @@ class poiradarView extends WatchUi.DataField {
     var numberInCloseRange = 0;
     var numberProximity = 0;
 
-    var wptsNeeded = $.g_sf_ZoomMinWayPoints;
-    var zoomOnOneMeters = $.g_sf_zoomOneMeters;
-    if (mLargeField) {
-      wptsNeeded = $.g_lf_ZoomMinWayPoints;
-      zoomOnOneMeters = $.g_lf_zoomOneMeters;
-    } else if (mSmallField) {
+    var wptsNeeded = $.g_lf_ZoomMinWayPoints;
+    var zoomOnOneMeters = $.g_lf_zoomOneMeters;
+    if (mWideField) {
       wptsNeeded = $.g_wf_ZoomMinWayPoints;
       zoomOnOneMeters = $.g_wf_zoomOneMeters;
+    } else if (mSmallField) {
+      wptsNeeded = $.g_sf_ZoomMinWayPoints;
+      zoomOnOneMeters = $.g_sf_zoomOneMeters;
     }
 
     mWptsSorted = [] as Array<WayPoint>;
