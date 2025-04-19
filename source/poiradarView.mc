@@ -736,7 +736,7 @@ class poiradarView extends WatchUi.DataField {
 
     // TODO quick fix. WTF Edge1050 with speaker cannot play tone profiles. Not mentioned in the API docs
     // https://forums.garmin.com/developer/connect-iq/f/discussion/405695/the-toneprofile-does-not-work-on-venu3s
-    if ($.EdgeVersion >= 1050) {
+    if ($.getEdgeVersion() >= 1050) {
       Attention.playTone(Attention.TONE_LAP);
       return;
     }
@@ -757,7 +757,7 @@ class poiradarView extends WatchUi.DataField {
     }
 
     // TODO quick fix
-    if ($.EdgeVersion >= 1050) {
+    if ($.getEdgeVersion() >= 1050) {
       Attention.playTone(Attention.TONE_LAP);
       return;
     }
