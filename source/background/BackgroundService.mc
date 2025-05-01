@@ -16,12 +16,19 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
   }
 
   public function onTemporalEvent() as Void {
-    System.println("BackgroundServiceDelegate onTemporalEvent");
+    try {
+      System.println("BackgroundServiceDelegate onTemporalEvent");
 
-    var error = handlePOI();
-    System.println("BackgroundServiceDelegate result handlePOI " + error);
-    if (error != 0) {
-      Background.exit(error);
+      var error = handlePOI();
+      System.println("BackgroundServiceDelegate result handlePOI " + error);
+      if (error != 0) {
+        Background.exit(error);
+      }
+    } catch (ex) {
+      System.println("1");
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+      Background.exit(CustomErrors.ERROR_BG_EXCEPTION);      
     }
   }
 
@@ -112,18 +119,23 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
     poiAPIKey as String,
     params as Lang.Dictionary<Lang.Object, Lang.Object>
   ) as Void {
-    var options = {
-      :method => Communications.HTTP_REQUEST_METHOD_GET,
-      :headers => {
-        "Content-Type" => Communications.REQUEST_CONTENT_TYPE_JSON,
-        "Accept" => "application/json",
-        "Authorization" => poiAPIKey,
-      },
-      :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
-    };
-    var responseCallBack = method(:onReceiveResponse);
+    try {
+      var options = {
+        :method => Communications.HTTP_REQUEST_METHOD_GET,
+        :headers => {
+          "Content-Type" => Communications.REQUEST_CONTENT_TYPE_JSON,
+          "Accept" => "application/json",
+          "Authorization" => poiAPIKey,
+        },
+        :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
+      };
+      var responseCallBack = method(:onReceiveResponse);
 
-    Communications.makeWebRequest(poiUrl, params, options, responseCallBack);
+      Communications.makeWebRequest(poiUrl, params, options, responseCallBack);
+    } catch (ex) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+    }
   }
 
   function onReceiveResponse(

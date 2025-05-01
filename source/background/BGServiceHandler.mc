@@ -179,10 +179,22 @@ class BGServiceHandler {
 
     try {
       if (Toybox.System has :ServiceDelegate) {
-        mBGActive = true;
         mError = CustomErrors.ERROR_BG_NONE;
         mHttpStatus = HTTP_OK;
-        Background.registerForTemporalEvent(new Time.Duration(mUpdateFrequencyInMinutes * 60));
+
+        // TEST
+        // Background.registerForTemporalEvent(new Time.Duration(mUpdateFrequencyInMinutes * 60));
+
+        var lastTime = Background.getLastTemporalEventTime();
+        if (lastTime != null) {
+          // Events scheduled for a time in the past trigger immediately
+          var nextTime = lastTime.add(new Time.Duration(mUpdateFrequencyInMinutes * 60));
+          Background.registerForTemporalEvent(nextTime);
+        } else {
+          Background.registerForTemporalEvent(Time.now());
+        }
+
+        mBGActive = true;
         System.println("startBGservice registerForTemporalEvent scheduled");
       } else {
         System.println("Unable to start BGservice (no registerForTemporalEvent)");
@@ -208,6 +220,14 @@ class BGServiceHandler {
     }
     var elapsedSeconds = Time.now().value() - lastTime.value();
     var secondsToNext = mUpdateFrequencyInMinutes * 60 - elapsedSeconds;
+
+    //@@ TEST, TODO setting
+    System.println("secondsToNext: " + secondsToNext);
+    if (secondsToNext < -15) {
+      // Force init webrequest, scheduling is not working?
+      mBGActive = false;
+    }
+    
     return $.secondsToShortTimeString(secondsToNext, "{m}:{s}");
   }
 
