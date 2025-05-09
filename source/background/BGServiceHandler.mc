@@ -226,6 +226,8 @@ class BGServiceHandler {
     if (secondsToNext < -15) {
       // Force init webrequest, scheduling is not working?
       mBGActive = false;
+      mHttpStatus = HTTP_OK;  
+      mError = CustomErrors.ERROR_BG_NONE;    
     }
     
     return $.secondsToShortTimeString(secondsToNext, "{m}:{s}");
