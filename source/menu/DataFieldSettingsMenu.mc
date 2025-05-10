@@ -42,6 +42,11 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi = new WatchUi.MenuItem("Max waypoints", null, "maxWaypoints", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       proxyMenu.addItem(mi);
+
+      mi = new WatchUi.MenuItem("Background timeout sec", null, "g_bg_timeout_seconds", null);
+      mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
+      proxyMenu.addItem(mi);
+
       // @@ set - watertappunt custom sets?
 
       // @@ need more testing ... max memory saving

@@ -36,7 +36,10 @@ class BGServiceHandler {
   // var methodOnBeforeWebrequest = null;
 
   var methodBackgroundData as Method?;
-  function setOnBackgroundData(objInstance as Object?, callback as Symbol) as Void {
+  function setOnBackgroundData(
+    objInstance as Object?,
+    callback as Symbol
+  ) as Void {
     methodBackgroundData = new Lang.Method(objInstance, callback) as Method;
   }
   function getRequestCounter() as Number {
@@ -73,7 +76,10 @@ class BGServiceHandler {
     mObservationTimeDelayedMinutesThreshold = minutes;
   }
   function isDataDelayed() as Boolean {
-    return $.isDelayedFor(mLastObservationMoment, mObservationTimeDelayedMinutesThreshold);
+    return $.isDelayedFor(
+      mLastObservationMoment,
+      mObservationTimeDelayedMinutesThreshold
+    );
   }
   function isEnabled() as Boolean {
     return !mBGDisabled;
@@ -141,7 +147,10 @@ class BGServiceHandler {
     } else if (mCurrentLocation != null) {
       var currentLocation = mCurrentLocation as CurrentLocation;
       // @@ first request, use last location
-      if (mRequestCounter > 0 && currentLocation.getAccuracy() < mMinimalGPSLevel) {
+      if (
+        mRequestCounter > 0 &&
+        currentLocation.getAccuracy() < mMinimalGPSLevel
+      ) {
         mError = CustomErrors.ERROR_BG_GPS_LEVEL;
       } else if (!currentLocation.hasLocation()) {
         mError = CustomErrors.ERROR_BG_NO_POSITION;
@@ -188,7 +197,9 @@ class BGServiceHandler {
         var lastTime = Background.getLastTemporalEventTime();
         if (lastTime != null) {
           // Events scheduled for a time in the past trigger immediately
-          var nextTime = lastTime.add(new Time.Duration(mUpdateFrequencyInMinutes * 60));
+          var nextTime = lastTime.add(
+            new Time.Duration(mUpdateFrequencyInMinutes * 60)
+          );
           Background.registerForTemporalEvent(nextTime);
         } else {
           Background.registerForTemporalEvent(Time.now());
@@ -197,7 +208,9 @@ class BGServiceHandler {
         mBGActive = true;
         System.println("startBGservice registerForTemporalEvent scheduled");
       } else {
-        System.println("Unable to start BGservice (no registerForTemporalEvent)");
+        System.println(
+          "Unable to start BGservice (no registerForTemporalEvent)"
+        );
         mBGActive = false;
         mError = CustomErrors.ERROR_BG_NOT_SUPPORTED;
       }
@@ -221,20 +234,25 @@ class BGServiceHandler {
     var elapsedSeconds = Time.now().value() - lastTime.value();
     var secondsToNext = mUpdateFrequencyInMinutes * 60 - elapsedSeconds;
 
-    //@@ TEST, TODO setting
     System.println("secondsToNext: " + secondsToNext);
-    if (secondsToNext < -15) {
-      // Force init webrequest, scheduling is not working?
-      mBGActive = false;
-      mHttpStatus = HTTP_OK;  
-      mError = CustomErrors.ERROR_BG_NONE;    
+    if (secondsToNext < 0) {
+
+      secondsToNext = secondsToNext * -1;
+      if ($.g_bg_timeout_seconds > 0 && secondsToNext > $.g_bg_timeout_seconds) {
+        // TEST Force init webrequest, scheduling is not working?
+        Disable();
+        Enable();
+        mBGActive = false;     
+        startBGservice();   
+      }
+      return $.secondsToShortTimeString(secondsToNext, "-{m}:{s}");
     }
-    
     return $.secondsToShortTimeString(secondsToNext, "{m}:{s}");
   }
 
   function onBackgroundData(
-    data as Application.PropertyValueType /*, obj as Object, cbProcessData as Symbol*/
+    data as
+      Application.PropertyValueType /*, obj as Object, cbProcessData as Symbol*/
   ) as Void {
     mLastRequestMoment = Time.now();
     mErrorMessage = "";
@@ -254,7 +272,10 @@ class BGServiceHandler {
     if (data != null) {
       var bgData = data as Dictionary;
       if (bgData["error"] != null && bgData["status"] != null) {
-        mErrorMessage = Lang.format("$1$ $2$", [bgData["status"] as Number, bgData["error"] as String]);
+        mErrorMessage = Lang.format("$1$ $2$", [
+          bgData["status"] as Number,
+          bgData["error"] as String,
+        ]);
         System.println("onBackgroundData error OWM: " + mErrorMessage);
         return;
       }

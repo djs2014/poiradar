@@ -60,6 +60,8 @@ var gAlert_sound as SoundMode = SMOneBeep;
 // x km from start quiet
 var g_alert_quiet_start as Float = 0.0f;
 
+var g_bg_timeout_seconds as Number = 0;
+
 (:background)
 var _mostRecentData as PoiData?;
 
@@ -171,6 +173,8 @@ class poiradarApp extends Application.AppBase {
       $.gPauseApp = $.getStorageValue("pause_app", $.gDebug) as Boolean;
       // $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
       $.gDistance_grayscale = $.getStorageValue("distance_grayscale", $.gDistance_grayscale) as Boolean;
+
+      $.g_bg_timeout_seconds = $.getStorageValue("g_bg_timeout_seconds", $.g_bg_timeout_seconds) as Number;
 
       $.g_lf_ShowWptDirection = $.getStorageValue("lf_showWptDirection", $.g_lf_ShowWptDirection) as Boolean;
       $.g_lf_ShowWptDistance = $.getStorageValue("lf_showWptDistance", $.g_lf_ShowWptDistance) as Boolean;
