@@ -192,18 +192,19 @@ class BGServiceHandler {
         mHttpStatus = HTTP_OK;
 
         // TEST
-        // Background.registerForTemporalEvent(new Time.Duration(mUpdateFrequencyInMinutes * 60));
+         Background.registerForTemporalEvent(new Time.Duration(mUpdateFrequencyInMinutes * 60));
 
-        var lastTime = Background.getLastTemporalEventTime();
-        if (lastTime != null) {
-          // Events scheduled for a time in the past trigger immediately
-          var nextTime = lastTime.add(
-            new Time.Duration(mUpdateFrequencyInMinutes * 60)
-          );
-          Background.registerForTemporalEvent(nextTime);
-        } else {
-          Background.registerForTemporalEvent(Time.now());
-        }
+        // Does not work?
+        // var lastTime = Background.getLastTemporalEventTime();
+        // if (lastTime != null) {
+        //   // Events scheduled for a time in the past trigger immediately
+        //   var nextTime = lastTime.add(
+        //     new Time.Duration(mUpdateFrequencyInMinutes * 60)
+        //   );
+        //   Background.registerForTemporalEvent(nextTime);
+        // } else {
+        //   Background.registerForTemporalEvent(Time.now());
+        // }
 
         mBGActive = true;
         System.println("startBGservice registerForTemporalEvent scheduled");
