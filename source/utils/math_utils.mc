@@ -58,7 +58,7 @@ function valueOfPercentage(percentage as Numeric?, maxValue as Numeric?) as Nume
 function slopeOfLine(x1 as Numeric, y1 as Numeric, x2 as Numeric, y2 as Numeric) as Numeric {
   var rise_deltaY = y2 - y1;
   var run_deltaX = x2 - x1;
-  if (run_deltaX == 0.0) {
+  if (run_deltaX == 0) {
     return 0.0f;
   }
   // integer division  * 1.0

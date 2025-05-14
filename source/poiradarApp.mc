@@ -26,25 +26,25 @@ var g_lf_FixedRangeInMeter as Number = 0;
 var g_lf_ZoomMinWayPoints as Number = 1;
 var g_lf_zoomOneMeters as Number = 500;
 
+var g_wf_ShowWptDirection as Boolean = false;
+var g_wf_ShowWptDistance as Boolean = true;
+var g_wf_ShowCircleDistance as Boolean = true;
+var g_wf_ShowTrack as Boolean = true;
+var g_wf_HighContrast as Boolean = true;
+var g_wf_ExtraRangeInMeter as Number = 50;
+var g_wf_FixedRangeInMeter as Number = 0;
+var g_wf_ZoomMinWayPoints as Number = 1;
+var g_wf_zoomOneMeters as Number = 500;
+
 var g_sf_ShowWptDirection as Boolean = false;
-var g_sf_ShowWptDistance as Boolean = true;
-var g_sf_ShowCircleDistance as Boolean = true;
-var g_sf_ShowTrack as Boolean = true;
-var g_sf_HighContrast as Boolean = true;
+var g_sf_ShowWptDistance as Boolean = false;
+var g_sf_ShowCircleDistance as Boolean = false;
+var g_sf_ShowTrack as Boolean = false;
+var g_sf_HighContrast as Boolean = false;
 var g_sf_ExtraRangeInMeter as Number = 50;
 var g_sf_FixedRangeInMeter as Number = 0;
 var g_sf_ZoomMinWayPoints as Number = 1;
 var g_sf_zoomOneMeters as Number = 500;
-
-var g_tf_ShowWptDirection as Boolean = false;
-var g_tf_ShowWptDistance as Boolean = false;
-var g_tf_ShowCircleDistance as Boolean = false;
-var g_tf_ShowTrack as Boolean = false;
-var g_tf_HighContrast as Boolean = false;
-var g_tf_ExtraRangeInMeter as Number = 50;
-var g_tf_FixedRangeInMeter as Number = 0;
-var g_tf_ZoomMinWayPoints as Number = 1;
-var g_tf_zoomOneMeters as Number = 500;
 
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
@@ -60,6 +60,8 @@ var gAlert_sound as SoundMode = SMOneBeep;
 // x km from start quiet
 var g_alert_quiet_start as Float = 0.0f;
 
+var g_bg_timeout_seconds as Number = 0;
+
 (:background)
 var _mostRecentData as PoiData?;
 
@@ -72,7 +74,7 @@ class poiradarApp extends Application.AppBase {
   }
 
   // onStart() is called on application start up
-  function onStart(state as Dictionary?) as Void {}
+  function onStart(state as Dictionary?) as Void { }
 
   // onStop() is called when your application is exiting
   function onStop(state as Dictionary?) as Void {}
@@ -114,7 +116,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("resetDefaults", false);
         Storage.setValue("debug", false);
         Storage.setValue("pause_app", false);
-        Storage.setValue("cacheBgData", false);
+        // Storage.setValue("cacheBgData", false);
         Storage.setValue("distance_grayscale", false);
 
         Storage.setValue("checkIntervalMinutes", 5);
@@ -141,15 +143,15 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("sf_zoomMinWaypoints", $.g_sf_ZoomMinWayPoints);
         Storage.setValue("sf_zoomOneMeters", $.g_sf_zoomOneMeters);
 
-        Storage.setValue("tf_showWptDirection", $.g_tf_ShowWptDirection);
-        Storage.setValue("tf_showWptDistance", $.g_tf_ShowWptDistance);
-        Storage.setValue("tf_extraRangeMeters", $.g_tf_ExtraRangeInMeter);
-        Storage.setValue("tf_ShowCircleDistance", $.g_tf_ShowCircleDistance);
-        Storage.setValue("tf_ShowTrack", $.g_tf_ShowTrack);
-        Storage.setValue("tf_HighContrast", $.g_tf_HighContrast);
-        Storage.setValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter);
-        Storage.setValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints);
-        Storage.setValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters);
+        Storage.setValue("wf_showWptDirection", $.g_wf_ShowWptDirection);
+        Storage.setValue("wf_showWptDistance", $.g_wf_ShowWptDistance);
+        Storage.setValue("wf_extraRangeMeters", $.g_wf_ExtraRangeInMeter);
+        Storage.setValue("wf_ShowCircleDistance", $.g_wf_ShowCircleDistance);
+        Storage.setValue("wf_ShowTrack", $.g_wf_ShowTrack);
+        Storage.setValue("wf_HighContrast", $.g_wf_HighContrast);
+        Storage.setValue("wf_fixedRangeMeters", $.g_wf_FixedRangeInMeter);
+        Storage.setValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints);
+        Storage.setValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters);
 
         Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
@@ -169,8 +171,10 @@ class poiradarApp extends Application.AppBase {
 
       $.gDebug = $.getStorageValue("debug", $.gDebug) as Boolean;
       $.gPauseApp = $.getStorageValue("pause_app", $.gDebug) as Boolean;
-      $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
+      // $.gCacheBgData = $.getStorageValue("cacheBgData", $.gCacheBgData) as Boolean;
       $.gDistance_grayscale = $.getStorageValue("distance_grayscale", $.gDistance_grayscale) as Boolean;
+
+      $.g_bg_timeout_seconds = $.getStorageValue("g_bg_timeout_seconds", $.g_bg_timeout_seconds) as Number;
 
       $.g_lf_ShowWptDirection = $.getStorageValue("lf_showWptDirection", $.g_lf_ShowWptDirection) as Boolean;
       $.g_lf_ShowWptDistance = $.getStorageValue("lf_showWptDistance", $.g_lf_ShowWptDistance) as Boolean;
@@ -192,15 +196,15 @@ class poiradarApp extends Application.AppBase {
       $.g_sf_ZoomMinWayPoints = $.getStorageValue("sf_zoomMinWaypoints", $.g_sf_ZoomMinWayPoints) as Number;
       $.g_sf_zoomOneMeters = $.getStorageValue("sf_zoomOneMeters", $.g_sf_zoomOneMeters) as Number;
 
-      $.g_tf_ShowWptDirection = $.getStorageValue("tf_showWptDirection", $.g_tf_ShowWptDirection) as Boolean;
-      $.g_tf_ShowWptDistance = $.getStorageValue("tf_showWptDistance", $.g_tf_ShowWptDistance) as Boolean;
-      $.g_tf_ShowCircleDistance = $.getStorageValue("tf_ShowCircleDistance", $.g_tf_ShowCircleDistance) as Boolean;
-      $.g_tf_ShowTrack = $.getStorageValue("tf_ShowTrack", $.g_tf_ShowTrack) as Boolean;
-      $.g_tf_HighContrast = $.getStorageValue("tf_HighContrast", $.g_tf_HighContrast) as Boolean;
-      $.g_tf_ExtraRangeInMeter = $.getStorageValue("tf_extraRangeMeters", $.g_tf_ExtraRangeInMeter) as Number;
-      $.g_tf_FixedRangeInMeter = $.getStorageValue("tf_fixedRangeMeters", $.g_tf_FixedRangeInMeter) as Number;
-      $.g_tf_ZoomMinWayPoints = $.getStorageValue("tf_zoomMinWaypoints", $.g_tf_ZoomMinWayPoints) as Number;
-      $.g_tf_zoomOneMeters = $.getStorageValue("tf_zoomOneMeters", $.g_tf_zoomOneMeters) as Number;
+      $.g_wf_ShowWptDirection = $.getStorageValue("wf_showWptDirection", $.g_wf_ShowWptDirection) as Boolean;
+      $.g_wf_ShowWptDistance = $.getStorageValue("wf_showWptDistance", $.g_wf_ShowWptDistance) as Boolean;
+      $.g_wf_ShowCircleDistance = $.getStorageValue("wf_ShowCircleDistance", $.g_wf_ShowCircleDistance) as Boolean;
+      $.g_wf_ShowTrack = $.getStorageValue("wf_ShowTrack", $.g_wf_ShowTrack) as Boolean;
+      $.g_wf_HighContrast = $.getStorageValue("wf_HighContrast", $.g_wf_HighContrast) as Boolean;
+      $.g_wf_ExtraRangeInMeter = $.getStorageValue("wf_extraRangeMeters", $.g_wf_ExtraRangeInMeter) as Number;
+      $.g_wf_FixedRangeInMeter = $.getStorageValue("wf_fixedRangeMeters", $.g_wf_FixedRangeInMeter) as Number;
+      $.g_wf_ZoomMinWayPoints = $.getStorageValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints) as Number;
+      $.g_wf_zoomOneMeters = $.getStorageValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters) as Number;
 
       $.g_alert_closeRangeMeters = $.getStorageValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters) as Number;
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;

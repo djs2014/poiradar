@@ -17,6 +17,7 @@ const shouldCompress = (req, res) => {
     }
     return compression.filter(req, res);
 };
+
 app.use(compression({
     filter: shouldCompress,
     threshold: 0
@@ -91,4 +92,5 @@ app.get("/poi", async function (req, res) {
 http.createServer(app)
     .listen(port, function (req, res) {
         console.log("Server started at port " + port);
+        poi.initialize();
     });

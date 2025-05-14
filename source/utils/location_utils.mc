@@ -14,25 +14,29 @@ class CurrentLocation {
   hidden var mLon as Lang.Double = 0.0d;
   hidden var mLocation as Location?;
   hidden function setLocation(location as Location?) as Void {
-    if (location == null) {
-      return;
+    try {
+      if (location == null) {
+        return;
+      }
+      mLocation = location;
+      var degrees = (mLocation as Location).toDegrees();
+      if (degrees.size() < 2) {
+        return;
+      }
+      var lat = degrees[0].toDouble();
+      var lon = degrees[1].toDouble();    
+      if (lat == null || lon == null) {
+        return;
+      }
+      if (lat != 0 && lon != 0 && mLat != lat && mLon != lon) {
+        Storage.setValue("latest_latlng", degrees as Lang.Array<Application.PropertyValueType>); // [lat,lng]
+        System.println("Update cached location lat/lon: " + degrees);
+      }
+      mLat = lat;
+      mLon = lon;
+    } catch(ex) {
+      ex.printStackTrace();
     }
-    mLocation = location;
-    var degrees = (mLocation as Location).toDegrees();
-    if (degrees.size() < 2) {
-      return;
-    }
-    var lat = degrees[0].toDouble();
-    var lon = degrees[1].toDouble();    
-    if (lat == null || lon == null) {
-      return;
-    }
-    if (lat != 0 && lon != 0 && mLat != lat && mLon != lon) {
-      Storage.setValue("latest_latlng", degrees as Lang.Array<Application.PropertyValueType>); // [lat,lng]
-      System.println("Update cached location lat/lon: " + degrees);
-    }
-    mLat = lat;
-    mLon = lon;
   }
 
   hidden var mAccuracy as Quality? = Position.QUALITY_NOT_AVAILABLE;

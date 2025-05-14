@@ -39,9 +39,10 @@ function toPoiData(data as Dictionary) as PoiData {
         pts.add(wpt);
       }
 
-      if ($.gCacheBgData) {
-        setCachedBgData(bg_pts);
-      }
+      // if ($.gCacheBgData) {
+      //   // TODO, fix this
+      //   // setCachedBgData(bg_pts);
+      // }
     }
 
     return new PoiData(lat, lon, range, set, pts);
@@ -70,11 +71,11 @@ function getCachedWayPoints() as Array<WayPoint> {
   return [] as Array<WayPoint>;
 }
 
-(:typecheck(disableBackgroundCheck))
-function setCachedBgData(waypoints as Array<Array<Double> >) as Void {
-  try {
-    Storage.setValue("latest_waypoints", waypoints);
-  } catch (ex) {
-    ex.printStackTrace();
-  }
-}
+// (:typecheck(disableBackgroundCheck))
+// function setCachedBgData(waypoints as Array<Array<Double> >) as Void {
+//   try {
+//     Storage.setValue("latest_waypoints", waypoints); // TODO check documentation
+//   } catch (ex) {
+//     ex.printStackTrace();
+//   }
+// }
