@@ -85,7 +85,11 @@ class poiradarView extends WatchUi.DataField {
       track = getBearing(info as Activity.Info?);
 
       mBGServiceHandler.onCompute(info);
-      mBGServiceHandler.autoScheduleService();
+      if ($.g_bg_delay_seconds <= 0) {
+        mBGServiceHandler.autoScheduleService();
+      } else {
+        $.g_bg_delay_seconds = $.g_bg_delay_seconds - 1;
+      }
 
       if ($.g_alert_quiet_start > 0) {
         if (mStartLatLon[0] == 0 && mStartLatLon[1] == 0) {
@@ -523,6 +527,9 @@ class poiradarView extends WatchUi.DataField {
     } else {
       var counter = "#" + mBGServiceHandler.getCounterStats();
       var next = mBGServiceHandler.getWhenNextRequest("");
+      if ($.g_bg_delay_seconds > 0) {
+        next = $.g_bg_delay_seconds.format("%d");
+      }
       var status = "";
       if (mBGServiceHandler.hasError()) {
         status = mBGServiceHandler.getError();
