@@ -174,6 +174,13 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("loosefocusafterhit") ? true : false;
       alertMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
 
+      mi = new WatchUi.MenuItem("Toast proximity meters", null, "toast_proximityMeters", null);
+      mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
+      alertMenu.addItem(mi);
+
+      boolean = Storage.getValue("toast_proximity") ? true : false;
+      alertMenu.addItem(new WatchUi.ToggleMenuItem("Toast proximity", null, "toast_proximity", boolean, null));
+
       // @@TODO or store start location -> no beeps 'silent' in range start location < x km (for start of ride / end of ride)
       // mi = new WatchUi.MenuItem("Start after X", null, "alert_startAfterX", null);
       // mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));

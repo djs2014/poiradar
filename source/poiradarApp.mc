@@ -46,6 +46,8 @@ var g_sf_FixedRangeInMeter as Number = 0;
 var g_sf_ZoomMinWayPoints as Number = 1;
 var g_sf_zoomOneMeters as Number = 500;
 
+var g_toast_proximityMeters as Number = 1500;
+var g_toast_proximity as Boolean = true;
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
 var g_alert_proximityMeters as Number = 25;
@@ -62,6 +64,8 @@ var g_alert_quiet_start as Float = 0.0f;
 
 var g_bg_timeout_seconds as Number = 0;
 var g_bg_delay_seconds as Number = 0;
+
+var g_alert_showtoast as Boolean = true;
 
 (:background)
 var _mostRecentData as PoiData?;
@@ -154,6 +158,9 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints);
         Storage.setValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters);
 
+        Storage.setValue("toast_proximityMeters", $.g_toast_proximityMeters);
+        Storage.setValue("toast_proximity", $.g_toast_proximity);
+
         Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
@@ -208,6 +215,8 @@ class poiradarApp extends Application.AppBase {
       $.g_wf_ZoomMinWayPoints = $.getStorageValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints) as Number;
       $.g_wf_zoomOneMeters = $.getStorageValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters) as Number;
 
+      $.g_toast_proximityMeters = $.getStorageValue("toast_proximityMeters", $.g_toast_proximityMeters) as Number;
+      $.g_toast_proximity = $.getStorageValue("toast_proximity", $.g_toast_proximity) as Boolean;
       $.g_alert_closeRangeMeters = $.getStorageValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters) as Number;
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;
       $.g_alert_proximityMeters = $.getStorageValue("alert_proximityMeters", $.g_alert_proximityMeters) as Number;

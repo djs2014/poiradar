@@ -1,3 +1,6 @@
+alert message - poi description + distance / direction
+optioneel bij extra distance
+
 //@@ TEST, TODO setting
     System.println("secondsToNext: " + secondsToNext);
     if (secondsToNext < -15) {
