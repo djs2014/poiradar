@@ -28,6 +28,7 @@ class poiradarView extends WatchUi.DataField {
 
   hidden var previousTrack as Float = 0.0f;
   hidden var track as Number = 0;
+  hidden var elapsedDistance as Float = 0.0f;
 
   hidden var mWpts as Array<WayPoint> = [] as Array<WayPoint>;
   hidden var mWptsSorted as Array<WayPoint> = [] as Array<WayPoint>;
@@ -85,6 +86,7 @@ class poiradarView extends WatchUi.DataField {
   function compute(info as Activity.Info) as Void {
     try {
       track = getBearing(info as Activity.Info?);
+      elapsedDistance = getActivityValue(info, :elapsedDistance, 0.0f) as Float;
 
       mBGServiceHandler.onCompute(info);
       if ($.g_bg_delay_seconds <= 0) {
@@ -594,7 +596,8 @@ class poiradarView extends WatchUi.DataField {
           dc.drawCircle(px, py, mWptRadius + 2);
           dc.drawCircle(px, py, mWptRadius + 4);
           dc.drawCircle(px, py, mWptRadius + 6);
-          if ($.getEdgeVersion() >= 1050) { // TODO test if flash twice for 1050 2-6 and 6-10
+          if ($.getEdgeVersion() >= 1050) {
+            // TODO test if flash twice for 1050 2-6 and 6-10
             dc.drawCircle(px, py, mWptRadius + 8);
             dc.drawCircle(px, py, mWptRadius + 10);
           }
@@ -874,7 +877,16 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function beQuietCloseToStartLocation() as Boolean {
-    if ($.g_alert_quiet_start < 0) {
+    System.println([
+      "beQuietCloseToStartLocation",
+      $.g_alert_quiet_start,
+      elapsedDistance / 1000.0,
+      mStartLatLon[0],
+      mStartLatLon[1],
+      mCurrentLocation.hasLocation(),
+    ]);
+
+    if ($.g_alert_quiet_start <= 0) {
       return false;
     }
     // range in km
@@ -891,8 +903,20 @@ class poiradarView extends WatchUi.DataField {
         currentLatLon[0],
         currentLatLon[1]
       );
+
+      System.println([
+        "beQuietCloseToStartLocation",
+        $.g_alert_quiet_start,
+        elapsedDistance / 1000.0,
+        distKm,
+      ]);
       if (distKm <= $.g_alert_quiet_start) {
         // Silent, in range of start location
+        return true;
+      }
+    } else {
+      // less than elapsed km
+      if (elapsedDistance / 1000.0 < $.g_alert_quiet_start) {
         return true;
       }
     }
@@ -993,9 +1017,9 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function getBearing(a_info as Activity.Info?) as Number {
-    var track = getActivityValue(a_info, :track, 0.0f) as Float;
+    var track = $.getActivityValue(a_info, :track, 0.0f) as Float;
     if (track == 0.0f) {
-      track = getActivityValue(a_info, :currentHeading, 0.0f) as Float;
+      track = $.getActivityValue(a_info, :currentHeading, 0.0f) as Float;
     }
     if (track == 0.0f) {
       track = previousTrack;
@@ -1005,7 +1029,6 @@ class poiradarView extends WatchUi.DataField {
     return $.rad2deg(track).toNumber();
   }
 
-  // Max 1 toast message a time TODO optimize
   function processToastMessage(wpts as Array<WayPoint>) as Void {
     if (WatchUi has :showToast) {
       if (beQuietCloseToStartLocation()) {
@@ -1017,9 +1040,15 @@ class poiradarView extends WatchUi.DataField {
         return;
       }
 
+      if (mToastIcon == null) {
+        mToastIcon =
+          Application.loadResource(Rez.Drawables.poiIcon) as BitmapResource;
+      }
+
       var message;
       var wpt;
       if (count == 1) {
+        // TODO rotate icon?
         wpt = wpts[0];
         message = Lang.format("POI ($1$) at $2$ m.", [
           $.getCompassDirection(wpt.bearing),
@@ -1027,12 +1056,6 @@ class poiradarView extends WatchUi.DataField {
         ]);
       } else {
         message = Lang.format("$1$ POIs detected.", [count.format("%0d")]);
-      }
-
-      // TODO rotate?
-      if (mToastIcon == null) {
-        mToastIcon =
-          Application.loadResource(Rez.Drawables.poiIcon) as BitmapResource;
       }
 
       WatchUi.showToast(message, { :icon => mToastIcon });

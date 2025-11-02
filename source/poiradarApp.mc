@@ -55,12 +55,12 @@ var g_alert_proximity as Boolean = true;
 
 var g_loosefocusafterhit as Boolean = true;
 
-var g_alert_startAfterX as Number = 30;
-var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
+// var g_alert_startAfterX as Number = 30;
+// var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
 var gAlert_sound as SoundMode = SMOneBeep;
 
 // x km from start quiet
-var g_alert_quiet_start as Float = 0.0f;
+var g_alert_quiet_start as Float = 1.0f;
 
 var g_bg_timeout_seconds as Number = 0;
 var g_bg_delay_seconds as Number = 0;
@@ -166,10 +166,10 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
         Storage.setValue("alert_proximity", $.g_alert_proximity);
         // @@ refactor, remove
-        Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
-        Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
+        // Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
+        // Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
         Storage.setValue("alert_sound", SMOneBeep);
-        Storage.setValue("alert_quiet_start", 0.0f);
+        Storage.setValue("alert_quiet_start", 1.0f);
 
         Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
 
@@ -225,8 +225,8 @@ class poiradarApp extends Application.AppBase {
         $.g_alert_proximityMeters = $.g_alert_closeRangeMeters - 1;
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
       }
-      $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
-      $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
+      // $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
+      // $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
       $.gAlert_sound = $.getStorageValue("alert_sound", $.gAlert_sound) as SoundMode;
       $.g_alert_quiet_start = $.getStorageValue("alert_quiet_start", $.g_alert_quiet_start) as Float;
       
