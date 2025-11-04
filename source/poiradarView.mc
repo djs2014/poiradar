@@ -1050,9 +1050,9 @@ class poiradarView extends WatchUi.DataField {
       if (count == 1) {
         // TODO rotate icon?
         wpt = wpts[0];
-        message = Lang.format("POI ($1$) at $2$ m.", [
+        message = Lang.format("POI ($1$) at $2$ km.", [
           $.getCompassDirection(wpt.bearing),
-          wpt.distanceMeters.format("%0d"),
+          (wpt.distanceMeters / 1000.0).format("%01d"),
         ]);
       } else {
         message = Lang.format("$1$ POIs detected.", [count.format("%0d")]);
