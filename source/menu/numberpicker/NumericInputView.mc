@@ -1,6 +1,8 @@
-// v2024-06-8 
+// v2024-06-8
 // substring null -> .length()
 // v2024-06-11 fix num of items edge 840
+// v2025-11-19 option to use menu buttons
+// v2025-11-23 fix [Lang.Number, Lang.Number] + remove debug (breaking change NumericInputDelegate initialize)
 
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -15,16 +17,17 @@ class NumericInputView extends WatchUi.View {
   hidden var _insert as Boolean = true;
   hidden var _negative as Boolean = false;
   hidden var _nrOfItemsInRow as Number = 4;
-  hidden var _debug as Boolean = false;
-  hidden var _partialUpdate as Boolean = false;
-  hidden var _debugInfo as String = "";
 
-  hidden var _keyPressed as String = "";
-  hidden var _keyCoord as Lang.Array<Lang.Array<Lang.Number> > = [[]] as Lang.Array<Lang.Array<Lang.Number> >;
-  hidden var _controlCoord as Lang.Array<Lang.Array<Lang.Number> > = [[]] as Lang.Array<Lang.Array<Lang.Number> >;
+  hidden var _keyCoord as Lang.Array<Lang.Array<Lang.Number> > =
+    [[]] as Lang.Array<Lang.Array<Lang.Number> >;
+  hidden var _controlCoord as Lang.Array<Lang.Array<Lang.Number> > =
+    [[]] as Lang.Array<Lang.Array<Lang.Number> >;
 
-  hidden var _keys as Array<String> = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] as Array<String>;
-  hidden var _controls as Array<String> = ["<", "BCK", "DEL", ">", "INS", "CLR", "OK"] as Array<String>;
+  hidden var _keys as Array<String> =
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] as Array<String>;
+  hidden var _controls as Array<String> =
+    ["<", "BCK", "DEL", ">", "INS", "CLR", "OK"] as Array<String>;
+
   hidden var _valueFormat as String = "%.2f";
   hidden var _editData as Array<Char> = [] as Array<Char>;
   hidden var _lineHeight as Number = 20;
@@ -32,9 +35,14 @@ class NumericInputView extends WatchUi.View {
   hidden var _keyWidth as Number = 0;
   hidden var _margin as Number = 0;
   hidden var _space as Number = 2;
-  hidden var _redrawKeyPad as Boolean = true;
 
   hidden var _options as NumericOptions = new NumericOptions();
+
+  hidden var _isNightModeEnabled as Boolean = true;
+  hidden var _backColor as Graphics.ColorType = Graphics.COLOR_BLACK;
+  hidden var _textColor as Graphics.ColorType = Graphics.COLOR_WHITE;
+  hidden var _headerColor as Graphics.ColorType = Graphics.COLOR_LT_GRAY;
+  hidden var _controlColor as Graphics.ColorType = Graphics.COLOR_YELLOW;
 
   var _onAccept as Method?;
   var _onKeypressed as Method?;
@@ -52,9 +60,19 @@ class NumericInputView extends WatchUi.View {
 
     _keyCoord = _keyCoord.slice(0, 0);
     _controlCoord = _controlCoord.slice(0, 0);
+
+    var settings = System.getDeviceSettings();
+    if (settings has :isNightModeEnabled) {
+      _isNightModeEnabled = settings.isNightModeEnabled;
+    }
   }
 
-  function setEditData(editData as Array<Char>, cursorPos as Number?, insert as Boolean, negative as Boolean) as Void {
+  function setEditData(
+    editData as Array<Char>,
+    cursorPos as Number?,
+    insert as Boolean,
+    negative as Boolean
+  ) as Void {
     _editData = editData;
     _currentValue = buildCurrentValue(_editData);
     if (cursorPos == null) {
@@ -101,6 +119,14 @@ class NumericInputView extends WatchUi.View {
     if (_options.useMinus and _keys.indexOf("-") == -1) {
       _keys.add("-");
     }
+
+    // Select first key if no touchscreen.
+    if (
+      _options.selectedIndex < 0 &&
+      !System.getDeviceSettings().isTouchScreen
+    ) {
+      _options.selectedIndex = 0;
+    }
   }
 
   function validateCurrentValue(value as Numeric) as Numeric {
@@ -144,18 +170,30 @@ class NumericInputView extends WatchUi.View {
     if (_onKeypressed == null) {
       return;
     }
-    (_onKeypressed as Method).invoke(_editData, _cursorPos, _insert, _negative, _options);
-    // (
-    //   _onKeypressed as
-    //     (Method
-    //       (editData as Array<Char>, cursorPos as Number, insert as Boolean)
-    //     )
-    // ).invoke(_editData, _cursorPos, _insert);
+    (_onKeypressed as Method).invoke(
+      _editData,
+      _cursorPos,
+      _insert,
+      _negative,
+      _options
+    );
   }
 
   //! Load your resources here
   //! @param dc Device context
-  function onLayout(dc as Dc) as Void {
+  function onLayout(dc as Dc) as Void {    
+    if (_isNightModeEnabled) {
+      _backColor = Graphics.COLOR_BLACK;
+      _textColor = Graphics.COLOR_WHITE;
+      _headerColor = Graphics.COLOR_LT_GRAY;
+      _controlColor = Graphics.COLOR_YELLOW;
+    } else {
+      _textColor = Graphics.COLOR_BLACK;
+      _backColor = Graphics.COLOR_WHITE;
+      _headerColor = Graphics.COLOR_DK_GRAY;
+      _controlColor = Graphics.COLOR_DK_RED;
+    }
+
     _lineHeight = dc.getFontHeight(Graphics.FONT_SMALL);
     _fontHeightMedium = dc.getFontHeight(Graphics.FONT_MEDIUM);
 
@@ -163,7 +201,10 @@ class NumericInputView extends WatchUi.View {
       _nrOfItemsInRow = 5;
     }
     // Size of key squares (include the spaces between key squares)
-    _keyWidth = ((dc.getWidth() - 2 * (_nrOfItemsInRow - 1) * _space) / _nrOfItemsInRow) as Number;
+    _keyWidth =
+      (
+        (dc.getWidth() - 2 * (_nrOfItemsInRow - 1) * _space) / _nrOfItemsInRow
+      ) as Number;
 
     _margin = ((dc.getWidth() - _keyWidth * _nrOfItemsInRow) / 2) as Number;
     _keyWidth = _keyWidth - _space;
@@ -178,34 +219,24 @@ class NumericInputView extends WatchUi.View {
   //! @param dc Device context
   function onUpdate(dc as Dc) as Void {
     var y = 1;
-    // var fullscreenRefresh = !_partialUpdate or _keyCoord.size() == 0;
-    // view will close and open, so fullscreenr refresh!
-    var fullscreenRefresh = true;
-    if (fullscreenRefresh) {
-      dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-      dc.clear();
-    }
+
+    // view will close and open, so fullscreen refresh!    
+    dc.setColor(_backColor,_backColor);
+    dc.clear();
+    
 
     drawTopInfo(dc, y);
     y = (y + 3 * _lineHeight).toNumber();
-
-    if (fullscreenRefresh or _redrawKeyPad) {
-      drawKeyPad(dc, y, _keys, _controls);
-      _redrawKeyPad = false;
-    }
-
-    if (_debug) {
-      drawInfoPanel(dc);
-    }
+    
+    drawKeyPad(dc, y, _keys, _controls);   
   }
-  hidden function buildEditedValue(value as Numeric, format as String) as Array<Char> {
-    // if (value == 0.0f && !_keyPressed.equals(".")) {
-    //   var stringValue = value.format("%d");
-    //   return stringValue.toCharArray();
-    // } else {
+
+  hidden function buildEditedValue(
+    value as Numeric,
+    format as String
+  ) as Array<Char> {
     var stringValue = value.format(_valueFormat);
     return stringValue.toCharArray();
-    // }
   }
 
   // @@ TODO check if value still ok _minValue, _maxValue
@@ -248,22 +279,27 @@ class NumericInputView extends WatchUi.View {
     var width = dc.getWidth();
     var height = 2.5 * _lineHeight;
 
-    if (_partialUpdate) {
-      dc.setClip(x, y, width, height);
-      dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-      dc.clear();
-    }
-
-    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(dc.getWidth() / 2, y, Graphics.FONT_SMALL, _prompt, Graphics.TEXT_JUSTIFY_CENTER);
+    dc.setColor(_headerColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(
+      dc.getWidth() / 2,
+      y,
+      Graphics.FONT_SMALL,
+      _prompt,
+      Graphics.TEXT_JUSTIFY_CENTER
+    );
 
     y = y + _lineHeight;
     drawEditedValue(dc, y, _editData, _insert);
     dc.clearClip();
   }
 
-  hidden function drawEditedValue(dc as Dc, y as Number, data as Array<Char>, insert as Boolean) as Void {
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+  hidden function drawEditedValue(
+    dc as Dc,
+    y as Number,
+    data as Array<Char>,
+    insert as Boolean
+  ) as Void {
+    dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
     var x = _margin + dc.getTextWidthInPixels("-", Graphics.FONT_MEDIUM);
 
     var cursor = "";
@@ -281,12 +317,24 @@ class NumericInputView extends WatchUi.View {
     var textFirst = StringUtil.charArrayToString(first);
     var textLast = StringUtil.charArrayToString(last);
 
-    dc.drawText(x, y, Graphics.FONT_MEDIUM, textFirst, Graphics.TEXT_JUSTIFY_LEFT);
+    dc.drawText(
+      x,
+      y,
+      Graphics.FONT_MEDIUM,
+      textFirst,
+      Graphics.TEXT_JUSTIFY_LEFT
+    );
     x = x + dc.getTextWidthInPixels(textFirst, Graphics.FONT_MEDIUM);
     var widthCursor = 0;
     if (cursor.length() > 0) {
       widthCursor = dc.getTextWidthInPixels(cursor, Graphics.FONT_MEDIUM);
-      dc.drawText(x, y, Graphics.FONT_MEDIUM, cursor, Graphics.TEXT_JUSTIFY_LEFT);
+      dc.drawText(
+        x,
+        y,
+        Graphics.FONT_MEDIUM,
+        cursor,
+        Graphics.TEXT_JUSTIFY_LEFT
+      );
     }
     // always draw cursor line (can be also at start / end of text)
     if (insert) {
@@ -298,58 +346,141 @@ class NumericInputView extends WatchUi.View {
     }
     x = x + widthCursor;
 
-    dc.drawText(x, y, Graphics.FONT_MEDIUM, textLast, Graphics.TEXT_JUSTIFY_LEFT);
-  }
-
-  hidden function drawInfoPanel(dc as Dc) as Void {
-    var x = 1;
-    var width = dc.getWidth();
-    var height = 1 * _lineHeight;
-    var y = dc.getHeight() - height;
-    if (_partialUpdate) {
-      dc.setClip(x, y, width, height);
-      dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-      dc.clear();
-    }
-
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-
     dc.drawText(
-      dc.getWidth() / 2,
-      dc.getHeight() - _lineHeight,
-      Graphics.FONT_TINY,
-      _debugInfo,
-      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+      x,
+      y,
+      Graphics.FONT_MEDIUM,
+      textLast,
+      Graphics.TEXT_JUSTIFY_LEFT
     );
-    dc.clearClip();
   }
+
+  // hidden function drawInfoPanel(dc as Dc) as Void {
+  //   var x = 1;
+  //   var width = dc.getWidth();
+  //   var height = 1 * _lineHeight;
+  //   var y = dc.getHeight() - height;
+    
+  //   dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
+
+  //   dc.drawText(
+  //     dc.getWidth() / 2,
+  //     dc.getHeight() - _lineHeight,
+  //     Graphics.FONT_TINY,
+  //     _debugInfo,
+  //     Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+  //   );
+  //   dc.clearClip();
+  // }
 
   //! Called when this View is removed from the screen. Save the
   //! state of your app here.
   function onHide() as Void {}
 
-  function setDebugInfo(event as String, coord as [Number, Number]) as Void {
-    var key = getKeyPressed(coord);
-    _debugInfo = Lang.format("Event[$1$] Coord[$2$,$3$] Key:[$4$]", [event, coord[0], coord[1], key]);
+  // function setDebugInfo(
+  //   event as String,
+  //   coord as Lang.Array<Lang.Number>
+  // ) as Void {
+  //   var keyValue = getKeyPressed(coord);
+  //   _debugInfo = Lang.format("Event[$1$] Coord[$2$,$3$] Key:[$4$]", [
+  //     event,
+  //     coord[0],
+  //     coord[1],
+  //     keyValue,
+  //   ]);
+  // }
+
+  function onKeyPressed(coord as [Lang.Number, Lang.Number]) as Boolean {
+    var keyValue = getKeyPressed(coord);
+    onKey(keyValue);
+    return true;
   }
 
-  function onKeyPressed(coord as [Number, Number]) as Void {
-    _keyPressed = getKeyPressed(coord);
+  function onKeyEvent(keyEvent as WatchUi.KeyEvent) as Boolean {
+    // System.println(["onKeyevent", keyEvent.getKey(), keyEvent.getType()]);
+
+    // if (keyEvent.getType() != PRESS_TYPE_ACTION) {
+    //   return false;
+    // }
+
+    var key = keyEvent.getKey();
+    if (key == KEY_DOWN || key == KEY_LEFT) {
+      previousSelected();
+    } else if (key == KEY_UP || key == KEY_RIGHT) {
+      nextSelected();
+    } else if (key == KEY_ENTER) {
+      var keyValue = getSelectedKeyValue();
+      onKey(keyValue);
+    }
+    return false;
+  }
+
+  hidden function nextSelected() as Void {
+    _options.selectedIndex = _options.selectedIndex + 1;
+    var max = _keys.size() + _controls.size();
+
+    // System.println([
+    //   "nextSelected",
+    //   max,
+    //   _options.selectedIndex,
+    //   _keys.size(),
+    //   _controls.size(),
+    // ]);
+    if (_options.selectedIndex >= max) {
+      _options.selectedIndex = 0;
+    }
+    refreshUi();
+  }
+
+  hidden function previousSelected() as Void {
+    _options.selectedIndex = _options.selectedIndex - 1;
+    var max = _keys.size() + _controls.size();
+    // System.println([
+    //   "previousSelected",
+    //   max,
+    //   _options.selectedIndex,
+    //   _keys.size(),
+    //   _controls.size(),
+    // ]);
+    if (_options.selectedIndex < 0) {
+      _options.selectedIndex = max;
+    }
+    refreshUi();
+  }
+
+  hidden function getSelectedKeyValue() as String {
+    if (_options.selectedIndex < 0) {
+      return "";
+    }
+
+    if (_options.selectedIndex >= 0 && _options.selectedIndex < _keys.size()) {
+      return _keys[_options.selectedIndex];
+    }
+
+    var ctrlIdx = _options.selectedIndex - _keys.size();
+    if (ctrlIdx >= 0 && ctrlIdx < _controls.size()) {
+      return _controls[ctrlIdx];
+    }
+
+    return "";
+  }
+
+  hidden function onKey(key as String) as Void {
+    var keyPressed = key;
 
     // Controls
-    if (_keyPressed.equals("<")) {
+    if (keyPressed.equals("<")) {
       if (_cursorPos > 0) {
         _cursorPos = _cursorPos - 1;
       }
-    } else if (_keyPressed.equals(">")) {
+    } else if (keyPressed.equals(">")) {
       var maxCursorPos = _currentValue.format(_valueFormat).length();
       if (_cursorPos < maxCursorPos) {
         _cursorPos = _cursorPos + 1;
       }
-    } else if (_keyPressed.equals("INS")) {
+    } else if (keyPressed.equals("INS")) {
       _insert = !_insert;
-      _redrawKeyPad = true;
-    } else if (_keyPressed.equals("OK")) {
+    } else if (keyPressed.equals("OK")) {
       // _delegate.onAcceptNumericinput(_currentValue);
       if (_negative) {
         switch (_currentValue) {
@@ -369,26 +500,22 @@ class NumericInputView extends WatchUi.View {
       onAccept(_currentValue);
       WatchUi.popView(WatchUi.SLIDE_RIGHT);
       return;
-    } else if (_keyPressed.equals("CLR")) {
+    } else if (keyPressed.equals("CLR")) {
       _currentValue = 0.0f;
       _editData = _editData.slice(0, 0);
       _cursorPos = 0;
-    } else if (_keyPressed.equals("DEL")) {
+    } else if (keyPressed.equals("DEL")) {
       removeKey(true);
-    } else if (_keyPressed.equals("BCK")) {
+    } else if (keyPressed.equals("BCK")) {
       removeKey(false);
-    } else if (_keyPressed.equals("-")) {
+    } else if (keyPressed.equals("-")) {
       _negative = !_negative;
-      _redrawKeyPad = true;
     } else {
-      addKey(_keyPressed, _insert);
+      addKey(keyPressed, _insert);
     }
 
     _currentValue = buildCurrentValue(_editData);
-
-    //if (_debug) {
-    refreshUi();
-    //}
+    refreshUi();    
   }
 
   hidden function addKey(key as String, insert as Boolean) as Void {
@@ -433,14 +560,19 @@ class NumericInputView extends WatchUi.View {
   //   _clickType = clickType;
   // }
 
-  function getKeyPressed(coord as [Number, Number]) as String {
+  function getKeyPressed(coord as [Lang.Number, Lang.Number]) as String {
     var x = coord[0] as Number;
     var y = coord[1] as Number;
     // Double try/catch fix for bug Value may not be initialized.
     try {
       for (var idxKey = 0; idxKey < _keyCoord.size(); idxKey++) {
         var range = _keyCoord[idxKey] as Lang.Array<Lang.Number>;
-        if ((range[0] as Number) < x && x < (range[1] as Number) && (range[2] as Number) < y && y < range[3]) {
+        if (
+          (range[0] as Number) < x &&
+          x < (range[1] as Number) &&
+          (range[2] as Number) < y &&
+          y < range[3]
+        ) {
           return _keys[idxKey] as String;
         }
       }
@@ -465,13 +597,22 @@ class NumericInputView extends WatchUi.View {
     return "";
   }
 
-  hidden function drawKeyPad(dc as Dc, yStart as Number, keys as Array<String>, controls as Array<String>) as Void {
+  hidden function drawKeyPad(
+    dc as Dc,
+    yStart as Number,
+    keys as Array<String>,
+    controls as Array<String>
+  ) as Void {
     var y = yStart;
     var x = _margin;
     var margin = _margin;
     var width = _keyWidth;
     var halfWidth = width / 2;
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+
+    // For buttons, get active (selected) key
+    var selected = getSelectedKeyValue();
+
+    dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
 
     _keyCoord = _keyCoord.slice(0, 0);
     _controlCoord = _controlCoord.slice(0, 0);
@@ -488,15 +629,22 @@ class NumericInputView extends WatchUi.View {
         }
       }
       // QND
-      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+      dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
       dc.drawRectangle(x, y, width, width);
       if (keys[idxKey].equals("-")) {
         if (_negative) {
           dc.fillRectangle(x, y, width, width);
-          dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+          dc.setColor(_backColor, Graphics.COLOR_TRANSPARENT);
         }
       }
-      dc.drawRectangle(x, y, width, width);
+      if (keys[idxKey].equals(selected)) {
+        dc.setPenWidth(3);
+        dc.drawRectangle(x - 1, y - 1, width + 2, width + 2);
+        dc.setPenWidth(1);
+      } else {
+        dc.drawRectangle(x, y, width, width);
+      }
+
       dc.drawText(
         x + halfWidth,
         y + halfWidth,
@@ -504,7 +652,7 @@ class NumericInputView extends WatchUi.View {
         keys[idxKey],
         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
       );
-      // }
+
       _keyCoord.add([x, x + width, y, y + width] as Lang.Array<Number>);
     }
 
@@ -521,18 +669,27 @@ class NumericInputView extends WatchUi.View {
         }
       }
       // QND
-      dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-      dc.drawRectangle(x, y, width, width);
+      dc.setColor(_controlColor, Graphics.COLOR_TRANSPARENT);
+
+      if (controls[idxCtrl].equals(selected)) {
+        dc.setPenWidth(3);
+        dc.drawRectangle(x - 1, y - 1, width + 2, width + 2);
+        dc.setPenWidth(1);
+      } else {
+        dc.drawRectangle(x, y, width, width);
+      }
+
       if (controls[idxCtrl].equals("INS")) {
         if (_insert) {
           dc.fillRectangle(x, y, width, width);
-          dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+          dc.setColor(_backColor, Graphics.COLOR_TRANSPARENT);
         }
       } else if (controls[idxCtrl].equals("OK")) {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
         dc.fillRectangle(x, y, width, width);
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_backColor, Graphics.COLOR_TRANSPARENT);
       }
+
       dc.drawText(
         x + halfWidth,
         y + halfWidth,
@@ -545,7 +702,10 @@ class NumericInputView extends WatchUi.View {
   }
 }
 
-function getNumericInputView(prompt as String, value as Numeric) as NumericInputView {
+function getNumericInputView(
+  prompt as String,
+  value as Numeric
+) as NumericInputView {
   var options = $.parseLabelToOptions(prompt);
   if (options.isFloat) {
     value = value.toFloat();
@@ -691,6 +851,9 @@ class NumericOptions {
   // -> factor = 0.001, unit = km
   // Edit and display in km (10.0)
   public var factor as Float = 1.0f;
+
+  // Selected key using the buttons, zero based index (_keys + _controls)
+  public var selectedIndex as Number = -1;
 
   // flags @@TODO
   // public var negative as Boolean = false;
