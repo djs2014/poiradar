@@ -1,3 +1,4 @@
+// 2026-06-02 callback weak reference fix
 import Toybox.Application;
 import Toybox.Application.Storage;
 import Toybox.Lang;
@@ -7,7 +8,6 @@ import Toybox.System;
 // display menu items based on list/enums
 class selectionMenuPicker {
   var _menu as WatchUi.Menu2;
-  var _onSelectedCb as Method?;
   var _storageKey as String;
   var _mi as MenuItem?;
 
@@ -16,30 +16,60 @@ class selectionMenuPicker {
     _storageKey = storageKey;
   }
 
-  function add(label as String, subLabel as String?, value as Application.PropertyValueType) as Void {
+  function add(
+    label as String,
+    subLabel as String?,
+    value as Application.PropertyValueType
+  ) as Void {
     // menu identifier will contain selected value
     var mi = new WatchUi.MenuItem(label, subLabel, value, null);
     _menu.addItem(mi);
   }
 
   // :onselect(value)
-  function setOnSelected(objInstance as Object, method as Symbol, mi as MenuItem) as Void {
-    _onSelectedCb = new Method(objInstance, method) as Method;
+  var _cbTargetRef as Lang.WeakReference?;
+  var _onSelectedMethodName as Symbol?;
+  function setOnSelected(
+    target as Object,
+    methodName as Symbol,
+    mi as MenuItem
+  ) as Void {
+    _cbTargetRef = target.weak();
+    _onSelectedMethodName = methodName;
     _mi = mi;
   }
 
-  function onSelected(value as Application.PropertyValueType, label as String) as Void {
-    if (_onSelectedCb == null) {
+  function onSelected(
+    value as Application.PropertyValueType,
+    label as String
+  ) as Void {
+    if (_onSelectedMethodName == null) {
       return;
     }
-    (_onSelectedCb as Method).invoke(_storageKey, value);
+
+    if (_cbTargetRef == null || !_cbTargetRef.stillAlive()) {
+      return;
+    }
+
+    var target = _cbTargetRef.get();
+    if (target != null && _onSelectedMethodName != null) {
+      // Dynamically look up the method on the live parent object
+      var callback = target.method(_onSelectedMethodName);
+      
+      callback.invoke(_storageKey, value);
+    }
+
     if (_mi != null) {
       _mi.setSubLabel(label);
     }
   }
 
   function show() as Void {
-    WatchUi.pushView(_menu, new $.SelectionMenuDelegate(self), WatchUi.SLIDE_UP);
+    WatchUi.pushView(
+      _menu,
+      new $.SelectionMenuDelegate(self),
+      WatchUi.SLIDE_UP
+    );
   }
 }
 
@@ -54,7 +84,10 @@ class SelectionMenuDelegate extends WatchUi.Menu2InputDelegate {
   function onSelect(item as MenuItem) as Void {
     var id = item.getId();
     if (id != null) {
-      _delegate.onSelected(id as Application.PropertyValueType, item.getLabel());
+      _delegate.onSelected(
+        id as Application.PropertyValueType,
+        item.getLabel()
+      );
     }
     onBack();
     return;

@@ -1,3 +1,6 @@
+sync bg services to other apps
+zoom when distance < ..
+-- use factor * pixels?
 https://dataplatform.nl/#/home
 
 toilet locaties ?

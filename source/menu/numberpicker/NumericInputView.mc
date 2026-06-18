@@ -3,6 +3,7 @@
 // v2024-06-11 fix num of items edge 840
 // v2025-11-19 option to use menu buttons
 // v2025-11-23 fix [Lang.Number, Lang.Number] + remove debug (breaking change NumericInputDelegate initialize)
+// 2026-06-02 callback weak reference
 
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -43,9 +44,6 @@ class NumericInputView extends WatchUi.View {
   hidden var _textColor as Graphics.ColorType = Graphics.COLOR_WHITE;
   hidden var _headerColor as Graphics.ColorType = Graphics.COLOR_LT_GRAY;
   hidden var _controlColor as Graphics.ColorType = Graphics.COLOR_YELLOW;
-
-  var _onAccept as Method?;
-  var _onKeypressed as Method?;
 
   //! Constructor
   function initialize(prompt as String, value as Numeric) {
@@ -144,12 +142,15 @@ class NumericInputView extends WatchUi.View {
     return _currentValue;
   }
 
-  function setOnAccept(objInstance as Object, method as Symbol) as Void {
-    _onAccept = new Method(objInstance, method) as Method;
+  var _cbAcceptTargetRef as Lang.WeakReference?;
+  var _onAcceptMethodName as Symbol?;
+  function setOnAccept(target as Object, method as Symbol) as Void {
+    _cbAcceptTargetRef = target.weak();
+    _onAcceptMethodName = method;
   }
 
   function onAccept(value as Numeric) as Void {
-    if (_onAccept == null) {
+    if (_onAcceptMethodName == null) {
       return;
     }
 
@@ -158,30 +159,47 @@ class NumericInputView extends WatchUi.View {
       value = value / _options.factor;
     }
 
-    (_onAccept as Method).invoke(value, subLabel);
+    if (_cbAcceptTargetRef != null && _cbAcceptTargetRef.stillAlive()) {
+      var target = _cbAcceptTargetRef.get();
+
+      if (target != null && _onAcceptMethodName != null) {
+        var callback = target.method(_onAcceptMethodName);
+        callback.invoke(value, subLabel);
+      }
+    }
   }
 
-  function setOnKeypressed(objInstance as Object, method as Symbol) as Void {
-    _onKeypressed = new Method(objInstance, method) as Method;
+  var _cbKeypressedTargetRef as Lang.WeakReference?;
+  var _onKeypressedMethodName as Symbol?;
+  function setOnKeypressed(target as Object, method as Symbol) as Void {
+    _cbKeypressedTargetRef = target.weak();
+    _onKeypressedMethodName = method;
   }
 
   function refreshUi() as Void {
     // WatchUi.requestUpdate(); not working, so close current view and reopen again.
-    if (_onKeypressed == null) {
+    if (_onKeypressedMethodName == null) {
       return;
     }
-    (_onKeypressed as Method).invoke(
-      _editData,
-      _cursorPos,
-      _insert,
-      _negative,
-      _options
-    );
+    if (_cbKeypressedTargetRef != null && _cbKeypressedTargetRef.stillAlive()) {
+      var target = _cbKeypressedTargetRef.get();
+
+      if (target != null && _onKeypressedMethodName != null) {
+        var callback = target.method(_onKeypressedMethodName);
+        callback.invoke(
+          _editData,
+          _cursorPos,
+          _insert,
+          _negative,
+          _options
+        );
+      }
+    }
   }
 
   //! Load your resources here
   //! @param dc Device context
-  function onLayout(dc as Dc) as Void {    
+  function onLayout(dc as Dc) as Void {
     if (_isNightModeEnabled) {
       _backColor = Graphics.COLOR_BLACK;
       _textColor = Graphics.COLOR_WHITE;
@@ -220,15 +238,14 @@ class NumericInputView extends WatchUi.View {
   function onUpdate(dc as Dc) as Void {
     var y = 1;
 
-    // view will close and open, so fullscreen refresh!    
-    dc.setColor(_backColor,_backColor);
+    // view will close and open, so fullscreen refresh!
+    dc.setColor(_backColor, _backColor);
     dc.clear();
-    
 
     drawTopInfo(dc, y);
     y = (y + 3 * _lineHeight).toNumber();
-    
-    drawKeyPad(dc, y, _keys, _controls);   
+
+    drawKeyPad(dc, y, _keys, _controls);
   }
 
   hidden function buildEditedValue(
@@ -360,7 +377,7 @@ class NumericInputView extends WatchUi.View {
   //   var width = dc.getWidth();
   //   var height = 1 * _lineHeight;
   //   var y = dc.getHeight() - height;
-    
+
   //   dc.setColor(_textColor, Graphics.COLOR_TRANSPARENT);
 
   //   dc.drawText(
@@ -515,7 +532,7 @@ class NumericInputView extends WatchUi.View {
     }
 
     _currentValue = buildCurrentValue(_editData);
-    refreshUi();    
+    refreshUi();
   }
 
   hidden function addKey(key as String, insert as Boolean) as Void {
