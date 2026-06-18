@@ -46,6 +46,8 @@ var g_sf_FixedRangeInMeter as Number = 0;
 var g_sf_ZoomMinWayPoints as Number = 1;
 var g_sf_zoomOneMeters as Number = 500;
 
+var g_toast_proximityMeters as Number = 1500;
+var g_toast_proximity as Boolean = true;
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
 var g_alert_proximityMeters as Number = 25;
@@ -53,15 +55,17 @@ var g_alert_proximity as Boolean = true;
 
 var g_loosefocusafterhit as Boolean = true;
 
-var g_alert_startAfterX as Number = 30;
-var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
+// var g_alert_startAfterX as Number = 30;
+// var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
 var gAlert_sound as SoundMode = SMOneBeep;
 
 // x km from start quiet
-var g_alert_quiet_start as Float = 0.0f;
+var g_alert_quiet_start as Float = 1.0f;
 
 var g_bg_timeout_seconds as Number = 0;
 var g_bg_delay_seconds as Number = 0;
+
+var g_alert_showtoast as Boolean = true;
 
 (:background)
 var _mostRecentData as PoiData?;
@@ -154,15 +158,18 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints);
         Storage.setValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters);
 
+        Storage.setValue("toast_proximityMeters", $.g_toast_proximityMeters);
+        Storage.setValue("toast_proximity", $.g_toast_proximity);
+
         Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
         Storage.setValue("alert_closeRange", $.g_alert_closeRange);
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
         Storage.setValue("alert_proximity", $.g_alert_proximity);
         // @@ refactor, remove
-        Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
-        Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
+        // Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
+        // Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
         Storage.setValue("alert_sound", SMOneBeep);
-        Storage.setValue("alert_quiet_start", 0.0f);
+        Storage.setValue("alert_quiet_start", 1.0f);
 
         Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
 
@@ -208,6 +215,8 @@ class poiradarApp extends Application.AppBase {
       $.g_wf_ZoomMinWayPoints = $.getStorageValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints) as Number;
       $.g_wf_zoomOneMeters = $.getStorageValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters) as Number;
 
+      $.g_toast_proximityMeters = $.getStorageValue("toast_proximityMeters", $.g_toast_proximityMeters) as Number;
+      $.g_toast_proximity = $.getStorageValue("toast_proximity", $.g_toast_proximity) as Boolean;
       $.g_alert_closeRangeMeters = $.getStorageValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters) as Number;
       $.g_alert_closeRange = $.getStorageValue("alert_closeRange", $.g_alert_closeRange) as Boolean;
       $.g_alert_proximityMeters = $.getStorageValue("alert_proximityMeters", $.g_alert_proximityMeters) as Number;
@@ -216,8 +225,8 @@ class poiradarApp extends Application.AppBase {
         $.g_alert_proximityMeters = $.g_alert_closeRangeMeters - 1;
         Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
       }
-      $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
-      $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
+      // $.g_alert_startAfterX = $.getStorageValue("alert_startAfterX", $.g_alert_startAfterX) as Number;
+      // $.g_alert_startAfterUnits = $.getStorageValue("alert_startAfterUnits", $.g_alert_startAfterUnits) as AfterXUnits;
       $.gAlert_sound = $.getStorageValue("alert_sound", $.gAlert_sound) as SoundMode;
       $.g_alert_quiet_start = $.getStorageValue("alert_quiet_start", $.g_alert_quiet_start) as Float;
       

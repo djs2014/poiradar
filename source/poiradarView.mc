@@ -28,6 +28,7 @@ class poiradarView extends WatchUi.DataField {
 
   hidden var previousTrack as Float = 0.0f;
   hidden var track as Number = 0;
+  hidden var elapsedDistance as Float = 0.0f;
 
   hidden var mWpts as Array<WayPoint> = [] as Array<WayPoint>;
   hidden var mWptsSorted as Array<WayPoint> = [] as Array<WayPoint>;
@@ -42,6 +43,8 @@ class poiradarView extends WatchUi.DataField {
   hidden var mMaxDistanceMeters as Float = 0.0f;
   hidden var mCloseRangeList as Array<String> = [] as Array<String>;
   hidden var mProximityList as Array<String> = [] as Array<String>;
+  hidden var mToastMessageList as Array<String> = [] as Array<String>;
+  hidden var mToastIcon as BitmapResource?;
 
   function initialize() {
     DataField.initialize();
@@ -76,13 +79,14 @@ class poiradarView extends WatchUi.DataField {
     mLargeField = ef == EfLarge || ef == EfOne;
     mSmallField = ef == EfSmall;
     mWideField = ef == EfWide;
-    
+
     calculateOptimalZoom(dc);
   }
 
   function compute(info as Activity.Info) as Void {
     try {
       track = getBearing(info as Activity.Info?);
+      elapsedDistance = getActivityValue(info, :elapsedDistance, 0.0f) as Float;
 
       mBGServiceHandler.onCompute(info);
       if ($.g_bg_delay_seconds <= 0) {
@@ -156,9 +160,19 @@ class poiradarView extends WatchUi.DataField {
     // fixedRange = 250;
     var wptClosest;
     if (fixedRange) {
-      wptClosest = getWayPointByDistanceAndHeading(lat, lon, 90d, fixedRange / 1000.0d);
+      wptClosest = getWayPointByDistanceAndHeading(
+        lat,
+        lon,
+        90d,
+        fixedRange / 1000.0d
+      );
     } else {
-      wptClosest = getWayPointByDistanceAndHeading(lat, lon, 90d, (mMinDistanceMeters + extraRange) / 1000.0d);
+      wptClosest = getWayPointByDistanceAndHeading(
+        lat,
+        lon,
+        90d,
+        (mMinDistanceMeters + extraRange) / 1000.0d
+      );
     }
 
     mZoomRange = lon - wptClosest.lon;
@@ -167,13 +181,16 @@ class poiradarView extends WatchUi.DataField {
     }
     if ($.gDebug) {
       System.println(
-        Lang.format("Calculated: #wpts[$1$] distance min[$2$] +extraRange[$3$] max[$4$] zoom range[$5$]", [
-          mWptCount,
-          mMinDistanceMeters,
-          extraRange,
-          mMaxDistanceMeters,
-          mZoomRange,
-        ])
+        Lang.format(
+          "Calculated: #wpts[$1$] distance min[$2$] +extraRange[$3$] max[$4$] zoom range[$5$]",
+          [
+            mWptCount,
+            mMinDistanceMeters,
+            extraRange,
+            mMaxDistanceMeters,
+            mZoomRange,
+          ]
+        )
       );
     }
   }
@@ -190,7 +207,7 @@ class poiradarView extends WatchUi.DataField {
     dc.setAntiAlias(true);
 
     var mFontWptLabel = Graphics.FONT_TINY;
-    
+
     var trackColor = Graphics.COLOR_BLACK;
     var km1RangeColor = Graphics.COLOR_DK_GREEN;
 
@@ -240,34 +257,76 @@ class poiradarView extends WatchUi.DataField {
     if (mSmallField) {
       statsWptsTop =
         "< " +
-        getDistanceInMeterOrKm(mMinDistanceMeters).format(getFormatForMeterAndKm(mMinDistanceMeters)) +
+        getDistanceInMeterOrKm(mMinDistanceMeters).format(
+          getFormatForMeterAndKm(mMinDistanceMeters)
+        ) +
         " " +
         getUnitsInMeterOrKm(mMinDistanceMeters);
-      dc.drawText(0, 0, Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_LEFT);
+      dc.drawText(
+        0,
+        0,
+        Graphics.FONT_XTINY,
+        statsWptsTop,
+        Graphics.TEXT_JUSTIFY_LEFT
+      );
       statsWptsTop =
         " > " +
-        getDistanceInMeterOrKm(mMaxDistanceMeters).format(getFormatForMeterAndKm(mMaxDistanceMeters)) +
+        getDistanceInMeterOrKm(mMaxDistanceMeters).format(
+          getFormatForMeterAndKm(mMaxDistanceMeters)
+        ) +
         " " +
         getUnitsInMeterOrKm(mMaxDistanceMeters);
-      dc.drawText(mWidth, 0, Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_RIGHT);
+      dc.drawText(
+        mWidth,
+        0,
+        Graphics.FONT_XTINY,
+        statsWptsTop,
+        Graphics.TEXT_JUSTIFY_RIGHT
+      );
     } else {
       dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(mWidth, 0, Graphics.FONT_XTINY, mPoiSet, Graphics.TEXT_JUSTIFY_RIGHT);
-      var statsProxy = mCurrentLocation.infoLocation() + " " + mCurrentLocation.infoAccuracy();
-      dc.drawText(0, 0, Graphics.FONT_XTINY, statsProxy, Graphics.TEXT_JUSTIFY_LEFT);
+      dc.drawText(
+        mWidth,
+        0,
+        Graphics.FONT_XTINY,
+        mPoiSet,
+        Graphics.TEXT_JUSTIFY_RIGHT
+      );
+      var statsProxy =
+        mCurrentLocation.infoLocation() + " " + mCurrentLocation.infoAccuracy();
+      dc.drawText(
+        0,
+        0,
+        Graphics.FONT_XTINY,
+        statsProxy,
+        Graphics.TEXT_JUSTIFY_LEFT
+      );
 
       statsWptsTop =
         "< " +
-        getDistanceInMeterOrKm(mMinDistanceMeters).format(getFormatForMeterAndKm(mMinDistanceMeters)) +
+        getDistanceInMeterOrKm(mMinDistanceMeters).format(
+          getFormatForMeterAndKm(mMinDistanceMeters)
+        ) +
         " " +
         getUnitsInMeterOrKm(mMinDistanceMeters) +
         " > " +
-        getDistanceInMeterOrKm(mMaxDistanceMeters).format(getFormatForMeterAndKm(mMaxDistanceMeters)) +
+        getDistanceInMeterOrKm(mMaxDistanceMeters).format(
+          getFormatForMeterAndKm(mMaxDistanceMeters)
+        ) +
         " " +
         getUnitsInMeterOrKm(mMaxDistanceMeters);
-      var statsWptsTopWH = dc.getTextDimensions(statsWptsTop, Graphics.FONT_XTINY);
+      var statsWptsTopWH = dc.getTextDimensions(
+        statsWptsTop,
+        Graphics.FONT_XTINY
+      );
       dc.setColor(mFontStatsColor, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(0, statsWptsTopWH[1], Graphics.FONT_XTINY, statsWptsTop, Graphics.TEXT_JUSTIFY_LEFT);
+      dc.drawText(
+        0,
+        statsWptsTopWH[1],
+        Graphics.FONT_XTINY,
+        statsWptsTop,
+        Graphics.TEXT_JUSTIFY_LEFT
+      );
     }
 
     var statsTravel = "";
@@ -283,8 +342,17 @@ class poiradarView extends WatchUi.DataField {
       if (!mSmallField) {
         statsTravel = statsTravel + "range/hit";
       }
-      var statsTravelWH = dc.getTextDimensions(statsTravel, Graphics.FONT_XTINY);
-      dc.drawText(mWidth, statsTravelWH[1], Graphics.FONT_XTINY, statsTravel, Graphics.TEXT_JUSTIFY_RIGHT);
+      var statsTravelWH = dc.getTextDimensions(
+        statsTravel,
+        Graphics.FONT_XTINY
+      );
+      dc.drawText(
+        mWidth,
+        statsTravelWH[1],
+        Graphics.FONT_XTINY,
+        statsTravel,
+        Graphics.TEXT_JUSTIFY_RIGHT
+      );
     }
 
     dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
@@ -300,26 +368,41 @@ class poiradarView extends WatchUi.DataField {
     var mapLatBottom = lat;
     if ($.gDebug) {
       System.println(
-        Lang.format("Stats #wpts[$1$] distance min[$2$] max[$2$] zoom range[$3$]", [
-          mWptCount,
-          mMinDistanceMeters,
-          mMaxDistanceMeters,
-          mZoomRange,
-        ])
+        Lang.format(
+          "Stats #wpts[$1$] distance min[$2$] max[$2$] zoom range[$3$]",
+          [mWptCount, mMinDistanceMeters, mMaxDistanceMeters, mZoomRange]
+        )
       );
     }
 
     var wptKm1 = getWayPointByDistanceAndHeading(lat, lon, 90d, 1d);
-    var ptkm1 = convertGeoToPixel(wptKm1.lat, wptKm1.lon, mWidth, mHeight, mapLonRight, mapLonLeft, mapLatBottom);
+    var ptkm1 = convertGeoToPixel(
+      wptKm1.lat,
+      wptKm1.lon,
+      mWidth,
+      mHeight,
+      mapLonRight,
+      mapLonLeft,
+      mapLatBottom
+    );
 
     var radius_km1 = ptkm1.x - x1;
     if (radius_km1 < 0) {
       radius_km1 = radius_km1 * -1.0;
     }
 
+    if ($.g_toast_proximityMeters > 0) {
+      dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+      dc.drawCircle(x1, y1, radius_km1 * ($.g_toast_proximityMeters / 1000.0f));
+    }
+
     if ($.g_alert_closeRangeMeters > 0) {
       dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
-      dc.drawCircle(x1, y1, radius_km1 * ($.g_alert_closeRangeMeters / 1000.0f));
+      dc.drawCircle(
+        x1,
+        y1,
+        radius_km1 * ($.g_alert_closeRangeMeters / 1000.0f)
+      );
     }
     if ($.g_alert_proximityMeters > 0) {
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
@@ -371,7 +454,13 @@ class poiradarView extends WatchUi.DataField {
         var ptest = getPointOnCircle(x1, y1, r, radius_km1);
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
         dc.drawLine(x1, y1, ptest.x, ptest.y);
-        dc.drawText(ptest.x, ptest.y, Graphics.FONT_SMALL, r.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(
+          ptest.x,
+          ptest.y,
+          Graphics.FONT_SMALL,
+          r.format("%d"),
+          Graphics.TEXT_JUSTIFY_CENTER
+        );
         r = r + 45;
       }
     }
@@ -385,15 +474,18 @@ class poiradarView extends WatchUi.DataField {
 
       if ($.gDebug) {
         System.println(
-          Lang.format("orig from[$1$,$2$] to[$3$,$4$] bearing[$5$]($6$) distanceKm[$7$]", [
-            lat,
-            lon,
-            wpt.lat,
-            wpt.lon,
-            bearing,
-            $.getCompassDirection(bearing),
-            distanceKm,
-          ])
+          Lang.format(
+            "orig from[$1$,$2$] to[$3$,$4$] bearing[$5$]($6$) distanceKm[$7$]",
+            [
+              lat,
+              lon,
+              wpt.lat,
+              wpt.lon,
+              bearing,
+              $.getCompassDirection(bearing),
+              distanceKm,
+            ]
+          )
         );
       }
 
@@ -403,24 +495,34 @@ class poiradarView extends WatchUi.DataField {
       var wptBearing = bearing - track;
       if ($.gDebug) {
         System.println(
-          Lang.format("autorotate from[$1$,$2$] to[$3$,$4$] wptBearing[$5$]($6$) distanceKm[$7$]", [
-            lat,
-            lon,
-            wpt.lat,
-            wpt.lon,
-            wptBearing,
-            $.getCompassDirection(bearing),
-            distanceKm,
-          ])
+          Lang.format(
+            "autorotate from[$1$,$2$] to[$3$,$4$] wptBearing[$5$]($6$) distanceKm[$7$]",
+            [
+              lat,
+              lon,
+              wpt.lat,
+              wpt.lon,
+              wptBearing,
+              $.getCompassDirection(bearing),
+              distanceKm,
+            ]
+          )
         );
       }
 
-      var pt = getBearingPointOnCircle(x1, y1, wptBearing, distanceKm * radius_km1);
+      var pt = getBearingPointOnCircle(
+        x1,
+        y1,
+        wptBearing,
+        distanceKm * radius_km1
+      );
       var text = "";
       // var distanceMeters = distanceKm * 1000.0f;
       if (showDistance) {
         text =
-          getDistanceInMeterOrKm(wpt.distanceMeters).format(getFormatForMeterAndKm(wpt.distanceMeters)) +
+          getDistanceInMeterOrKm(wpt.distanceMeters).format(
+            getFormatForMeterAndKm(wpt.distanceMeters)
+          ) +
           " " +
           getUnitsInMeterOrKm(wpt.distanceMeters);
       }
@@ -485,17 +587,31 @@ class poiradarView extends WatchUi.DataField {
         dc.setColor(mTargetColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius);
 
-        if (mFlashWaypoint && wpt.distanceMeters < $.g_alert_closeRangeMeters && !wpt.flashed) {
+        if (
+          mFlashWaypoint &&
+          wpt.distanceMeters < $.g_alert_closeRangeMeters &&
+          !wpt.flashed
+        ) {
           dc.setColor(mTargetColor, Graphics.COLOR_TRANSPARENT);
           dc.drawCircle(px, py, mWptRadius + 2);
           dc.drawCircle(px, py, mWptRadius + 4);
           dc.drawCircle(px, py, mWptRadius + 6);
+          if ($.getEdgeVersion() >= 1050) {
+            // TODO test if flash twice for 1050 2-6 and 6-10
+            dc.drawCircle(px, py, mWptRadius + 8);
+            dc.drawCircle(px, py, mWptRadius + 10);
+          }
           wpt.flashed = true;
         }
       } else {
         if ($.gDistance_grayscale && $.gCreateColors) {
           var perc = percentageOf(wpt.distanceMeters, mMaxDistanceMeters); // mMinDistanceMeters
-          var lineColor = percentageToColorAlt(perc, 255, $.PERC_COLORS_SCHEME_DIST, 0);
+          var lineColor = percentageToColorAlt(
+            perc,
+            255,
+            $.PERC_COLORS_SCHEME_DIST,
+            0
+          );
           dc.setColor(lineColor, Graphics.COLOR_TRANSPARENT);
         } else {
           dc.setColor(mLongLineColor, Graphics.COLOR_TRANSPARENT);
@@ -519,7 +635,13 @@ class poiradarView extends WatchUi.DataField {
 
     var statsWpts = "wpts #" + mWptCount.format("%d");
     var statsWptsWH = dc.getTextDimensions(statsWpts, Graphics.FONT_XTINY);
-    dc.drawText(0, mHeight - statsWptsWH[1], Graphics.FONT_XTINY, statsWpts, Graphics.TEXT_JUSTIFY_LEFT);
+    dc.drawText(
+      0,
+      mHeight - statsWptsWH[1],
+      Graphics.FONT_XTINY,
+      statsWpts,
+      Graphics.TEXT_JUSTIFY_LEFT
+    );
 
     var stats = "";
     if (mSmallField) {
@@ -536,20 +658,46 @@ class poiradarView extends WatchUi.DataField {
       } else {
         status = mBGServiceHandler.getStatus();
       }
-      stats = mBGServiceHandler.getErrorMessage() + " " + counter + " " + status + "(" + next + ")";
+      stats =
+        mBGServiceHandler.getErrorMessage() +
+        " " +
+        counter +
+        " " +
+        status +
+        "(" +
+        next +
+        ")";
     }
 
     var statsWH = dc.getTextDimensions(stats, Graphics.FONT_XTINY);
-    dc.drawText(mWidth, mHeight - statsWH[1], Graphics.FONT_XTINY, stats, Graphics.TEXT_JUSTIFY_RIGHT);
+    dc.drawText(
+      mWidth,
+      mHeight - statsWH[1],
+      Graphics.FONT_XTINY,
+      stats,
+      Graphics.TEXT_JUSTIFY_RIGHT
+    );
 
     // Show track on top
     if (showTrack) {
       dc.setColor(trackColor, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(mWidth / 2, 0, Graphics.FONT_SMALL, $.getCompassDirection(track), Graphics.TEXT_JUSTIFY_CENTER);
+      dc.drawText(
+        mWidth / 2,
+        0,
+        Graphics.FONT_SMALL,
+        $.getCompassDirection(track),
+        Graphics.TEXT_JUSTIFY_CENTER
+      );
       if (!mSmallField) {
         var trackH1 = dc.getFontHeight(Graphics.FONT_SMALL);
         dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(mWidth / 2, trackH1, Graphics.FONT_SYSTEM_TINY, track.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(
+          mWidth / 2,
+          trackH1,
+          Graphics.FONT_SYSTEM_TINY,
+          track.format("%d"),
+          Graphics.TEXT_JUSTIFY_CENTER
+        );
       }
     }
     if (mWptCount == 0 && mBGServiceHandler.getRequestCounter() == 0) {
@@ -560,7 +708,8 @@ class poiradarView extends WatchUi.DataField {
       } else {
         status = mBGServiceHandler.getStatus();
       }
-      stats = mBGServiceHandler.getErrorMessage() + " " + status + "(" + next + ")";
+      stats =
+        mBGServiceHandler.getErrorMessage() + " " + status + "(" + next + ")";
       if (mBGServiceHandler.isDisabled()) {
         stats = "App paused!";
       }
@@ -582,6 +731,7 @@ class poiradarView extends WatchUi.DataField {
 
     var numberInCloseRange = 0;
     var numberProximity = 0;
+    var numberToast = 0;
 
     var wptsNeeded = $.g_lf_ZoomMinWayPoints;
     var zoomOnOneMeters = $.g_lf_zoomOneMeters;
@@ -593,13 +743,15 @@ class poiradarView extends WatchUi.DataField {
       zoomOnOneMeters = $.g_sf_zoomOneMeters;
     }
 
+    var toastWpts = [] as Array<WayPoint>;
     mWptsSorted = [] as Array<WayPoint>;
     var min = 0.0f;
     var max = 0.0f;
     var count = mWpts.size();
     for (var i = 0; i < count; i++) {
       var wpt = mWpts[i];
-      wpt.distanceMeters = $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon) * 1000.0f;
+      wpt.distanceMeters =
+        $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon) * 1000.0f;
       wpt.bearing = $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
       // Check if was a hit after new payload
       wpt.hit = wpt.hit || wasInProximity(wpt);
@@ -608,7 +760,10 @@ class poiradarView extends WatchUi.DataField {
       }
 
       // Ignore this wpt if distance out of range after 'hit' (in proximity)
-      var ignoreWptDistance = $.g_loosefocusafterhit && wpt.hit && wpt.distanceMeters > $.g_alert_closeRangeMeters;
+      var ignoreWptDistance =
+        $.g_loosefocusafterhit &&
+        wpt.hit &&
+        wpt.distanceMeters > $.g_alert_closeRangeMeters;
       if ((min == 0.0f || wpt.distanceMeters < min) && !ignoreWptDistance) {
         min = wpt.distanceMeters;
       }
@@ -653,30 +808,57 @@ class poiradarView extends WatchUi.DataField {
       }
       //}
 
-      if ($.g_alert_closeRangeMeters > 0 && wpt.distanceMeters < $.g_alert_closeRangeMeters) {
+      if (
+        $.g_alert_closeRangeMeters > 0 &&
+        wpt.distanceMeters < $.g_alert_closeRangeMeters
+      ) {
         numberInCloseRange = numberInCloseRange + processCloseRange(wpt);
       }
-      if ($.g_alert_proximityMeters > 0 && wpt.distanceMeters < $.g_alert_proximityMeters) {
+
+      if (
+        $.g_alert_proximityMeters > 0 &&
+        wpt.distanceMeters < $.g_alert_proximityMeters
+      ) {
         numberProximity = numberProximity + processProximity(wpt);
         wpt.hit = true;
+      }
+
+      // Add to toast list
+      if (
+        $.g_toast_proximityMeters > 0 &&
+        wpt.distanceMeters < $.g_toast_proximityMeters
+      ) {
+        var toastKey = Lang.format("$1$|$2$", [wpt.lon, wpt.lat]);
+        if (mToastMessageList.indexOf(toastKey) < 0) {
+          toastWpts.add(wpt);
+          numberToast = numberToast + 1;
+          mToastMessageList.add(toastKey);
+        }
       }
     }
 
     mWptCount = count;
     mMinDistanceMeters = min;
-    if (min > zoomOnOneMeters && wptsNeeded > 1 && wptsNeeded < mWptsSorted.size()) {
+    if (
+      min > zoomOnOneMeters &&
+      wptsNeeded > 1 &&
+      wptsNeeded < mWptsSorted.size()
+    ) {
       // Include the needed wpts by minimal distance
       mMinDistanceMeters = mWptsSorted[wptsNeeded].distanceMeters;
     }
     mMaxDistanceMeters = max;
     if ($.gDebug) {
       System.println(
-        Lang.format("Poi Stats #wpts[$1$] distance min[$2$]meter max[$2$]meter newInCloseRange[$3$]", [
-          mWptCount,
-          mMinDistanceMeters,
-          mMaxDistanceMeters,
-          numberInCloseRange,
-        ])
+        Lang.format(
+          "Poi Stats #wpts[$1$] distance min[$2$]meter max[$2$]meter newInCloseRange[$3$]",
+          [
+            mWptCount,
+            mMinDistanceMeters,
+            mMaxDistanceMeters,
+            numberInCloseRange,
+          ]
+        )
       );
     }
 
@@ -688,19 +870,53 @@ class poiradarView extends WatchUi.DataField {
     if ($.g_alert_proximity && numberProximity > 0) {
       playAlertProximity(numberProximity);
     }
+
+    if ($.g_toast_proximity && numberToast > 0) {
+      processToastMessage(toastWpts);
+    }
   }
 
   function beQuietCloseToStartLocation() as Boolean {
-    if ($.g_alert_quiet_start < 0) {
+    System.println([
+      "beQuietCloseToStartLocation",
+      $.g_alert_quiet_start,
+      elapsedDistance / 1000.0,
+      mStartLatLon[0],
+      mStartLatLon[1],
+      mCurrentLocation.hasLocation(),
+    ]);
+
+    if ($.g_alert_quiet_start <= 0) {
       return false;
     }
     // range in km
 
-    if (mStartLatLon[0] != 0 && mStartLatLon[1] != null && mCurrentLocation.hasLocation()) {
+    if (
+      mStartLatLon[0] != 0 &&
+      mStartLatLon[1] != null &&
+      mCurrentLocation.hasLocation()
+    ) {
       var currentLatLon = mCurrentLocation.getCurrentDegrees();
-      var distKm = $.getDistanceFromLatLonInKm(mStartLatLon[0], mStartLatLon[1], currentLatLon[0], currentLatLon[1]);
+      var distKm = $.getDistanceFromLatLonInKm(
+        mStartLatLon[0],
+        mStartLatLon[1],
+        currentLatLon[0],
+        currentLatLon[1]
+      );
+
+      System.println([
+        "beQuietCloseToStartLocation",
+        $.g_alert_quiet_start,
+        elapsedDistance / 1000.0,
+        distKm,
+      ]);
       if (distKm <= $.g_alert_quiet_start) {
         // Silent, in range of start location
+        return true;
+      }
+    } else {
+      // less than elapsed km
+      if (elapsedDistance / 1000.0 < $.g_alert_quiet_start) {
         return true;
       }
     }
@@ -736,9 +952,15 @@ class poiradarView extends WatchUi.DataField {
       return;
     }
     var toneProfile =
-      [new Attention.ToneProfile(1000, 40), new Attention.ToneProfile(1500, 150), new Attention.ToneProfile(3000, 0)] as
-      Lang.Array<Attention.ToneProfile>;
-    Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberInCloseRange - 1 });
+      [
+        new Attention.ToneProfile(1000, 40),
+        new Attention.ToneProfile(1500, 150),
+        new Attention.ToneProfile(3000, 0),
+      ] as Lang.Array<Attention.ToneProfile>;
+    Attention.playTone({
+      :toneProfile => toneProfile,
+      :repeatCount => numberInCloseRange - 1,
+    });
   }
 
   function playAlertProximity(numberProximity as Number) as Void {
@@ -758,9 +980,15 @@ class poiradarView extends WatchUi.DataField {
     }
 
     var toneProfile =
-      [new Attention.ToneProfile(1000, 30), new Attention.ToneProfile(1500, 50), new Attention.ToneProfile(3000, 0)] as
-      Lang.Array<Attention.ToneProfile>;
-    Attention.playTone({ :toneProfile => toneProfile, :repeatCount => numberProximity - 1 });
+      [
+        new Attention.ToneProfile(1000, 30),
+        new Attention.ToneProfile(1500, 50),
+        new Attention.ToneProfile(3000, 0),
+      ] as Lang.Array<Attention.ToneProfile>;
+    Attention.playTone({
+      :toneProfile => toneProfile,
+      :repeatCount => numberProximity - 1,
+    });
   }
 
   function processCloseRange(wpt as WayPoint) as Number {
@@ -789,9 +1017,9 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function getBearing(a_info as Activity.Info?) as Number {
-    var track = getActivityValue(a_info, :track, 0.0f) as Float;
+    var track = $.getActivityValue(a_info, :track, 0.0f) as Float;
     if (track == 0.0f) {
-      track = getActivityValue(a_info, :currentHeading, 0.0f) as Float;
+      track = $.getActivityValue(a_info, :currentHeading, 0.0f) as Float;
     }
     if (track == 0.0f) {
       track = previousTrack;
@@ -799,5 +1027,38 @@ class poiradarView extends WatchUi.DataField {
       previousTrack = track;
     }
     return $.rad2deg(track).toNumber();
+  }
+
+  function processToastMessage(wpts as Array<WayPoint>) as Void {
+    if (WatchUi has :showToast) {
+      if (beQuietCloseToStartLocation()) {
+        return;
+      }
+
+      var count = wpts.size();
+      if (count == 0) {
+        return;
+      }
+
+      if (mToastIcon == null) {
+        mToastIcon =
+          Application.loadResource(Rez.Drawables.poiIcon) as BitmapResource;
+      }
+
+      var message;
+      var wpt;
+      if (count == 1) {
+        // TODO rotate icon?
+        wpt = wpts[0];
+        message = Lang.format("POI ($1$) at $2$ km.", [
+          $.getCompassDirection(wpt.bearing),
+          (wpt.distanceMeters / 1000.0).format("%0.1f"),
+        ]);
+      } else {
+        message = Lang.format("$1$ POIs detected.", [count.format("%0d")]);
+      }
+
+      WatchUi.showToast(message, { :icon => mToastIcon });
+    }
   }
 }

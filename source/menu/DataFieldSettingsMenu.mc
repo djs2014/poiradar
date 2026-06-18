@@ -174,15 +174,12 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("loosefocusafterhit") ? true : false;
       alertMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
 
-      // @@TODO or store start location -> no beeps 'silent' in range start location < x km (for start of ride / end of ride)
-      // mi = new WatchUi.MenuItem("Start after X", null, "alert_startAfterX", null);
-      // mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
-      // alertMenu.addItem(mi);
+      mi = new WatchUi.MenuItem("Toast proximity meters", null, "toast_proximityMeters", null);
+      mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
+      alertMenu.addItem(mi);
 
-      // mi = new WatchUi.MenuItem("Start after units", null, "alert_startAfterUnits", null);
-      // var value = getStorageValue(mi.getId() as String, $.g_alert_startAfterUnits) as AfterXUnits;
-      // mi.setSubLabel($.getStartAfterUnitsText(value));
-      // alertMenu.addItem(mi);
+      boolean = Storage.getValue("toast_proximity") ? true : false;
+      alertMenu.addItem(new WatchUi.ToggleMenuItem("Toast proximity", null, "toast_proximity", boolean, null));
 
       WatchUi.pushView(alertMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;
@@ -274,7 +271,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     view.setOnAccept(self, :onAcceptNumericinput);
     view.setOnKeypressed(self, :onNumericinput);
 
-    Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_RIGHT);
+    Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(view), WatchUi.SLIDE_RIGHT);
   }
 
   function onAcceptNumericinput(value as Numeric, subLabel as String) as Void {
@@ -305,7 +302,7 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     view.setOnAccept(self, :onAcceptNumericinput);
     view.setOnKeypressed(self, :onNumericinput);
 
-    Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(_debug, view), WatchUi.SLIDE_IMMEDIATE);
+    Toybox.WatchUi.pushView(view, new $.NumericInputDelegate(view), WatchUi.SLIDE_IMMEDIATE);
   }
 
   //! Handle the back key being pressed

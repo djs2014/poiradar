@@ -134,3 +134,21 @@ function secondsToCompactTimeString(totalSeconds as Number, template as String) 
   }
   return "";
 }
+
+function getLongTimeString(moment as Time.Moment?) as String {
+  if (moment != null && moment instanceof Time.Moment) {
+    var date = Gregorian.info(moment, Time.FORMAT_SHORT);
+    return (
+      date.day.format("%02d") +
+      "-" +
+      date.month.format("%02d") +
+      "-" +
+      date.year.format("%02d") +
+      " " +
+      date.hour.format("%02d") +
+      ":" +
+      date.min.format("%02d")
+    );
+  }
+  return "";
+}
