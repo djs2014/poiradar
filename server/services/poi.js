@@ -10,8 +10,10 @@ const path = require("path");
 
 // const gpxFile = '../data/rivm_20240502_drinkwaterkranen.gpx';
 // const gpxSet = '20240502Drinkwaterkaart';
-const gpxFile = '../data/rivm_drinkwaterkranen_actueel_20250302.json';
-const gpxSet = '20250302Drinkwaterkaart';
+// const gpxFile = '../data/rivm_drinkwaterkranen_actueel_20250302.json';
+// const gpxSet = '20250302Drinkwaterkaart';
+const gpxFile = '../data/rivm_drinkwaterkranen_actueel_20260704.json';
+const gpxSet = '20260704Drinkwaterkaart';
 
 let isValidNumber = function (n) {
     return n != -1 && n != 0;
