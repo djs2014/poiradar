@@ -1,3 +1,10 @@
+options
+- show distance closest -> filled waterdrop
+- degrees angle left/right
+- highlight width 1-5
+- color
+- show waterdrop icon when nothing to show
+
 sync bg services to other apps
 zoom when distance < ..
 -- use factor * pixels?

@@ -56,7 +56,7 @@ var g_alert_proximity as Boolean = true;
 
 var g_loosefocusafterhit as Boolean = true;
 var g_highlight_closest_wpt as Boolean = true;
-var g_show_closestWptDistance as Boolean = true;
+var g_show_closestWptDistanceMeters as Float = 1000.0f;
 
 // var g_alert_startAfterX as Number = 30;
 // var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
@@ -178,6 +178,7 @@ class poiradarApp extends Application.AppBase {
 
         Storage.setValue("loosefocusafterhit", true);
         Storage.setValue("highlight_closest_wpt", true);
+        Storage.setValue("show_closest_distance_km", 1.0f);
 
         Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
         Storage.setValue("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
@@ -238,7 +239,8 @@ class poiradarApp extends Application.AppBase {
       
       
       $.g_highlight_closest_wpt = $.getStorageValue("highlight_closest_wpt", $.g_highlight_closest_wpt) as Boolean;
-      $.g_show_closestWptDistance = $.getStorageValue("show_closest_distance", $.g_show_closestWptDistance) as Boolean;
+      var closestDistance = $.getStorageValue("show_closest_distance_km", 1.0f) as Float;
+      $.g_show_closestWptDistanceMeters = closestDistance * 1000.0f;
 
       $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
 

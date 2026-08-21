@@ -205,13 +205,13 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
 
       var boolean = Storage.getValue("highlight_closest_wpt") ? true : false;
       advancedMenu.addItem(new WatchUi.ToggleMenuItem("Highlight closest", null, "highlight_closest_wpt", boolean, null));
-     
-      boolean = Storage.getValue("show_closest_distance") ? true : false;
-      advancedMenu.addItem(new WatchUi.ToggleMenuItem("Show closest distance", null, "show_closest_distance", boolean, null));
+           
+      var mi = new WatchUi.MenuItem("Display dist. if <=|0.0~200.0 (km)", null, "show_closest_distance_km", null);
+      mi.setSubLabel($.getStorageFloatAsString(mi.getId() as String) + " km");
+      advancedMenu.addItem(mi); 
 
       boolean = Storage.getValue("loosefocusafterhit") ? true : false;
       advancedMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
-
 
       WatchUi.pushView(advancedMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;

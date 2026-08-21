@@ -89,6 +89,10 @@ function getStorageNumberAsString(key as String) as String {
   return (getStorageValue(key, 0) as Number).format("%0d");
 }
 
+function getStorageFloatAsString(key as String) as String {
+  return (getStorageValue(key, 0) as Float).format("%0.1f");
+}
+
 function getMinimalGPSqualityText(value as Number) as String {
   switch (value) {
     case 0:

@@ -26,15 +26,13 @@ class poiradarView extends WatchUi.DataField {
   hidden var mFontStatsColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
   hidden var mTargetColor as Graphics.ColorType = Graphics.COLOR_BLUE;
 
-  hidden var nearBlack as Graphics.ColorType= 0x202020 ; // visible on a black Edge display
-  hidden var nearWhite as Graphics.ColorType = 0xE0E0E0; // less harsh than pure white
-  
+  hidden var nearBlack as Graphics.ColorType = 0x202020; // visible on a black Edge display
+  hidden var nearWhite as Graphics.ColorType = 0xe0e0e0; // less harsh than pure white
+
   hidden var mHighlightClosestWpt as Boolean = true;
   hidden var mClosestWptLineColor as Graphics.ColorType = Graphics.COLOR_BLUE;
-  hidden var mShowClosestWptDistance as Boolean = true;
+  hidden var mShowClosestWptDistance as Float = 1000.0f;
   hidden var mClosestDistanceMetersColor as Graphics.ColorType = nearWhite;
-
-
 
   hidden var previousTrack as Float = 0.0f;
   hidden var track as Number = 0;
@@ -93,7 +91,7 @@ class poiradarView extends WatchUi.DataField {
     calculateOptimalZoom(dc);
 
     mHighlightClosestWpt = $.g_highlight_closest_wpt;
-    mShowClosestWptDistance = $.g_show_closestWptDistance;
+    mShowClosestWptDistance = $.g_show_closestWptDistanceMeters;
   }
 
   function compute(info as Activity.Info) as Void {
@@ -389,29 +387,29 @@ class poiradarView extends WatchUi.DataField {
       );
     }
 
-    if (mShowClosestWptDistance && mWptsSorted.size() > 0) {
+    if (mShowClosestWptDistance > 0 && mWptsSorted.size() > 0) {
       // Display km or meters distance to closest wpt
       var closestWpt = mWptsSorted[0];
       var closestDistanceMeters = closestWpt.distanceMeters;
-
-      var closestText =
-        getDistanceInMeterOrKm(closestDistanceMeters).format(
+      if (closestDistanceMeters < mShowClosestWptDistance) {
+        var closestText = getDistanceInMeterOrKm(closestDistanceMeters).format(
           getFormatForMeterAndKm(closestDistanceMeters)
         );
-      // System.println(
-      //   Lang.format("Closest wpt distance: [$1$] meters [$2$]", [
-      //     closestDistanceMeters,
-      //     closestText,
-      //   ])
-      // );
-      dc.setColor(mClosestDistanceMetersColor, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(
-        x1,
-        y1,
-        Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
-        closestText,
-        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-      );
+        // System.println(
+        //   Lang.format("Closest wpt distance: [$1$] meters [$2$]", [
+        //     closestDistanceMeters,
+        //     closestText,
+        //   ])
+        // );
+        dc.setColor(mClosestDistanceMetersColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(
+          x1,
+          y1,
+          Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
+          closestText,
+          Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
+      }
     }
 
     dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
