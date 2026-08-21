@@ -171,9 +171,7 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       boolean = Storage.getValue("alert_proximity") ? true : false;
       alertMenu.addItem(new WatchUi.ToggleMenuItem("Beep proximity", null, "alert_proximity", boolean, null));
 
-      boolean = Storage.getValue("loosefocusafterhit") ? true : false;
-      alertMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
-
+     
       mi = new WatchUi.MenuItem("Toast proximity meters", null, "toast_proximityMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
       alertMenu.addItem(mi);
@@ -200,6 +198,25 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       WatchUi.pushView(soundMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;
     }
+
+    if (id instanceof String && id.equals("advanced")) {
+      var advancedMenu = new WatchUi.Menu2({ :title => "Advanced" });
+
+
+      var boolean = Storage.getValue("highlight_closest_wpt") ? true : false;
+      advancedMenu.addItem(new WatchUi.ToggleMenuItem("Highlight closest", null, "highlight_closest_wpt", boolean, null));
+     
+      boolean = Storage.getValue("show_closest_distance") ? true : false;
+      advancedMenu.addItem(new WatchUi.ToggleMenuItem("Show closest distance", null, "show_closest_distance", boolean, null));
+
+      boolean = Storage.getValue("loosefocusafterhit") ? true : false;
+      advancedMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
+
+
+      WatchUi.pushView(advancedMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
+      return;
+    }
+
     if (id instanceof String && menuItem instanceof ToggleMenuItem) {
       Storage.setValue(id as String, menuItem.isEnabled());
       menuItem.setSubLabel($.subMenuToggleMenuItem(id as String));

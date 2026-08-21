@@ -58,6 +58,8 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Sound", null, "sound", null);
     menu.addItem(mi);
+    mi = new WatchUi.MenuItem("Advanced", null, "advanced", null);
+    menu.addItem(mi);
 
     var boolean = false;
 

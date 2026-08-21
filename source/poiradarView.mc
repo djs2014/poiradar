@@ -26,6 +26,16 @@ class poiradarView extends WatchUi.DataField {
   hidden var mFontStatsColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
   hidden var mTargetColor as Graphics.ColorType = Graphics.COLOR_BLUE;
 
+  hidden var nearBlack as Graphics.ColorType= 0x202020 ; // visible on a black Edge display
+  hidden var nearWhite as Graphics.ColorType = 0xE0E0E0; // less harsh than pure white
+  
+  hidden var mHighlightClosestWpt as Boolean = true;
+  hidden var mClosestWptLineColor as Graphics.ColorType = Graphics.COLOR_BLUE;
+  hidden var mShowClosestWptDistance as Boolean = true;
+  hidden var mClosestDistanceMetersColor as Graphics.ColorType = nearWhite;
+
+
+
   hidden var previousTrack as Float = 0.0f;
   hidden var track as Number = 0;
   hidden var elapsedDistance as Float = 0.0f;
@@ -81,6 +91,9 @@ class poiradarView extends WatchUi.DataField {
     mWideField = ef == EfWide;
 
     calculateOptimalZoom(dc);
+
+    mHighlightClosestWpt = $.g_highlight_closest_wpt;
+    mShowClosestWptDistance = $.g_show_closestWptDistance;
   }
 
   function compute(info as Activity.Info) as Void {
@@ -232,6 +245,7 @@ class poiradarView extends WatchUi.DataField {
       highContrast = $.g_sf_HighContrast;
     }
     mLineColor = Graphics.COLOR_BLACK;
+    mClosestDistanceMetersColor = nearWhite;
     if (getBackgroundColor() == Graphics.COLOR_BLACK) {
       mLineColor = Graphics.COLOR_WHITE;
       mFontColor = Graphics.COLOR_LT_GRAY;
@@ -242,6 +256,7 @@ class poiradarView extends WatchUi.DataField {
       }
       trackColor = Graphics.COLOR_WHITE;
       km1RangeColor = Graphics.COLOR_GREEN;
+      mClosestDistanceMetersColor = nearBlack;
     } else {
       mLineColor = Graphics.COLOR_BLACK;
       mFontColor = Graphics.COLOR_DK_GRAY;
@@ -355,7 +370,6 @@ class poiradarView extends WatchUi.DataField {
       );
     }
 
-    dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
     var x1 = mWidth / 2;
     var y1 = mHeight / 2;
     var lat = mCurWpt.lat;
@@ -375,6 +389,32 @@ class poiradarView extends WatchUi.DataField {
       );
     }
 
+    if (mShowClosestWptDistance && mWptsSorted.size() > 0) {
+      // Display km or meters distance to closest wpt
+      var closestWpt = mWptsSorted[0];
+      var closestDistanceMeters = closestWpt.distanceMeters;
+
+      var closestText =
+        getDistanceInMeterOrKm(closestDistanceMeters).format(
+          getFormatForMeterAndKm(closestDistanceMeters)
+        );
+      // System.println(
+      //   Lang.format("Closest wpt distance: [$1$] meters [$2$]", [
+      //     closestDistanceMeters,
+      //     closestText,
+      //   ])
+      // );
+      dc.setColor(mClosestDistanceMetersColor, Graphics.COLOR_TRANSPARENT);
+      dc.drawText(
+        x1,
+        y1,
+        Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
+        closestText,
+        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+      );
+    }
+
+    dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
     var wptKm1 = getWayPointByDistanceAndHeading(lat, lon, 90d, 1d);
     var ptkm1 = convertGeoToPixel(
       wptKm1.lat,
@@ -468,6 +508,7 @@ class poiradarView extends WatchUi.DataField {
     // Draw longest distance first
     for (var i = mWptsSorted.size() - 1; i >= 0; i--) {
       var wpt = mWptsSorted[i];
+      var isClosestWpt = i == 0 && mHighlightClosestWpt;
 
       var distanceKm = wpt.distanceMeters / 1000.0f; //  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = wpt.bearing; // $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
@@ -559,8 +600,13 @@ class poiradarView extends WatchUi.DataField {
       }
 
       if (targetVisible || wpt.distanceMeters <= mMinDistanceMeters) {
-        dc.setColor(mLineColor, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth(2);
+        if (isClosestWpt) {
+          dc.setColor(mClosestWptLineColor, Graphics.COLOR_TRANSPARENT);
+          dc.setPenWidth(3);
+        } else {
+          dc.setColor(mLineColor, Graphics.COLOR_TRANSPARENT);
+          dc.setPenWidth(2);
+        }
         dc.drawLine(x1, y1, px, py);
         dc.setPenWidth(1);
         if (text.length() > 0) {

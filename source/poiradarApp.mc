@@ -48,16 +48,20 @@ var g_sf_zoomOneMeters as Number = 500;
 
 var g_toast_proximityMeters as Number = 1500;
 var g_toast_proximity as Boolean = true;
+
 var g_alert_closeRangeMeters as Number = 500;
 var g_alert_closeRange as Boolean = true;
 var g_alert_proximityMeters as Number = 25;
 var g_alert_proximity as Boolean = true;
 
 var g_loosefocusafterhit as Boolean = true;
+var g_highlight_closest_wpt as Boolean = true;
+var g_show_closestWptDistance as Boolean = true;
 
 // var g_alert_startAfterX as Number = 30;
 // var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
 var gAlert_sound as SoundMode = SMOneBeep;
+
 
 // x km from start quiet
 var g_alert_quiet_start as Float = 1.0f;
@@ -128,50 +132,52 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("maxRangeMeters", 15000);
         Storage.setValue("maxWaypoints", 40);
 
-        Storage.setValue("lf_showWptDirection", $.g_lf_ShowWptDirection);
-        Storage.setValue("lf_showWptDistance", $.g_lf_ShowWptDistance);
-        Storage.setValue("lf_ShowCircleDistance", $.g_lf_ShowCircleDistance);
-        Storage.setValue("lf_ShowTrack", $.g_lf_ShowTrack);
-        Storage.setValue("lf_HighContrast", $.g_lf_HighContrast);
-        Storage.setValue("lf_extraRangeMeters", $.g_lf_ExtraRangeInMeter);
-        Storage.setValue("lf_fixedRangeMeters", $.g_lf_FixedRangeInMeter);
-        Storage.setValue("lf_zoomMinWaypoints", $.g_lf_ZoomMinWayPoints);
-        Storage.setValue("lf_zoomOneMeters", $.g_lf_zoomOneMeters);
+        Storage.setValue("lf_showWptDirection", false);
+        Storage.setValue("lf_showWptDistance", true);
+        Storage.setValue("lf_ShowCircleDistance", true);
+        Storage.setValue("lf_ShowTrack", true);
+        Storage.setValue("lf_HighContrast", true);
+        Storage.setValue("lf_extraRangeMeters", 150);
+        Storage.setValue("lf_fixedRangeMeters", 0);
+        Storage.setValue("lf_zoomMinWaypoints", 1);
+        Storage.setValue("lf_zoomOneMeters", 500);
 
-        Storage.setValue("sf_showWptDirection", $.g_sf_ShowWptDirection);
-        Storage.setValue("sf_showWptDistance", $.g_sf_ShowWptDistance);
-        Storage.setValue("sf_extraRangeMeters", $.g_sf_ExtraRangeInMeter);
-        Storage.setValue("sf_ShowTrack", $.g_sf_ShowTrack);
-        Storage.setValue("sf_HighContrast", $.g_sf_HighContrast);
-        Storage.setValue("sf_ShowCircleDistance", $.g_sf_ShowCircleDistance);
-        Storage.setValue("sf_fixedRangeMeters", $.g_sf_FixedRangeInMeter);
-        Storage.setValue("sf_zoomMinWaypoints", $.g_sf_ZoomMinWayPoints);
-        Storage.setValue("sf_zoomOneMeters", $.g_sf_zoomOneMeters);
+        Storage.setValue("wf_showWptDirection", false);
+        Storage.setValue("wf_showWptDistance", true);
+        Storage.setValue("wf_ShowCircleDistance", true);
+        Storage.setValue("wf_ShowTrack", true);
+        Storage.setValue("wf_HighContrast", true);
+        Storage.setValue("wf_extraRangeMeters", 50);
+        Storage.setValue("wf_fixedRangeMeters", 0);
+        Storage.setValue("wf_zoomMinWaypoints", 1);
+        Storage.setValue("wf_zoomOneMeters", 500);
 
-        Storage.setValue("wf_showWptDirection", $.g_wf_ShowWptDirection);
-        Storage.setValue("wf_showWptDistance", $.g_wf_ShowWptDistance);
-        Storage.setValue("wf_extraRangeMeters", $.g_wf_ExtraRangeInMeter);
-        Storage.setValue("wf_ShowCircleDistance", $.g_wf_ShowCircleDistance);
-        Storage.setValue("wf_ShowTrack", $.g_wf_ShowTrack);
-        Storage.setValue("wf_HighContrast", $.g_wf_HighContrast);
-        Storage.setValue("wf_fixedRangeMeters", $.g_wf_FixedRangeInMeter);
-        Storage.setValue("wf_zoomMinWaypoints", $.g_wf_ZoomMinWayPoints);
-        Storage.setValue("wf_zoomOneMeters", $.g_wf_zoomOneMeters);
+        Storage.setValue("sf_showWptDirection", false);
+        Storage.setValue("sf_showWptDistance", false);
+        Storage.setValue("sf_ShowCircleDistance", false);
+        Storage.setValue("sf_ShowTrack", false);
+        Storage.setValue("sf_HighContrast", false);
+        Storage.setValue("sf_extraRangeMeters", 50);
+        Storage.setValue("sf_fixedRangeMeters", 0);
+        Storage.setValue("sf_zoomMinWaypoints", 1);
+        Storage.setValue("sf_zoomOneMeters", 300);
 
-        Storage.setValue("toast_proximityMeters", $.g_toast_proximityMeters);
-        Storage.setValue("toast_proximity", $.g_toast_proximity);
 
-        Storage.setValue("alert_closeRangeMeters", $.g_alert_closeRangeMeters);
-        Storage.setValue("alert_closeRange", $.g_alert_closeRange);
-        Storage.setValue("alert_proximityMeters", $.g_alert_proximityMeters);
-        Storage.setValue("alert_proximity", $.g_alert_proximity);
+        Storage.setValue("toast_proximityMeters", 1500);
+        Storage.setValue("toast_proximity", true);
+
+        Storage.setValue("alert_closeRangeMeters", 500);
+        Storage.setValue("alert_closeRange", true);
+        Storage.setValue("alert_proximityMeters", 25);
+        Storage.setValue("alert_proximity", true);
         // @@ refactor, remove
         // Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         // Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
         Storage.setValue("alert_sound", SMOneBeep);
         Storage.setValue("alert_quiet_start", 1.0f);
 
-        Storage.setValue("loosefocusafterhit", $.g_loosefocusafterhit);
+        Storage.setValue("loosefocusafterhit", true);
+        Storage.setValue("highlight_closest_wpt", true);
 
         Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
         Storage.setValue("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
@@ -230,6 +236,10 @@ class poiradarApp extends Application.AppBase {
       $.gAlert_sound = $.getStorageValue("alert_sound", $.gAlert_sound) as SoundMode;
       $.g_alert_quiet_start = $.getStorageValue("alert_quiet_start", $.g_alert_quiet_start) as Float;
       
+      
+      $.g_highlight_closest_wpt = $.getStorageValue("highlight_closest_wpt", $.g_highlight_closest_wpt) as Boolean;
+      $.g_show_closestWptDistance = $.getStorageValue("show_closest_distance", $.g_show_closestWptDistance) as Boolean;
+
       $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
 
       var bgHandler = getBGServiceHandler();
