@@ -397,6 +397,7 @@ class poiradarView extends WatchUi.DataField {
       // Check if any wpt is within the relevant degree range (track) and closest to current position
       for (var i = 0; i < mWptsSorted.size() && !foundCandidate; i++) {
         var wpt = mWptsSorted[i];
+        var diff = ((track - wpt.bearing) % 360).abs();
         // System.println([
         //   "mShowClosestWptRangeDegrees",
         //   mShowClosestWptRangeDegrees,
@@ -404,12 +405,15 @@ class poiradarView extends WatchUi.DataField {
         //   wpt.bearing,
         //   "track",
         //   track,
+        //   "track-180",
+        //   (track - wpt.bearing) % 360,
         //   "abs diff",
-        //   (wpt.bearing - track).abs(),
+        //   diff,
         //   "distanceMeters",
         //   wpt.distanceMeters,
         // ]);
-        if ((wpt.bearing - track).abs() <= mShowClosestWptRangeDegrees) {
+
+        if (diff.abs() <= mShowClosestWptRangeDegrees) {
           idxClosestRelevantWpt = i;
           foundCandidate = true;
         }
@@ -594,6 +598,8 @@ class poiradarView extends WatchUi.DataField {
       if (showDirection) {
         text = text + "(" + $.getCompassDirection(bearing) + ")";
       }
+      // TEST
+      // text = text + "{" + wpt.bearing.format("%d") + "}";
 
       var px = pt.x;
       var py = pt.y;
