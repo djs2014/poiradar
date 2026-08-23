@@ -210,8 +210,16 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       mi.setSubLabel($.getStorageFloatAsString(mi.getId() as String) + " km");
       advancedMenu.addItem(mi); 
 
+      mi = new WatchUi.MenuItem("Within range <=|0.0~360 (degrees)", null, "show_closest_range_degrees", null);
+      mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String) + " degrees");
+      advancedMenu.addItem(mi); 
+
       boolean = Storage.getValue("loosefocusafterhit") ? true : false;
       advancedMenu.addItem(new WatchUi.ToggleMenuItem("Loose focus after hit", null, "loosefocusafterhit", boolean, null));
+
+      boolean = Storage.getValue("distance_grayscale") ? true : false;
+      advancedMenu.addItem(new WatchUi.ToggleMenuItem("Grayscale distance", null, "distance_grayscale", boolean, null));
+    
 
       WatchUi.pushView(advancedMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;

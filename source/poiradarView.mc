@@ -33,6 +33,8 @@ class poiradarView extends WatchUi.DataField {
   hidden var mClosestWptLineColor as Graphics.ColorType = Graphics.COLOR_BLUE;
   hidden var mShowClosestWptDistance as Float = 1000.0f;
   hidden var mClosestDistanceMetersColor as Graphics.ColorType = nearWhite;
+  // 90 degrees left and 90 degrees right of current track, so 180 degrees total, to find closest relevant wpt
+  hidden var mShowClosestWptRangeDegrees as Number = 90;
 
   hidden var previousTrack as Float = 0.0f;
   hidden var track as Number = 0;
@@ -92,6 +94,7 @@ class poiradarView extends WatchUi.DataField {
 
     mHighlightClosestWpt = $.g_highlight_closest_wpt;
     mShowClosestWptDistance = $.g_show_closestWptDistanceMeters;
+    mShowClosestWptRangeDegrees = $.g_show_closestWptRangeDegrees;
   }
 
   function compute(info as Activity.Info) as Void {
@@ -387,20 +390,43 @@ class poiradarView extends WatchUi.DataField {
       );
     }
 
-    if (mShowClosestWptDistance > 0 && mWptsSorted.size() > 0) {
+    // Default, idx 0 is closest wpt
+    var idxClosestRelevantWpt = 0;
+    if (mShowClosestWptRangeDegrees > 0 && mShowClosestWptRangeDegrees < 360) {
+      var foundCandidate = false;
+      // Check if any wpt is within the relevant degree range (track) and closest to current position
+      for (var i = 0; i < mWptsSorted.size() && !foundCandidate; i++) {
+        var wpt = mWptsSorted[i];
+        // System.println([
+        //   "mShowClosestWptRangeDegrees",
+        //   mShowClosestWptRangeDegrees,
+        //   "wpt.bearing",
+        //   wpt.bearing,
+        //   "track",
+        //   track,
+        //   "abs diff",
+        //   (wpt.bearing - track).abs(),
+        //   "distanceMeters",
+        //   wpt.distanceMeters,
+        // ]);
+        if ((wpt.bearing - track).abs() <= mShowClosestWptRangeDegrees) {
+          idxClosestRelevantWpt = i;
+          foundCandidate = true;
+        }
+      }
+    }
+    if (
+      idxClosestRelevantWpt > 0 &&
+      mShowClosestWptDistance > 0 &&
+      mWptsSorted.size() > 0
+    ) {
       // Display km or meters distance to closest wpt
-      var closestWpt = mWptsSorted[0];
-      var closestDistanceMeters = closestWpt.distanceMeters;
+      var closestRelevantWpt = mWptsSorted[idxClosestRelevantWpt];
+      var closestDistanceMeters = closestRelevantWpt.distanceMeters;
       if (closestDistanceMeters < mShowClosestWptDistance) {
         var closestText = getDistanceInMeterOrKm(closestDistanceMeters).format(
           getFormatForMeterAndKm(closestDistanceMeters)
         );
-        // System.println(
-        //   Lang.format("Closest wpt distance: [$1$] meters [$2$]", [
-        //     closestDistanceMeters,
-        //     closestText,
-        //   ])
-        // );
         dc.setColor(mClosestDistanceMetersColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
           x1,
@@ -506,7 +532,7 @@ class poiradarView extends WatchUi.DataField {
     // Draw longest distance first
     for (var i = mWptsSorted.size() - 1; i >= 0; i--) {
       var wpt = mWptsSorted[i];
-      var isClosestWpt = i == 0 && mHighlightClosestWpt;
+      var isClosestWpt = i == idxClosestRelevantWpt && mHighlightClosestWpt;
 
       var distanceKm = wpt.distanceMeters / 1000.0f; //  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = wpt.bearing; // $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
@@ -656,7 +682,7 @@ class poiradarView extends WatchUi.DataField {
             $.PERC_COLORS_SCHEME_DIST,
             0
           );
-          dc.setColor(lineColor, Graphics.COLOR_TRANSPARENT);
+          dc.setColor(lineColor, Graphics.COLOR_TRANSPARENT);          
         } else {
           dc.setColor(mLongLineColor, Graphics.COLOR_TRANSPARENT);
         }

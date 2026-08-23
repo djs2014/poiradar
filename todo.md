@@ -1,6 +1,6 @@
+- degrees angle left/right
 options
 - show distance closest -> filled waterdrop
-- degrees angle left/right
 - highlight width 1-5
 - color
 - show waterdrop icon when nothing to show

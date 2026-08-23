@@ -57,6 +57,7 @@ var g_alert_proximity as Boolean = true;
 var g_loosefocusafterhit as Boolean = true;
 var g_highlight_closest_wpt as Boolean = true;
 var g_show_closestWptDistanceMeters as Float = 1000.0f;
+var g_show_closestWptRangeDegrees as Number = 90;
 
 // var g_alert_startAfterX as Number = 30;
 // var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
@@ -64,7 +65,7 @@ var gAlert_sound as SoundMode = SMOneBeep;
 
 
 // x km from start quiet
-var g_alert_quiet_start as Float = 1.0f;
+var g_alert_quiet_start as Float = 10.0f;
 
 var g_bg_timeout_seconds as Number = 0;
 var g_bg_delay_seconds as Number = 0;
@@ -174,11 +175,12 @@ class poiradarApp extends Application.AppBase {
         // Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         // Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
         Storage.setValue("alert_sound", SMOneBeep);
-        Storage.setValue("alert_quiet_start", 1.0f);
+        Storage.setValue("alert_quiet_start", 10.0f);
 
         Storage.setValue("loosefocusafterhit", true);
         Storage.setValue("highlight_closest_wpt", true);
         Storage.setValue("show_closest_distance_km", 1.0f);
+        Storage.setValue("show_closest_range_degrees", 90);
 
         Storage.setValue("poiUrl", "https://poi.castlephoto.info/poi/");
         Storage.setValue("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
@@ -241,6 +243,8 @@ class poiradarApp extends Application.AppBase {
       $.g_highlight_closest_wpt = $.getStorageValue("highlight_closest_wpt", $.g_highlight_closest_wpt) as Boolean;
       var closestDistance = $.getStorageValue("show_closest_distance_km", 1.0f) as Float;
       $.g_show_closestWptDistanceMeters = closestDistance * 1000.0f;
+      var closestRange = $.getStorageValue("show_closest_range_degrees", 90) as Number;
+      $.g_show_closestWptRangeDegrees = closestRange / 2; // half range, so 90 degrees means 45 degrees left and right of track
 
       $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
 
