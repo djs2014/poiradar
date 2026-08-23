@@ -243,8 +243,8 @@ class poiradarApp extends Application.AppBase {
       $.g_highlight_closest_wpt = $.getStorageValue("highlight_closest_wpt", $.g_highlight_closest_wpt) as Boolean;
       var closestDistance = $.getStorageValue("show_closest_distance_km", 1.0f) as Float;
       $.g_show_closestWptDistanceMeters = closestDistance * 1000.0f;
-      var closestRange = $.getStorageValue("show_closest_range_degrees", 90) as Number;
-      $.g_show_closestWptRangeDegrees = closestRange / 2; // half range, so 90 degrees means 45 degrees left and right of track
+      var closestRange = $.getStorageValue("show_closest_range_degrees", 180) as Number;
+      $.g_show_closestWptRangeDegrees = closestRange / 2; // half range, so 180 degrees means 90 degrees left and right of track
 
       $.g_loosefocusafterhit = $.getStorageValue("loosefocusafterhit", $.g_loosefocusafterhit) as Boolean;
 
