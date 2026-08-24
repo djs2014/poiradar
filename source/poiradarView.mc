@@ -229,6 +229,7 @@ class poiradarView extends WatchUi.DataField {
     var showDirection = $.g_lf_ShowWptDirection;
     var showCircleDistance = $.g_lf_ShowCircleDistance;
     var showTrack = $.g_lf_ShowTrack;
+    var showBearing = $.g_lf_ShowBearing;
     var highContrast = $.g_lf_HighContrast;
     if (mWideField) {
       showDistance = $.g_wf_ShowWptDistance;
@@ -236,6 +237,7 @@ class poiradarView extends WatchUi.DataField {
       showCircleDistance = $.g_wf_ShowCircleDistance;
       mFontWptLabel = Graphics.FONT_XTINY;
       showTrack = $.g_wf_ShowTrack;
+      showBearing = $.g_wf_ShowBearing;
       highContrast = $.g_wf_HighContrast;
     } else if (mSmallField) {
       mFontWptLabel = Graphics.FONT_XTINY;
@@ -243,6 +245,7 @@ class poiradarView extends WatchUi.DataField {
       showDirection = $.g_sf_ShowWptDirection;
       showCircleDistance = $.g_sf_ShowCircleDistance;
       showTrack = $.g_sf_ShowTrack;
+      showBearing = $.g_sf_ShowBearing;
       highContrast = $.g_sf_HighContrast;
     }
     mLineColor = Graphics.COLOR_BLACK;
@@ -420,7 +423,6 @@ class poiradarView extends WatchUi.DataField {
       }
     }
     if (
-      idxClosestRelevantWpt > 0 &&
       mShowClosestWptDistance > 0 &&
       mWptsSorted.size() > 0
     ) {
@@ -598,8 +600,9 @@ class poiradarView extends WatchUi.DataField {
       if (showDirection) {
         text = text + "(" + $.getCompassDirection(bearing) + ")";
       }
-      // TEST
-      // text = text + "{" + wpt.bearing.format("%d") + "}";
+      if (showBearing) {
+        text = text + "[" + wpt.bearing.format("%d") + "]";
+      }
 
       var px = pt.x;
       var py = pt.y;

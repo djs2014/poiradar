@@ -72,6 +72,8 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       lfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "lf_ShowCircleDistance", boolean, null));
       boolean = Storage.getValue("lf_ShowTrack") ? true : false;
       lfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "lf_ShowTrack", boolean, null));
+      boolean = Storage.getValue("lf_ShowBearing") ? true : false;
+      lfMenu.addItem(new WatchUi.ToggleMenuItem("Bearing", null, "lf_ShowBearing", boolean, null));
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "lf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -103,6 +105,8 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       sfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "sf_ShowCircleDistance", boolean, null));
       boolean = Storage.getValue("sf_ShowTrack") ? true : false;
       sfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "sf_ShowTrack", boolean, null));
+      boolean = Storage.getValue("sf_ShowBearing") ? true : false;
+      sfMenu.addItem(new WatchUi.ToggleMenuItem("Bearing", null, "sf_ShowBearing", boolean, null));
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "sf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
@@ -134,6 +138,8 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       tfMenu.addItem(new WatchUi.ToggleMenuItem("Distance label", null, "wf_ShowCircleDistance", boolean, null));
       boolean = Storage.getValue("wf_ShowTrack") ? true : false;
       tfMenu.addItem(new WatchUi.ToggleMenuItem("Track", null, "wf_ShowTrack", boolean, null));
+      boolean = Storage.getValue("wf_ShowBearing") ? true : false;
+      tfMenu.addItem(new WatchUi.ToggleMenuItem("Bearing", null, "wf_ShowBearing", boolean, null));
 
       var mi = new WatchUi.MenuItem("Extra range meters", null, "wf_extraRangeMeters", null);
       mi.setSubLabel($.getStorageNumberAsString(mi.getId() as String));
