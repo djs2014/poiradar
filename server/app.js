@@ -42,58 +42,48 @@ app.get("/poi", async function (req, res) {
 
         // authorization
         if (!req.headers.authorization) {
-            res.writeHead(401);
-            res.end("Unauthorized");
             console.log('Unauthorized');
-            return;
+            return res.status(401).send("Unauthorized");
         }
 
         let allowed = await apikeys.validApikey(req.headers.authorization);
         if (!allowed) {
-            res.writeHead(403);
-            res.end("Forbidden");
             console.log('Forbidden');
-            return;
+            return res.status(403).send("Forbidden");
         }
 
         // lat, lon must exist
         if (!req.query.lat || !req.query.lon) {
-            res.writeHead(400);
-            res.end("Bad request");
             console.log('Bad request');
-            return;
+            return res.status(400).send("Bad request");
         }
 
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
 
-        // default poi set waterpunt poi @@TODO        
-        let maxRangeMeters = 10000;
-        if (req.query.maxRange) {
-            maxRangeMeters = parseInt(req.query.maxRange);
-        }
-        let maxWpts = 100;
-        if (req.query.maxWpts) {
-            maxWpts = parseInt(req.query.maxWpts);
+        let maxRangeMeters = req.query.maxRange ? parseInt(req.query.maxRange) : 10000;
+        let maxWpts = req.query.maxWpts ? parseInt(req.query.maxWpts) : 100;
+
+        // 3. Resolve data FIRST before writing headers
+        const useOverpass = req.query.poiSet === '1';
+
+        let data;
+        if (useOverpass) {
+            data = await overpass.getInRange(lat, lon, maxRangeMeters, maxWpts);
+        } else {
+            data = await poi.getInRange(lat, lon, maxRangeMeters, maxWpts);
         }
 
-        var useOverpass = false;
-        if (req.query.overpass) {
-            useOverpass = req.query.overpass === 'true';
-        }
-        if (useOverpass) {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(await overpass.getInRange(lat, lon,
-                maxRangeMeters, maxWpts)));
-        } else {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(await poi.getInRange(lat, lon,
-                maxRangeMeters, maxWpts)));
-        }
+        // Send response safely (Express res.json handles headers + stringify)
+        return res.json(data);
 
     } catch (err) {
-        res.writeHead(500);
-        res.end(err.message);
+        console.error('Error in /poi handler:', err);
+
+        // Guard against writing headers twice if headers were already sent
+        if (!res.headersSent) {
+            return res.status(500).send(err.message);
+        }
     }
 });
 

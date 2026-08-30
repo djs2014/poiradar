@@ -3,11 +3,12 @@ const NodeCache = require('node-cache');
 
 
 // 7 days in seconds
-const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; // 604,800
+const SEVEN_DAYS = 7 * 24 * 60 * 60; // 604,800
+const TWELVE_HOURS = 12 * 60 * 60;   // 43,200 seconds (for empty results)
 
 // Initialize cache
 const waterCache = new NodeCache({
-    stdTTL: SEVEN_DAYS_IN_SECONDS, // Default TTL for all new keys
+    stdTTL: SEVEN_DAYS, // Default TTL for all new keys
     checkperiod: 3600              // Check and delete expired keys every 1 hour (3600s)
 });
 
@@ -93,7 +94,7 @@ function normalizeRadius(meters) {
     if (meters <= 10000) return 10000;
     if (meters <= 15000) return 15000;
     if (meters <= 20000) return 20000;
-    return 20000; 
+    return 20000;
 }
 
 async function fetchFromOverpass(lat, lon, radiusMeters = 2000) {
@@ -109,9 +110,20 @@ async function fetchFromOverpass(lat, lon, radiusMeters = 2000) {
     }
 
     return overpassQueue.add(async () => {
-        const freshData = await getNearbyWater(lat, lon, radiusMeters);
-        waterCache.set(cacheKey, freshData);
-        return freshData;
+        const results = await getNearbyWater(lat, lon, radiusMeters);
+
+        // 3. Apply Two-Tier Caching
+        if (Array.isArray(results) && results.length > 0) {
+            // Cache valid data for 7 days
+            waterCache.set(cacheKey, results, SEVEN_DAYS);
+        } else if (Array.isArray(results) && results.length === 0) {
+            console.log(`No water points found for key: ${cacheKey}. Caching empty result for 12 hours.`);
+            // Negative cache: Cache empty array for 12 hours
+            waterCache.set(cacheKey, [], TWELVE_HOURS);
+        }
+
+        waterCache.set(cacheKey, results);
+        return results;
     });
 }
 
