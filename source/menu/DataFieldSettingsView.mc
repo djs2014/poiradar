@@ -132,6 +132,22 @@ function getSoundModeText(value as SoundMode) as String {
   }
 }
 
+var maxPOIsets as Number = 2; // 0=RIVM, 1=Overpass
+enum POISet {
+  PS_RIVM = 0,
+  PS_OVERPASS = 1,
+}
+
+function getPOIsetText(value as Number) as String {
+  switch (value) {
+    case PS_RIVM:
+      return "RIVM waterpoints";
+    case PS_OVERPASS:
+      return "Overpass OWM data";    
+    default:
+      return "RIVM waterpoints";
+  }
+}
 function subMenuToggleMenuItem(key as String) as String {
   // if (key.equals("show_timer")) {
   //   if (Storage.getValue(key) ? true : false) {

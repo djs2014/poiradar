@@ -86,7 +86,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
         Storage.setValue("maxWaypoints", maxWpts);
       }
       if (poiSet == null) {
-        poiSet = "";
+        poiSet = 0; // Default to waterpunt
       }
 
       var lat = (location as Array)[0] as Double;
@@ -101,13 +101,12 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
           "lat" => lat,
           "lon" => lon,
           "maxRange" => maxRange as Number,
-          "maxWpts" => maxWpts as Boolean,
-          "poiSet" => poiSet as String,
+          "maxWpts" => maxWpts as Number,
+          "poiSet" => poiSet as Number,
         }) as Lang.Dictionary<Lang.Object, Lang.Object>;
       requestData(poiUrl as String, poiAPIKey as String, params);
       return 0;
     } catch (ex) {
-      System.println("1");
       System.println(ex.getErrorMessage());
       ex.printStackTrace();
       return CustomErrors.ERROR_BG_EXCEPTION;

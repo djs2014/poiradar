@@ -131,6 +131,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("pause_app", false);
         // Storage.setValue("cacheBgData", false);
         Storage.setValue("distance_grayscale", false);
+        Storage.setValue("poiSet", PS_RIVM);
 
         Storage.setValue("checkIntervalMinutes", 5);
         Storage.setValue("maxRangeMeters", 15000);
@@ -308,7 +309,7 @@ class poiradarApp extends Application.AppBase {
   (:typecheck(disableBackgroundCheck))
   function onBackgroundData(data as Application.PersistableType) as Void {
     System.println("Background data recieved");
-    // System.println(data);
+    System.println(data);
 
     if (data instanceof Lang.Number && data == 0) {
       System.println("Response code is 0 -> reset bg service");

@@ -52,12 +52,13 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       proxyMenu.addItem(mi);
 
 
-      // @@ set - watertappunt custom sets?
+      // Dataset poiset
 
-      // @@ need more testing ... max memory saving
-      // var boolean = Storage.getValue("cacheBgData") ? true : false;
-      // proxyMenu.addItem(new WatchUi.ToggleMenuItem("Cache waypoints", null, "cacheBgData", boolean, null));
-
+      mi = new WatchUi.MenuItem("Dataset", null, "poiSet", null);
+      value = getStorageValue(mi.getId() as String, PS_RIVM) as Number;
+      mi.setSubLabel($.getPOIsetText(value));
+      proxyMenu.addItem(mi);
+      
       WatchUi.pushView(proxyMenu, new $.GeneralMenuDelegate(), WatchUi.SLIDE_UP);
       return;
     }
@@ -254,6 +255,16 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
       var sp = new selectionMenuPicker("Minimal GPS", id as String);
       for (var i = 0; i <= 4; i++) {
         sp.add($.getMinimalGPSqualityText(i), null, i);
+      }
+      sp.setOnSelected(self, :onSelectedSelection, item);
+      sp.show();
+      return;
+    }
+
+    if (id instanceof String && id.equals("poiSet")) {
+      var sp = new selectionMenuPicker("Data set", id as String);
+      for (var i = 0; i < $.maxPOIsets; i++) {
+        sp.add($.getPOIsetText(i), null, i);
       }
       sp.setOnSelected(self, :onSelectedSelection, item);
       sp.show();
