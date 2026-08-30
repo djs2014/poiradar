@@ -2,7 +2,8 @@
 const http = require("http");
 
 const poi = require('./services/poi.js');
-// const fs = require('fs/promises');
+const overpass = require('./services/overpass.js');
+
 const compression = require('compression');
 const apikeys = require('./helpers/apikeys.js');
 
@@ -39,7 +40,6 @@ app.get("/poi", async function (req, res) {
         const queryString = req.originalUrl.split('?').splice(1).join('?');
         console.log('Process poi: ' + queryString);
 
-        // TODO
         // authorization
         if (!req.headers.authorization) {
             res.writeHead(401);
@@ -56,7 +56,7 @@ app.get("/poi", async function (req, res) {
             return;
         }
 
-         // lat, lon must exist
+        // lat, lon must exist
         if (!req.query.lat || !req.query.lon) {
             res.writeHead(400);
             res.end("Bad request");
@@ -77,10 +77,19 @@ app.get("/poi", async function (req, res) {
             maxWpts = parseInt(req.query.maxWpts);
         }
 
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-                 res.end(JSON.stringify(await poi.getInRange(lat, lon,
-                     maxRangeMeters, maxWpts)));
+        var useOverpass = false;
+        if (req.query.overpass) {
+            useOverpass = req.query.overpass === 'true';
+        }
+        if (useOverpass) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(await overpass.getInRange(lat, lon,
+                maxRangeMeters, maxWpts)));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(await poi.getInRange(lat, lon,
+                maxRangeMeters, maxWpts)));
+        }
 
     } catch (err) {
         res.writeHead(500);

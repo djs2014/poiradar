@@ -1,3 +1,14 @@
+poi to azure
+load pyre/alpen/toilets
+
+https://overpass-api.de/api/
+
+
+Here's how the query should look like to return ways with maxspeed tags at a given location with 1m radius:
+way[maxspeed](around:1.0,52.004940, 4.369381);
+out tags;
+
+
 - degrees angle left/right
 options
 - show distance closest -> filled waterdrop
@@ -5,7 +16,14 @@ options
 - color
 - show waterdrop icon when nothing to show
 
+----------------
 sync bg services to other apps
+
+long distance range (100-..)
+-> array of 360 elements [0 == nothing, % in range, 100 == furthest away]
+display as rectangle border with colors
+---------------
+
 zoom when distance < ..
 -- use factor * pixels?
 https://dataplatform.nl/#/home
@@ -108,3 +126,12 @@ poi
 
 
 
+
+--------------
+node  app.js
+with debug
+node --inspect app.js
+
+VS Code: Open the command palette (Ctrl+Shift+P / Cmd+Shift+P), choose Debug: Attach to Node Process, and select your running app.js process.
+
+npm install p-queue
