@@ -61,6 +61,9 @@ Update poi.js
 # Download latest using JSON
 
 
+poiset
+- alps
+- pyrenees
 
 
 - silent for x minutes / km

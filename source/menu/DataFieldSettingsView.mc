@@ -132,10 +132,13 @@ function getSoundModeText(value as SoundMode) as String {
   }
 }
 
-var maxPOIsets as Number = 2; // 0=RIVM, 1=Overpass
+var maxPOIsets as Number = 5; // 0=RIVM, 1=Overpass, 2=Alps, 3=Pyrenees, 4=NL Toilets
 enum POISet {
   PS_RIVM = 0,
   PS_OVERPASS = 1,
+  PS_ALPS = 2,
+  PS_PYRENEES = 3,
+  PS_NL_TOILETS = 4
 }
 
 function getPOIsetText(value as Number) as String {
@@ -143,7 +146,13 @@ function getPOIsetText(value as Number) as String {
     case PS_RIVM:
       return "RIVM waterpoints";
     case PS_OVERPASS:
-      return "Overpass OWM data";    
+      return "Overpass OWM data";  
+    case PS_ALPS:
+      return "Alps";
+    case PS_PYRENEES:
+      return "Pyrenees";
+    case PS_NL_TOILETS:
+      return "NL public toilets";  
     default:
       return "RIVM waterpoints";
   }

@@ -19,6 +19,11 @@ const shouldCompress = (req, res) => {
     return compression.filter(req, res);
 };
 
+function safeParseInt(input, fallback = 0) {
+  const parsed = parseInt(input, 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+}
+
 app.use(compression({
     filter: shouldCompress,
     threshold: 0
@@ -61,17 +66,23 @@ app.get("/poi", async function (req, res) {
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
 
-        let maxRangeMeters = req.query.maxRange ? parseInt(req.query.maxRange) : 10000;
-        let maxWpts = req.query.maxWpts ? parseInt(req.query.maxWpts) : 100;
+        let maxRangeMeters = safeParseInt(req.query.maxRange, 10000);
+        let maxWpts = safeParseInt(req.query.maxWpts, 100);
 
-        // 3. Resolve data FIRST before writing headers
-        const useOverpass = req.query.poiSet === '1';
+        // Resolve data FIRST before writing headers
+        // 0 = waterpoints rivm
+        // 1 = waterpoints overpass
+        // 2 = alps (backup if overpass fails)
+        // 3 = pyrenees (backup if overpass fails) 
+        // 4 = nl toilets   
+        let poiSet = safeParseInt(req.query.poiSet, 0);
+        const useOverpass = poiSet === 1;
 
         let data;
         if (useOverpass) {
             data = await overpass.getInRange(lat, lon, maxRangeMeters, maxWpts);
         } else {
-            data = await poi.getInRange(lat, lon, maxRangeMeters, maxWpts);
+            data = await poi.getInRange(lat, lon, maxRangeMeters, maxWpts, poiSet);
         }
 
         // Send response safely (Express res.json handles headers + stringify)
