@@ -1,3 +1,6 @@
+Tip for Dual-POI Waypoints
+If an Overpass feature tags a location with both amenity=drinking_water and amenity=toilet (e.g., a public park restroom with an outdoor fountain), render the waypoint icon/dot using COLOR_GREEN (Gfx.COLOR_GREEN) to signify a combined facility.
+
 poi to azure
 load pyre/alpen/toilets
 
@@ -64,6 +67,9 @@ Update poi.js
 poiset
 - alps
 - pyrenees
+
+- overpass toilets -> color yellow
+- combi possible?
 
 
 - silent for x minutes / km
