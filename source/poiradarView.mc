@@ -24,13 +24,12 @@ class poiradarView extends WatchUi.DataField {
   hidden var mLongLineColor as Graphics.ColorType = Graphics.COLOR_LT_GRAY;
   hidden var mFontColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
   hidden var mFontStatsColor as Graphics.ColorType = Graphics.COLOR_DK_GRAY;
-  hidden var mTargetColor as Graphics.ColorType = Graphics.COLOR_BLUE;
+  hidden var mWaypointColor as Graphics.ColorType = Graphics.COLOR_BLUE;
 
   hidden var nearBlack as Graphics.ColorType = 0x202020; // visible on a black Edge display
   hidden var nearWhite as Graphics.ColorType = 0xe0e0e0; // less harsh than pure white
 
   hidden var mHighlightClosestWpt as Boolean = true;
-  hidden var mClosestWptLineColor as Graphics.ColorType = Graphics.COLOR_BLUE;
   hidden var mShowClosestWptDistance as Float = 1000.0f;
   hidden var mClosestDistanceMetersColor as Graphics.ColorType = nearWhite;
   // 90 degrees left and 90 degrees right of current track, so 180 degrees total, to find closest relevant wpt
@@ -42,7 +41,8 @@ class poiradarView extends WatchUi.DataField {
 
   hidden var mWpts as Array<WayPoint> = [] as Array<WayPoint>;
   hidden var mWptsSorted as Array<WayPoint> = [] as Array<WayPoint>;
-  hidden var mPoiSet as String = "";
+  hidden var mPoiSetId as POISet = PS_RIVM;
+  hidden var mPoiSetName as String = "";
   hidden var mCurWpt as WayPoint = new WayPoint(0.0d, 0.0d);
   hidden var mDc as Dc?;
 
@@ -95,8 +95,16 @@ class poiradarView extends WatchUi.DataField {
     mHighlightClosestWpt = $.g_highlight_closest_wpt;
     mShowClosestWptDistance = $.g_show_closestWptDistanceMeters;
     mShowClosestWptRangeDegrees = $.g_show_closestWptRangeDegrees;
+
+    mWaypointColor = getPOIColor();
   }
 
+  function getPOIColor() {
+    if (mPoiSetId == PS_NL_TOILETS || mPoiSetId == PS_TOILETS_OVERPASS) {
+      return Graphics.COLOR_YELLOW;
+    }
+    return Graphics.COLOR_BLUE;
+  }
   function compute(info as Activity.Info) as Void {
     try {
       track = getBearing(info as Activity.Info?);
@@ -142,7 +150,8 @@ class poiradarView extends WatchUi.DataField {
     var poiData = $.toPoiData(data);
     if (poiData.set.length() > 0) {
       mWpts = poiData.pts;
-      mPoiSet = poiData.set;
+      mPoiSetName = poiData.set;
+      mPoiSetId = $.toPOISet(poiData.set_id);
     }
 
     if (mDc != null) {
@@ -308,7 +317,7 @@ class poiradarView extends WatchUi.DataField {
         mWidth,
         0,
         Graphics.FONT_XTINY,
-        mPoiSet,
+        mPoiSetName,
         Graphics.TEXT_JUSTIFY_RIGHT
       );
       var statsProxy =
@@ -422,10 +431,7 @@ class poiradarView extends WatchUi.DataField {
         }
       }
     }
-    if (
-      mShowClosestWptDistance > 0 &&
-      mWptsSorted.size() > 0
-    ) {
+    if (mShowClosestWptDistance > 0 && mWptsSorted.size() > 0) {
       // Display km or meters distance to closest wpt
       var closestRelevantWpt = mWptsSorted[idxClosestRelevantWpt];
       var closestDistanceMeters = closestRelevantWpt.distanceMeters;
@@ -540,6 +546,9 @@ class poiradarView extends WatchUi.DataField {
       var wpt = mWptsSorted[i];
       var isClosestWpt = i == idxClosestRelevantWpt && mHighlightClosestWpt;
 
+      var wptColor = getWayPointColor(wpt.code);
+      var closestWptLineColor = wptColor;
+
       var distanceKm = wpt.distanceMeters / 1000.0f; //  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = wpt.bearing; // $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
 
@@ -634,7 +643,7 @@ class poiradarView extends WatchUi.DataField {
 
       if (targetVisible || wpt.distanceMeters <= mMinDistanceMeters) {
         if (isClosestWpt) {
-          dc.setColor(mClosestWptLineColor, Graphics.COLOR_TRANSPARENT);
+          dc.setColor(closestWptLineColor, Graphics.COLOR_TRANSPARENT);
           dc.setPenWidth(3);
         } else {
           dc.setColor(mLineColor, Graphics.COLOR_TRANSPARENT);
@@ -662,8 +671,10 @@ class poiradarView extends WatchUi.DataField {
             );
           }
         }
-
-        dc.setColor(mTargetColor, Graphics.COLOR_TRANSPARENT);
+        // Add circle around
+        dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(px, py, mWptRadius + 1);
+        dc.setColor(wptColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius);
 
         if (
@@ -671,7 +682,7 @@ class poiradarView extends WatchUi.DataField {
           wpt.distanceMeters < $.g_alert_closeRangeMeters &&
           !wpt.flashed
         ) {
-          dc.setColor(mTargetColor, Graphics.COLOR_TRANSPARENT);
+          dc.setColor(wptColor, Graphics.COLOR_TRANSPARENT);
           dc.drawCircle(px, py, mWptRadius + 2);
           dc.drawCircle(px, py, mWptRadius + 4);
           dc.drawCircle(px, py, mWptRadius + 6);
@@ -691,7 +702,7 @@ class poiradarView extends WatchUi.DataField {
             $.PERC_COLORS_SCHEME_DIST,
             0
           );
-          dc.setColor(lineColor, Graphics.COLOR_TRANSPARENT);          
+          dc.setColor(lineColor, Graphics.COLOR_TRANSPARENT);
         } else {
           dc.setColor(mLongLineColor, Graphics.COLOR_TRANSPARENT);
         }
@@ -802,6 +813,31 @@ class poiradarView extends WatchUi.DataField {
         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
       );
     }
+  }
+
+  function getWayPointColor(code as Number) as Number {
+    if (code == 0) {
+      // Default set color
+      return mWaypointColor;
+    }
+    if (code == 1) {
+      // drinking water
+      return Graphics.COLOR_BLUE;
+    }
+    if (code == 2) {
+      // Toilets
+      return Graphics.COLOR_YELLOW;
+    }
+    if (code == 3) {
+      // Toilets + drinking water
+      return Graphics.COLOR_GREEN;
+    }
+    if (code == -1) {
+      // Water not drinkable
+      return Graphics.COLOR_RED;
+    }
+
+    return mWaypointColor;
   }
 
   function calculatePoiStats(lat as Double, lon as Double) as Void {

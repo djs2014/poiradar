@@ -70,14 +70,21 @@ app.get("/poi", async function (req, res) {
         let maxWpts = safeParseInt(req.query.maxWpts, 100);
 
         // Resolve data FIRST before writing headers
+
+
         // 0 = waterpoints rivm
         // 1 = waterpoints overpass
         // 2 = alps (backup if overpass fails)
         // 3 = pyrenees (backup if overpass fails) 
         // 4 = nl toilets   
         // 5 = toilets overpass
+        // 6 = nl toilets and drinking water
         let poiSet = safeParseInt(req.query.poiSet, 0);
-        const useOverpass = (poiSet === 1 || poiSet === 5);
+        
+        const useOverpass = (
+            poiSet === 1 || 
+            poiSet === 5
+        );
 
         let data;
         if (useOverpass) {

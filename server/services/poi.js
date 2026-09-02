@@ -12,15 +12,18 @@ const wptFiles = [
     '../data/rivm_drinkwaterkranen_actueel_20260704.json',
     '../data/overpass-alp-waterpoints-2026.geojson',
     '../data/overpass-pyr-waterpoints-2026.geojson',
-    '../data/overpass-nl-toilets-2026.geojson'
+    '../data/overpass-nl-toilets-2026.geojson',
+    '../data/overpass-nl-toilets-drinkingwater-2026.geojson'
 ];
 const wptSets = [
     '20260704Drinkwaterkaart',
     '2026Alps',
     '2026Pyrenees',
-    '2026NLToilets'
+    '2026NLToilets',
+    '2026NLToiletsDrinkingWater'
 ];
 
+// See app.js
 function getSetIdx(poiSet) {
     let idxSet = 0;
     if (poiSet === 1) {
@@ -31,6 +34,8 @@ function getSetIdx(poiSet) {
         idxSet = 2; // pyrenees
     } else if (poiSet === 4) {
         idxSet = 3; // nl toilets
+    } else if (poiSet === 6) {
+        idxSet = 4; // nl toilets drinking water
     }
     return idxSet;
 }
@@ -47,7 +52,7 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
     }
     let idxSet = getSetIdx(poiSet);
     let wpts = waypoints[idxSet];
-    
+
     let wptsInRange = [];
     wpts.forEach(wpt => {
         // skip lat, lon 0 or -1
@@ -59,8 +64,9 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
                 w.lat = wpt.lat,
                     w.lon = wpt.lon,
                     w.d = Math.round(meters),
-                    // w.name = wpt.name
-                    wptsInRange.push(w);
+                    w.code = wpt.code;
+                // w.name = wpt.name
+                wptsInRange.push(w); ``
             }
         }
     });
@@ -85,7 +91,7 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
 let compress = function (waypoints) {
     let wpts = [];
     waypoints.forEach(wpt => {
-        wpts.push([wpt.lat, wpt.lon]);
+        wpts.push([wpt.lat, wpt.lon, wpt.code]);
     });
 
     return wpts;
@@ -135,6 +141,7 @@ let extractJsonWaypoints = function (json) {
             wpts.push({
                 "lat": element.properties.latitude,
                 "lon": element.properties.longitude,
+                "code": 0
             })
         }
 
@@ -143,18 +150,85 @@ let extractJsonWaypoints = function (json) {
     }
     return wpts;
 }
+
+/*
+    "properties": {
+        "@id": "node/9603419025",
+        "access": "customers",
+        "amenity": "toilets",
+        "description": "Im DB Service Store",
+        "drinking_water": "yes",
+        "fee": "yes",
+        "opening_hours": "Mo-Sa 05:00-20:00; PH,Su 08:00-20:00"
+      },
+    
+    "properties": {
+        "@id": "node/9611687852",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "indoor": "no",
+        "panoramax": "8f483492-b2a0-4ca3-9816-e29ace4bfffa"
+      },
+    "properties": {
+        "@id": "node/9630904362",
+        "amenity": "drinking_water",
+        "drinking_water": "no"
+      },
+
+    -1: not drinkable
+    0: neutral
+    1: drinking water
+    2: toilet
+    3: toilet and drinking water
+
+*/
+function extractCode(properties) {
+    if (!properties) {
+        return 0;
+    }
+    var code = 0;
+
+    // "drinking_water"
+    if (properties.amenity === "drinking_water") {
+        code = 1;
+        if (properties.drinking_water === "no") {
+            code = -1;
+        }
+        return code;
+    }
+
+    // "toilets"
+    if (properties.amenity === "toilets") {
+        code = 2;
+        // "toilets with drinking_water"
+        if (properties.drinking_water === "yes") {
+            code = 3;
+        } 
+        // No drinking water -> just a toilet
+        // else if (properties.drinking_water === "no") {
+        //     code = -1;
+        // }
+        return code;
+    }
+
+    // "no drinking_water"
+    if (properties.drinking_water === "no") {
+        code = -1;
+    }
+    return code;
+}
+
 let extractGeoJsonWaypoints = function (json) {
     let wpts = []; // .lat .lon
     try {
         var data = JSON.parse(json);
-        for (const element of data.features) {
-            //console.log(element);
-
-            // In GeoJSON format, coordinates are stored as [Longitude, Latitude] (X, Y order), which is the reverse of how people usually speak ("latitude, longitude").
-
+        for (const element of data.features) {          
+            // In GeoJSON format, coordinates are stored as [Longitude, Latitude] (X, Y order),
+            //  which is the reverse of how people usually speak ("latitude, longitude").
             wpts.push({
                 "lat": element.geometry.coordinates[1],
                 "lon": element.geometry.coordinates[0],
+                "code": extractCode(element.properties)
             })
         }
 
@@ -169,7 +243,7 @@ exports.initialize = async function () {
         let wpts = waypoints[i];
         let setName = wptSets[i];
         console.log("Loaded: " + wpts.length + " waypoints for set: " + setName);
-    }    
+    }
 }
 
 exports.getInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) {

@@ -16,7 +16,7 @@ function toPoiData(data as Dictionary) as PoiData {
          "set": "202307Drinkwaterkaart",
          "range": 30000, // meters
          "pts": [
-            [52.150449857,4.779379378 ]
+            [52.150449857,4.779379378, 0 ]
                          ..
              ]
      */
@@ -26,16 +26,23 @@ function toPoiData(data as Dictionary) as PoiData {
     var lat = ($.getDictionaryValue(bgData, "lat", 0.0d) as Double).toDouble();
     var lon = ($.getDictionaryValue(bgData, "lon", 0.0d) as Double).toDouble();
     var set = ($.getDictionaryValue(bgData, "set", "") as String).toString();
+    var set_id = ($.getDictionaryValue(bgData, "set_id", 0) as Number).toNumber();
     var range = ($.getDictionaryValue(bgData, "range", 0) as Number).toNumber();
 
     if (bgData["pts"] != null) {
       // System.println(bgData["pts"]);
-      var bg_pts = bgData["pts"] as Array<Array<Double> >;
+      var bg_pts = bgData["pts"] as Array<Array<Double or Number> >;
       for (var i = 0; i < bg_pts.size(); i++) {
-        var bg_wpt_latlon = bg_pts[i] as Array<Double>;
-        var wpt_lat = bg_wpt_latlon[0]; //($.getDictionaryValue(bg_wpt, "lat", 0.0d) as Double).toDouble();
-        var wpt_lon = bg_wpt_latlon[1]; //($.getDictionaryValue(bg_wpt, "lon", 0.0d) as Double).toDouble();
+        // [lat, lon, code] or [lat, lon]
+        var bg_wpt_latlon = bg_pts[i] as Array<Double or Number>;
+        var wpt_lat = (bg_wpt_latlon[0] as Double).toDouble(); 
+        var wpt_lon = (bg_wpt_latlon[1] as Double).toDouble(); 
+        var wpt_code = 0;
+        if (bg_wpt_latlon.size() > 2) {
+          wpt_code = bg_wpt_latlon[2] as Number;
+        }
         var wpt = new WayPoint(wpt_lat, wpt_lon);
+        wpt.code = wpt_code;
         pts.add(wpt);
       }
 
@@ -45,10 +52,10 @@ function toPoiData(data as Dictionary) as PoiData {
       // }
     }
 
-    return new PoiData(lat, lon, range, set, pts);
+    return new PoiData(lat, lon, range, set, set_id, pts);
   } catch (ex) {
     ex.printStackTrace();
-    return new PoiData(0.0d, 0.0d, 0, "Error", [] as Array<WayPoint>);
+    return new PoiData(0.0d, 0.0d, 0, "Error", 0, [] as Array<WayPoint>);
   }
 }
 (:typecheck(disableBackgroundCheck))

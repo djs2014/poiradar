@@ -6,13 +6,15 @@ class PoiData {
   public var lon as Double = 0.0d;
   public var range as Number = 0; // meters
   public var set as String = "";
+  public var set_id as Number = 0;
   public var pts as Array<WayPoint> = [] as Array<WayPoint>;
 
-  function initialize(lat as Double, lon as Double, range as Number, set as String, pts as Array<WayPoint>) {
+  function initialize(lat as Double, lon as Double, range as Number, set as String, id as Number, pts as Array<WayPoint>) {
     self.lat = lat;
     self.lon = lon;
     self.range = range;
-    self.set = set;
+    self.set = set; // set name
+    self.set_id = id;
     self.pts = pts;
   }
 
@@ -24,7 +26,8 @@ class PoiData {
 class WayPoint {
   var lat as Lang.Double = 0d;
   var lon as Lang.Double = 0d;
-  
+  var code as Number = 0;
+
   var distanceMeters as Float = 0f;
   var bearing as Number = 0;
   var flashed as Boolean = false;
@@ -35,7 +38,7 @@ class WayPoint {
   // var comment as Lang.String = "";
   function initialize(lat as Double or Float, lon as Double or Float) {
     self.lat = lat.toDouble();
-    self.lon = lon.toDouble();
+    self.lon = lon.toDouble();    
   }
 }
 

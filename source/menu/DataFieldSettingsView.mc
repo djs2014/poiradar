@@ -132,31 +132,59 @@ function getSoundModeText(value as SoundMode) as String {
   }
 }
 
-var maxPOIsets as Number = 5; // 0=RIVM, 1=Overpass, 2=Alps, 3=Pyrenees, 4=NL Toilets
+var maxPOIsets as Number = 7;
 enum POISet {
   PS_RIVM = 0,
   PS_OVERPASS = 1,
   PS_ALPS = 2,
   PS_PYRENEES = 3,
-  PS_NL_TOILETS = 4
+  PS_NL_TOILETS = 4,
+  PS_TOILETS_OVERPASS = 5,
+  PS_NL_TOILETS_AND_WATER = 6
 }
 
+function toPOISet(value as Number) as POISet {
+  switch (value) {
+    case 0:
+      return PS_RIVM;
+    case 1:
+      return PS_OVERPASS;
+    case 2:
+      return PS_ALPS;
+    case 3:
+      return PS_PYRENEES;
+    case 4:
+      return PS_NL_TOILETS;
+    case 5:
+      return PS_TOILETS_OVERPASS;
+    case 6:
+      return PS_NL_TOILETS_AND_WATER;
+    default:
+      return PS_RIVM;
+  }
+}
 function getPOIsetText(value as Number) as String {
   switch (value) {
     case PS_RIVM:
-      return "RIVM waterpoints";
+      return "NL drinking water RIVM";
     case PS_OVERPASS:
-      return "Overpass OWM data";  
+      return "OSM drinking water (overpass)";
     case PS_ALPS:
-      return "Alps";
+      return "Alps drinking water";
     case PS_PYRENEES:
-      return "Pyrenees";
+      return "Pyrenees drinking water";
     case PS_NL_TOILETS:
       return "NL public toilets";  
+    case PS_TOILETS_OVERPASS:
+      return "OSM public toilets (overpass)";
+    case PS_NL_TOILETS_AND_WATER:
+      return "NL toilets and drinking water";
     default:
-      return "RIVM waterpoints";
+      return "RIVM drinking water";
   }
 }
+
+
 function subMenuToggleMenuItem(key as String) as String {
   // if (key.equals("show_timer")) {
   //   if (Storage.getValue(key) ? true : false) {

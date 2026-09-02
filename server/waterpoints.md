@@ -77,6 +77,8 @@ node["amenity"="drinking_water"](50.04959227673653,3.0258901009918664,53.9717922
 // print results
 out geom;
 
+-> @@ TO Test: out center tags;
+
 ```
 const axios = require('axios');
 
