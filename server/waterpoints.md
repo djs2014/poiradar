@@ -68,6 +68,15 @@ nwr["amenity"="toilets"](50.04959227673653,3.0258901009918664,53.971792299805685
 // out geom;
 out skel center;
 
+Netherlands  toilets and drinking water
+
+[out:json][timeout:60];
+// gather results
+node["amenity"="toilets"](50.04959227673653,3.0258901009918664,53.971792299805685,7.552257288491867);
+node["amenity"="drinking_water"](50.04959227673653,3.0258901009918664,53.971792299805685,7.552257288491867);
+// print results
+out geom;
+
 ```
 const axios = require('axios');
 

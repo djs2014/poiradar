@@ -74,6 +74,7 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
     return {
         "lat": lat,
         "lon": lon,
+        "set_id": poiSet,
         "set": wptSets[idxSet],
         "range": maxRangeMeters,
         "pts": compress(wptsInRange.slice(0, maxWpts))

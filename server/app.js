@@ -75,12 +75,13 @@ app.get("/poi", async function (req, res) {
         // 2 = alps (backup if overpass fails)
         // 3 = pyrenees (backup if overpass fails) 
         // 4 = nl toilets   
+        // 5 = toilets overpass
         let poiSet = safeParseInt(req.query.poiSet, 0);
-        const useOverpass = poiSet === 1;
+        const useOverpass = (poiSet === 1 || poiSet === 5);
 
         let data;
         if (useOverpass) {
-            data = await overpass.getInRange(lat, lon, maxRangeMeters, maxWpts);
+            data = await overpass.getInRange(lat, lon, maxRangeMeters, maxWpts, poiSet);
         } else {
             data = await poi.getInRange(lat, lon, maxRangeMeters, maxWpts, poiSet);
         }

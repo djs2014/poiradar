@@ -1,6 +1,10 @@
 const http = require("https");
 const NodeCache = require('node-cache');
 
+/*
+Check status current ip: (rate limit 2 per minute)
+https://overpass-api.de/api/status
+*/
 
 // 7 days in seconds
 const SEVEN_DAYS = 7 * 24 * 60 * 60; // 604,800
@@ -12,10 +16,10 @@ const waterCache = new NodeCache({
     checkperiod: 3600              // Check and delete expired keys every 1 hour (3600s)
 });
 
-const getCacheKey = (lat, lon, radius) => {
+const getCacheKey = (lat, lon, radius, aminity) => {
     const gridLat = (Math.round(lat * 100) / 100).toFixed(2);
     const gridLon = (Math.round(lon * 100) / 100).toFixed(2);
-    return `water:${gridLat}:${gridLon}:${radius}`;
+    return `${aminity}:${gridLat}:${gridLon}:${radius}`;
 }
 
 
@@ -97,36 +101,6 @@ function normalizeRadius(meters) {
     return 20000;
 }
 
-async function fetchFromOverpass(lat, lon, radiusMeters = 2000) {
-    radiusMeters = normalizeRadius(radiusMeters);
-
-    const cacheKey = getCacheKey(lat, lon, radiusMeters);
-
-    // 1. Check cache
-    const cachedData = waterCache.get(cacheKey);
-    if (cachedData !== undefined) {
-        console.log(`Cache HIT for key: ${cacheKey}`);
-        return cachedData;
-    }
-
-    return overpassQueue.add(async () => {
-        const results = await getNearbyWater(lat, lon, radiusMeters);
-
-        // 3. Apply Two-Tier Caching
-        if (Array.isArray(results) && results.length > 0) {
-            // Cache valid data for 7 days
-            waterCache.set(cacheKey, results, SEVEN_DAYS);
-        } else if (Array.isArray(results) && results.length === 0) {
-            console.log(`No water points found for key: ${cacheKey}. Caching empty result for 12 hours.`);
-            // Negative cache: Cache empty array for 12 hours
-            waterCache.set(cacheKey, [], TWELVE_HOURS);
-        }
-
-        waterCache.set(cacheKey, results);
-        return results;
-    });
-}
-
 async function fetchOverpassWithFallback(query) {
     // Encode the body using URLSearchParams
     const body = new URLSearchParams();
@@ -139,11 +113,12 @@ async function fetchOverpassWithFallback(query) {
                 method: 'POST',
                 headers: {
                     // Overpass requires a unique User-Agent to prevent anonymous scraping blocks
-                    'User-Agent': 'GarminConnectIQ_POIradar/1.0 (dirk.speelman@gmail.com)',
-                    'Accept': 'application/json'
+                    'User-Agent': 'GarminConnectIQ_POIradar/2.0 (dirk.speelman@gmail.com)',
+                    'Accept': 'application/json',
+                    'Accept-Encoding': 'gzip, deflate'
                 },
                 body: body,
-                signal: AbortSignal.timeout(8000) // 8-second request timeout
+                signal: AbortSignal.timeout(15000) // 15-second request timeout
             });
 
             // If server returns 500/502/504, skip to the next mirror
@@ -163,7 +138,17 @@ async function fetchOverpassWithFallback(query) {
     throw new Error('All Overpass API mirrors failed to respond.');
 }
 
-async function getNearbyWater(lat, lon, radiusMeters = 5000) {
+async function getNearbyAmenity(lat, lon, radiusMeters = 5000, aminity = 'drinking_water') {
+    radiusMeters = normalizeRadius(radiusMeters);
+
+    // Check cache first
+    const cacheKey = getCacheKey(lat, lon, radiusMeters, aminity);
+    const cachedData = waterCache.get(cacheKey);
+    if (cachedData !== undefined) {
+        console.log(`Cache HIT for key: ${cacheKey}`);
+        return cachedData;
+    }
+
     var timeout = 10; // 10 seconds
     if (radiusMeters >= 10000) {
         timeout = 25; // 30 seconds for larger queries
@@ -175,40 +160,38 @@ async function getNearbyWater(lat, lon, radiusMeters = 5000) {
     const query = `
     [out:json][timeout:${timeout}];
     (
-      node["amenity"="drinking_water"](around:${radiusMeters},${lat},${lon});
-      way["amenity"="drinking_water"](around:${radiusMeters},${lat},${lon});
+      node["amenity"="${aminity}"](around:${radiusMeters},${lat},${lon});
+      way["amenity"="${aminity}"](around:${radiusMeters},${lat},${lon});
     );
     out skel center;
   `;
 
-    // const body = new URLSearchParams();
-    // body.append('data', query);
 
     try {
-        const data = await fetchOverpassWithFallback(query);
-        // const response = await fetch(getNextEndpoint(), {
-        //     method: 'POST',
-        //     headers: {
-        //         // Overpass requires a unique User-Agent to prevent anonymous scraping blocks
-        //         'User-Agent': 'GarminConnectIQ_POIradar/1.0 (dirk.speelman@gmail.com)',
-        //         'Accept': 'application/json'
-        //     },
-        //     body: body
-        // });
+        // Use the queue to ensure we respect Overpass API rate limits
+        return overpassQueue.add(async () => {
+            const data = await fetchOverpassWithFallback(query);
 
-        // if (!response.ok) {
-        //     throw new Error(`Overpass HTTP error! status: ${response.status}`);
-        // }
+            // Map to clean lat/lon coordinates
+            const cleanData = data.elements
+                .map(el => ({
+                    lat: el.lat || (el.center ? el.center.lat : null),
+                    lon: el.lon || (el.center ? el.center.lon : null)
+                }))
+                .filter(loc => loc.lat !== null && loc.lon !== null);
 
-        // const data = await response.json();
+            // Apply Two-Tier Caching
+            if (Array.isArray(cleanData) && cleanData.length > 0) {
+                // Cache valid data for 7 days
+                waterCache.set(cacheKey, cleanData, SEVEN_DAYS);
+            } else if (Array.isArray(cleanData) && cleanData.length === 0) {
+                console.log(`No waypoints found for key: ${cacheKey}. Caching empty result for 12 hours.`);
+                // Negative cache: Cache empty array for 12 hours
+                waterCache.set(cacheKey, [], TWELVE_HOURS);
+            }
 
-        // Map to clean lat/lon coordinates
-        return data.elements
-            .map(el => ({
-                lat: el.lat || (el.center ? el.center.lat : null),
-                lon: el.lon || (el.center ? el.center.lon : null)
-            }))
-            .filter(loc => loc.lat !== null && loc.lon !== null);
+            return cleanData;
+        });
 
     } catch (error) {
         console.error('Fetch error:', error.message);
@@ -216,8 +199,8 @@ async function getNearbyWater(lat, lon, radiusMeters = 5000) {
     }
 }
 
-let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts) {
-    const nearbyWater = await fetchFromOverpass(lat, lon, maxRangeMeters);
+let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet, aminity) {
+    const nearbyWater = await getNearbyAmenity(lat, lon, maxRangeMeters, aminity);
 
     const closest = getClosestLocations(lat, lon, nearbyWater, maxWpts);
 
@@ -227,15 +210,30 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts) {
     return {
         "lat": lat,
         "lon": lon,
-        "set": "overpass",
+        "set_id": poiSet,
+        "set": `OSM ${aminity}`,
         "range": maxRangeMeters,
         "pts": compress(userClosest.slice(0, maxWpts))
     }
 };
 
-exports.getInRange = async function (lat, lon, maxRangeMeters, maxWpts) {
+function getAmenityForPoiSet(poiSet) {
+    switch (poiSet) {
+        case 1: // overpass waterpoints
+            return "drinking_water";
+        case 5: // toilets overpass
+            return "toilets";
+        default:
+            console.warn(`Unknown poiSet: ${poiSet}. Defaulting to drinking_water.`);
+            return "drinking_water";
+    }
+}
 
-    return await getWptsInRange(lat, lon, maxRangeMeters, maxWpts);
+exports.getInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) {
+
+    let aminity = getAmenityForPoiSet(poiSet);
+
+    return await getWptsInRange(lat, lon, maxRangeMeters, maxWpts, poiSet, aminity);
 }
 
 
