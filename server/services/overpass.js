@@ -1,5 +1,6 @@
 const http = require("https");
 const NodeCache = require('node-cache');
+const osmUtils = require("./osmutil.js");
 
 /*
 Check status current ip: (rate limit 2 per minute)
@@ -206,6 +207,11 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet, 
 
     // Filter down to user's actual requested distance
     const userClosest = closest.filter(node => node.dist <= maxRangeMeters);
+    // Extract code and availability for each node
+    userClosest.forEach(node => {
+        node.code = osmUtils.extractCode(node.properties);
+        node.isAvailable = osmUtils.isAvailable(node.properties);
+    });
 
     return {
         "lat": lat,

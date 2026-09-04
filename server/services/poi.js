@@ -1,5 +1,6 @@
 const gpxParse = require("gpx-parse");
 const geomUtils = gpxParse.utils;
+const osmUtils = require("./osmutil.js");
 
 const metersInOneMile = 1609.34;
 
@@ -62,11 +63,11 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
             if (meters <= maxRangeMeters) {
                 let w = {};
                 w.lat = wpt.lat,
-                    w.lon = wpt.lon,
-                    w.d = Math.round(meters),
-                    w.code = wpt.code;
-                // w.name = wpt.name
-                wptsInRange.push(w); ``
+                w.lon = wpt.lon,
+                w.d = Math.round(meters),
+                w.code = wpt.code;
+                w.isAvailable = wpt.isAvailable;
+                wptsInRange.push(w); 
             }
         }
     });
@@ -91,7 +92,7 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
 let compress = function (waypoints) {
     let wpts = [];
     waypoints.forEach(wpt => {
-        wpts.push([wpt.lat, wpt.lon, wpt.code]);
+        wpts.push([wpt.lat, wpt.lon, wpt.code, wpt.isAvailable]);
     });
 
     return wpts;
@@ -141,7 +142,8 @@ let extractJsonWaypoints = function (json) {
             wpts.push({
                 "lat": element.properties.latitude,
                 "lon": element.properties.longitude,
-                "code": 0
+                "code": 0,
+                "isAvailable": 1
             })
         }
 
@@ -149,73 +151,6 @@ let extractJsonWaypoints = function (json) {
         console.log(err);
     }
     return wpts;
-}
-
-/*
-    "properties": {
-        "@id": "node/9603419025",
-        "access": "customers",
-        "amenity": "toilets",
-        "description": "Im DB Service Store",
-        "drinking_water": "yes",
-        "fee": "yes",
-        "opening_hours": "Mo-Sa 05:00-20:00; PH,Su 08:00-20:00"
-      },
-    
-    "properties": {
-        "@id": "node/9611687852",
-        "amenity": "drinking_water",
-        "bottle": "yes",
-        "indoor": "no",
-        "panoramax": "8f483492-b2a0-4ca3-9816-e29ace4bfffa"
-      },
-    "properties": {
-        "@id": "node/9630904362",
-        "amenity": "drinking_water",
-        "drinking_water": "no"
-      },
-
-    -1: not drinkable
-    0: neutral
-    1: drinking water
-    2: toilet
-    3: toilet and drinking water
-
-*/
-function extractCode(properties) {
-    if (!properties) {
-        return 0;
-    }
-    var code = 0;
-
-    // "drinking_water"
-    if (properties.amenity === "drinking_water") {
-        code = 1;
-        if (properties.drinking_water === "no") {
-            code = -1;
-        }
-        return code;
-    }
-
-    // "toilets"
-    if (properties.amenity === "toilets") {
-        code = 2;
-        // "toilets with drinking_water"
-        if (properties.drinking_water === "yes") {
-            code = 3;
-        } 
-        // No drinking water -> just a toilet
-        // else if (properties.drinking_water === "no") {
-        //     code = -1;
-        // }
-        return code;
-    }
-
-    // "no drinking_water"
-    if (properties.drinking_water === "no") {
-        code = -1;
-    }
-    return code;
 }
 
 let extractGeoJsonWaypoints = function (json) {
@@ -228,7 +163,8 @@ let extractGeoJsonWaypoints = function (json) {
             wpts.push({
                 "lat": element.geometry.coordinates[1],
                 "lon": element.geometry.coordinates[0],
-                "code": extractCode(element.properties)
+                "code": osmUtils.extractCode(element.properties),
+                "isAvailable": osmUtils.isAvailable(element.properties)
             })
         }
 
