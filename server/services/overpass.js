@@ -63,7 +63,7 @@ function getClosestLocations(currentLat, currentLon, locations, limit = 5) {
 let compress = function (waypoints) {
     let wpts = [];
     waypoints.forEach(wpt => {
-        wpts.push([wpt.lat, wpt.lon]);
+        wpts.push([wpt.lat, wpt.lon, wpt.code, wpt.isAvailable]);
     });
 
     return wpts;
@@ -158,26 +158,38 @@ async function getNearbyAmenity(lat, lon, radiusMeters = 5000, aminity = 'drinki
         radiusMeters = 25000; // Limit to 25km radius
         timeout = 40;
     }
-    const query = `
-    [out:json][timeout:${timeout}];
-    (
-      node["amenity"="${aminity}"](around:${radiusMeters},${lat},${lon});
-      way["amenity"="${aminity}"](around:${radiusMeters},${lat},${lon});
-    );
-    out skel center;
-  `;
 
+    var query = '';
+    if (aminity === 'toilets|drinking_water') {
+        query = `
+        [out:json][timeout:${timeout}];
+        (
+            nwr["amenity"~"^(toilets|drinking_water)$"](around:${radiusMeters},${lat},${lon});            
+        );
+        out tags center;
+        `;
+    } else {
+        query = `
+        [out:json][timeout:${timeout}];
+        (
+            nwr["amenity"="${aminity}"](around:${radiusMeters},${lat},${lon});            
+        );
+        out tags center;
+        `;
+    }
 
     try {
         // Use the queue to ensure we respect Overpass API rate limits
         return overpassQueue.add(async () => {
             const data = await fetchOverpassWithFallback(query);
-
+            console.log(`Fetched ${data.elements.length} elements from Overpass for key: ${cacheKey}`);
             // Map to clean lat/lon coordinates
             const cleanData = data.elements
                 .map(el => ({
                     lat: el.lat || (el.center ? el.center.lat : null),
-                    lon: el.lon || (el.center ? el.center.lon : null)
+                    lon: el.lon || (el.center ? el.center.lon : null),
+                    // map to propertes for code and availability
+                    properties: el.tags || {}
                 }))
                 .filter(loc => loc.lat !== null && loc.lon !== null);
 
@@ -217,17 +229,31 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet, 
         "lat": lat,
         "lon": lon,
         "set_id": poiSet,
-        "set": `OSM ${aminity}`,
+        "set": `${getSetNameForPoiSet(poiSet)}`,
         "range": maxRangeMeters,
         "pts": compress(userClosest.slice(0, maxWpts))
     }
 };
 
+function getSetNameForPoiSet(poiSet) {
+    switch (poiSet) {
+        case 1:
+            return "OSM Toilets & Drinking Water";
+        case 2:
+            return "OSM Drinking Water";
+        case 3:
+            return "OSM Toilets";
+        default:
+            return "Unknown Set";
+    }
+}   
 function getAmenityForPoiSet(poiSet) {
     switch (poiSet) {
         case 1: // overpass waterpoints
+            return "toilets|drinking_water";
+        case 2: // waterpoints overpass
             return "drinking_water";
-        case 5: // toilets overpass
+        case 3: // toilets overpass
             return "toilets";
         default:
             console.warn(`Unknown poiSet: ${poiSet}. Defaulting to drinking_water.`);
@@ -241,26 +267,3 @@ exports.getInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
 
     return await getWptsInRange(lat, lon, maxRangeMeters, maxWpts, poiSet, aminity);
 }
-
-
-// TODO: add caching of results to avoid repeated queries for same area
-// @@ maxRangeMeters should be limited to avoid huge queries
-/*
-// Spatial Cache Key
-const gridLat = (Math.round(lat * 100) / 100).toFixed(2);
-const gridLon = (Math.round(lon * 100) / 100).toFixed(2);
-const cacheKey = `water:${gridLat}:${gridLon}`;
-
-// Read from Redis / Memory first
-let waterNodes = await cache.get(cacheKey);
-if (!waterNodes) {
-  waterNodes = await fetchFromOverpass(gridLat, gridLon);
-  await cache.set(cacheKey, waterNodes, 86400 * 7); // 7 days TTL
-}
-
-
-// Some fallback sets 
-- nl
-- pyr
-- alp
-  */

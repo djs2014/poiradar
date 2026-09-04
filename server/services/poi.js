@@ -5,44 +5,38 @@ const osmUtils = require("./osmutil.js");
 const metersInOneMile = 1609.34;
 
 let waypoints = [];
+let wptSets = [];
 
 const { promises: { readFile } } = require("fs");
 const path = require("path");
 
 const wptFiles = [
-    '../data/rivm_drinkwaterkranen_actueel_20260704.json',
-    '../data/overpass-alp-waterpoints-2026.geojson',
-    '../data/overpass-pyr-waterpoints-2026.geojson',
-    '../data/overpass-nl-toilets-2026.geojson',
-    '../data/overpass-nl-toilets-drinkingwater-2026.geojson'
-];
-const wptSets = [
-    '20260704Drinkwaterkaart',
-    '2026Alps',
-    '2026Pyrenees',
-    '2026NLToilets',
-    '2026NLToiletsDrinkingWater'
+    { "file": "../data/RIVM_20260704.json", "set": "20260704 drinkwaterkaart" },
+    { "file": "../data/OSM_ALP_2026.geojson", "set": "Alps 2026 OSM" },
+    { "file": "../data/OSM_PYR_2026.geojson", "set": "Pyrenees 2026 OSM" },
+    { "file": "../data/OSM_NL_2026.geojson", "set": "NL 2026 OSM" },
 ];
 
 // See app.js
+// 0 = RIVM waterpoints (default)
+// 1 = OSM set (overpass)
+// 2 = OSM waterpoints
+// 3 = OSM toilets
+// 4 = File OSM ALP
+// 5 = File OSM PYR
+// 6 = File OSM NL
 function getSetIdx(poiSet) {
     let idxSet = 0;
-    if (poiSet === 1) {
-        idxSet = 0; // overpass is handled separately
-    } else if (poiSet === 2) {
+    
+    if (poiSet === 4) {
         idxSet = 1; // alps
-    } else if (poiSet === 3) {
+    } else if (poiSet === 5) {
         idxSet = 2; // pyrenees
-    } else if (poiSet === 4) {
-        idxSet = 3; // nl toilets
     } else if (poiSet === 6) {
-        idxSet = 4; // nl toilets drinking water
+        idxSet = 3; // nl
     }
     return idxSet;
 }
-
-// const gpxFile = '../data/rivm_drinkwaterkranen_actueel_20260704.json';
-// const gpxSet = '20260704Drinkwaterkaart';
 
 let isValidNumber = function (n) {
     return n != -1 && n != 0;
@@ -63,11 +57,11 @@ let getWptsInRange = async function (lat, lon, maxRangeMeters, maxWpts, poiSet) 
             if (meters <= maxRangeMeters) {
                 let w = {};
                 w.lat = wpt.lat,
-                w.lon = wpt.lon,
-                w.d = Math.round(meters),
-                w.code = wpt.code;
+                    w.lon = wpt.lon,
+                    w.d = Math.round(meters),
+                    w.code = wpt.code;
                 w.isAvailable = wpt.isAvailable;
-                wptsInRange.push(w); 
+                wptsInRange.push(w);
             }
         }
     });
@@ -104,7 +98,7 @@ let loadWaypoints = async function (idxSet) {
     let wpts = [];
     let wptsstring = "";
     let wptFile = wptFiles[idxSet];
-    await readFile(path.resolve(__dirname, wptFile)).then(fileBuffer => {
+    await readFile(path.resolve(__dirname, wptFile.file)).then(fileBuffer => {
         // console.log(fileBuffer.toString());
         wptsstring = fileBuffer.toString();
     }).catch(error => {
@@ -113,7 +107,7 @@ let loadWaypoints = async function (idxSet) {
 
     // TODO file1/file2 as backup
     wptFile = wptFiles[idxSet];
-    let ext = path.extname(wptFile);
+    let ext = path.extname(wptFile.file).toLowerCase();
     if (ext == '.gpx') {
 
         await gpxParse.parseGpx(wptsstring, function (error, data) {
@@ -130,6 +124,7 @@ let loadWaypoints = async function (idxSet) {
     }
 
     waypoints[idxSet] = wpts;
+    wptSets[idxSet] = wptFile.set;
 }
 
 let extractJsonWaypoints = function (json) {
@@ -157,7 +152,7 @@ let extractGeoJsonWaypoints = function (json) {
     let wpts = []; // .lat .lon
     try {
         var data = JSON.parse(json);
-        for (const element of data.features) {          
+        for (const element of data.features) {
             // In GeoJSON format, coordinates are stored as [Longitude, Latitude] (X, Y order),
             //  which is the reverse of how people usually speak ("latitude, longitude").
             wpts.push({

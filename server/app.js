@@ -72,19 +72,16 @@ app.get("/poi", async function (req, res) {
         // Resolve data FIRST before writing headers
 
 
-        // 0 = waterpoints rivm
-        // 1 = waterpoints overpass
-        // 2 = alps (backup if overpass fails)
-        // 3 = pyrenees (backup if overpass fails) 
-        // 4 = nl toilets   
-        // 5 = toilets overpass
-        // 6 = nl toilets and drinking water
+        // 0 = RIVM waterpoints (default)
+        // 1 = OSM set (overpass)
+        // 2 = OSM waterpoints
+        // 3 = OSM toilets
+        // 4 = File OSM ALP
+        // 5 = File OSM PYR
+        // 6 = File OSM NL
         let poiSet = safeParseInt(req.query.poiSet, 0);
         
-        const useOverpass = (
-            poiSet === 1 || 
-            poiSet === 5
-        );
+        const useOverpass = (poiSet === 1 || poiSet === 2 || poiSet === 3);
 
         let data;
         if (useOverpass) {
