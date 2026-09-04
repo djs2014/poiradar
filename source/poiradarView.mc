@@ -42,7 +42,7 @@ class poiradarView extends WatchUi.DataField {
 
   hidden var mWpts as Array<WayPoint> = [] as Array<WayPoint>;
   hidden var mWptsSorted as Array<WayPoint> = [] as Array<WayPoint>;
-  hidden var mPoiSetId as POISet = PS_RIVM;
+  hidden var mPoiSetId as POISet = POISET_RIVM;
   hidden var mPoiSetName as String = "";
   hidden var mCurWpt as WayPoint = new WayPoint(0.0d, 0.0d);
   hidden var mDc as Dc?;
@@ -97,15 +97,9 @@ class poiradarView extends WatchUi.DataField {
     mShowClosestWptDistance = $.g_show_closestWptDistanceMeters;
     mShowClosestWptRangeDegrees = $.g_show_closestWptRangeDegrees;
 
-    mWaypointColor = getPOIColor();
+    mWaypointColor = Graphics.COLOR_BLUE;
   }
-
-  function getPOIColor() {
-    if (mPoiSetId == PS_NL_TOILETS || mPoiSetId == PS_TOILETS_OVERPASS) {
-      return Graphics.COLOR_YELLOW;
-    }
-    return Graphics.COLOR_BLUE;
-  }
+  
   function compute(info as Activity.Info) as Void {
     try {
       track = getBearing(info as Activity.Info?);

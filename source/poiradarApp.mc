@@ -131,7 +131,7 @@ class poiradarApp extends Application.AppBase {
         Storage.setValue("pause_app", false);
         // Storage.setValue("cacheBgData", false);
         Storage.setValue("distance_grayscale", false);
-        Storage.setValue("poiSet", PS_RIVM);
+        Storage.setValue("poiSet", POISET_RIVM);
 
         Storage.setValue("checkIntervalMinutes", 5);
         Storage.setValue("maxRangeMeters", 15000);

@@ -55,7 +55,7 @@ class DataFieldSettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
       // Dataset poiset
 
       mi = new WatchUi.MenuItem("Dataset", null, "poiSet", null);
-      value = getStorageValue(mi.getId() as String, PS_RIVM) as Number;
+      value = getStorageValue(mi.getId() as String, POISET_RIVM) as Number;
       mi.setSubLabel($.getPOIsetText(value));
       proxyMenu.addItem(mi);
       

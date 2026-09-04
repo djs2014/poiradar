@@ -134,51 +134,51 @@ function getSoundModeText(value as SoundMode) as String {
 
 var maxPOIsets as Number = 7;
 enum POISet {
-  PS_RIVM = 0,
-  PS_OVERPASS = 1,
-  PS_ALPS = 2,
-  PS_PYRENEES = 3,
-  PS_NL_TOILETS = 4,
-  PS_TOILETS_OVERPASS = 5,
-  PS_NL_TOILETS_AND_WATER = 6
+  POISET_RIVM = 0,
+  POISET_OSM = 1,
+  POISET_OSM_WATERPOINTS = 2,
+  POISET_OSM_TOILETS = 3,
+  POISET_ALPS = 4,
+  POISET_PYRENEES = 5,
+  POISET_NL = 6,  
 }
 
 function toPOISet(value as Number) as POISet {
   switch (value) {
     case 0:
-      return PS_RIVM;
+      return POISET_RIVM;
     case 1:
-      return PS_OVERPASS;
+      return POISET_OSM;
     case 2:
-      return PS_ALPS;
+      return POISET_OSM_WATERPOINTS;
     case 3:
-      return PS_PYRENEES;
+      return POISET_OSM_TOILETS;
     case 4:
-      return PS_NL_TOILETS;
+      return POISET_ALPS;
     case 5:
-      return PS_TOILETS_OVERPASS;
+      return POISET_PYRENEES;
     case 6:
-      return PS_NL_TOILETS_AND_WATER;
+      return POISET_NL;
     default:
-      return PS_RIVM;
+      return POISET_RIVM;
   }
 }
 function getPOIsetText(value as Number) as String {
   switch (value) {
-    case PS_RIVM:
+    case POISET_RIVM:
       return "NL drinking water RIVM";
-    case PS_OVERPASS:
-      return "OSM drinking water (overpass)";
-    case PS_ALPS:
-      return "Alps drinking water";
-    case PS_PYRENEES:
-      return "Pyrenees drinking water";
-    case PS_NL_TOILETS:
-      return "NL public toilets";  
-    case PS_TOILETS_OVERPASS:
-      return "OSM public toilets (overpass)";
-    case PS_NL_TOILETS_AND_WATER:
-      return "NL toilets and drinking water";
+    case POISET_OSM:
+      return "OSM";
+    case POISET_OSM_WATERPOINTS:
+      return "OSM waterpoints";
+    case POISET_OSM_TOILETS:
+      return "OSM public toilets";
+    case POISET_ALPS:
+      return "Alps";
+    case POISET_PYRENEES:
+      return "Pyrenees";    
+    case POISET_NL:
+      return "Netherlands";
     default:
       return "RIVM drinking water";
   }
