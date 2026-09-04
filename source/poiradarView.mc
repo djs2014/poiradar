@@ -550,7 +550,8 @@ class poiradarView extends WatchUi.DataField {
 
       var wptColor = getWayPointColor(wpt.code);
       var closestWptLineColor = wptColor;
-
+      var wptAvailable = wpt.available;
+      
       var distanceKm = wpt.distanceMeters / 1000.0f; //  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = wpt.bearing; // $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
 
@@ -679,7 +680,7 @@ class poiradarView extends WatchUi.DataField {
         dc.setColor(wptColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius);
 
-        if (
+        if ( wptAvailable &&
           mFlashWaypoint &&
           wpt.distanceMeters < $.g_alert_closeRangeMeters &&
           !wpt.flashed
@@ -694,6 +695,14 @@ class poiradarView extends WatchUi.DataField {
             dc.drawCircle(px, py, mWptRadius + 10);
           }
           wpt.flashed = true;
+        } 
+        if (!wptAvailable) {
+          dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+          dc.drawCircle(px, py, mWptRadius + 4);
+          // draw a cross
+          var crossSize = mWptRadius + 2;
+          dc.drawLine(px - crossSize, py - crossSize, px + crossSize, py + crossSize);
+          dc.drawLine(px - crossSize, py + crossSize, px + crossSize, py - crossSize);
         }
       } else {
         if ($.gDistance_grayscale && $.gCreateColors) {

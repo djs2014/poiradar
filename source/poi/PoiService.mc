@@ -16,7 +16,7 @@ function toPoiData(data as Dictionary) as PoiData {
          "set": "202307Drinkwaterkaart",
          "range": 30000, // meters
          "pts": [
-            [52.150449857,4.779379378, 0 ]
+            [52.150449857,4.779379378, 0, 1],  // lat, lon, code, availability]
                          ..
              ]
      */
@@ -41,8 +41,13 @@ function toPoiData(data as Dictionary) as PoiData {
         if (bg_wpt_latlon.size() > 2) {
           wpt_code = bg_wpt_latlon[2] as Number;
         }
+        var wpt_avail = 1;
+        if (bg_wpt_latlon.size() > 3) {
+          wpt_avail = bg_wpt_latlon[3] as Number;          
+        }
         var wpt = new WayPoint(wpt_lat, wpt_lon);
         wpt.code = wpt_code;
+        wpt.available = wpt_avail == 1 ? true : false;
         pts.add(wpt);
       }
 

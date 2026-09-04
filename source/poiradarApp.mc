@@ -269,11 +269,11 @@ class poiradarApp extends Application.AppBase {
         bgHandler.Enable();
       }
 
-      // Storage.setValue("poiUrl", "http://localhost:4000/poi/");
       
       setStorageValueIfChanged("poiUrl", "https://poi.castlephoto.info/poi/");
       setStorageValueIfChanged("poiAPIKey", "0548b3c7-61bc-4afc-b6e5-616f19d3cf23");
 
+      // Storage.setValue("poiUrl", "http://localhost:4000/poi/");
       System.println("User settings loaded");
     } catch (ex) {
       System.println(ex.getErrorMessage());

@@ -27,6 +27,7 @@ class WayPoint {
   var lat as Lang.Double = 0d;
   var lon as Lang.Double = 0d;
   var code as Number = 0;
+  var available as Boolean = true;
 
   var distanceMeters as Float = 0f;
   var bearing as Number = 0;
