@@ -16,6 +16,8 @@ class ThemeManager {
         if (isDarkTheme) {
             switch (key) {
                 case :blue:
+                    return 0x00AAFF; // Garmin blue
+                case :cyanBlue:
                     return 0x00D5FF; // Vibrant cyan-blue
                 case :yellow:
                     return 0xE5FF00; // Adjusted lemon yellow for LCD/Edge 1050
@@ -34,6 +36,8 @@ class ThemeManager {
             // Light Theme
             switch (key) {
                 case :blue:
+                    return 0x00AAFF; // Garmin blue
+                case :royalBlue:
                     return 0x0044CC; // Deep royal blue
                 case :yellow:
                     return 0x997700; // Dark gold/amber
