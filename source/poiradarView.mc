@@ -28,6 +28,7 @@ class poiradarView extends WatchUi.DataField {
 
   hidden var nearBlack as Graphics.ColorType = 0x202020; // visible on a black Edge display
   hidden var nearWhite as Graphics.ColorType = 0xe0e0e0; // less harsh than pure white
+  hidden var mIsDarkTheme as Boolean = false;
 
   hidden var mHighlightClosestWpt as Boolean = true;
   hidden var mShowClosestWptDistance as Float = 1000.0f;
@@ -228,6 +229,7 @@ class poiradarView extends WatchUi.DataField {
     dc.setColor(getBackgroundColor(), getBackgroundColor());
     dc.clear();
     dc.setAntiAlias(true);
+    mIsDarkTheme = (getBackgroundColor() == Graphics.COLOR_BLACK);
 
     var mFontWptLabel = Graphics.FONT_TINY;
 
@@ -259,7 +261,7 @@ class poiradarView extends WatchUi.DataField {
     }
     mLineColor = Graphics.COLOR_BLACK;
     mClosestDistanceMetersColor = nearWhite;
-    if (getBackgroundColor() == Graphics.COLOR_BLACK) {
+    if (mIsDarkTheme) {
       mLineColor = Graphics.COLOR_WHITE;
       mFontColor = Graphics.COLOR_LT_GRAY;
       if (highContrast) {
@@ -817,24 +819,28 @@ class poiradarView extends WatchUi.DataField {
 
   function getWayPointColor(code as Number) as Number {
     if (code == 0) {
-      // Default set color
+      // Default behaviour, use default waypoint color
       return mWaypointColor;
     }
     if (code == 1) {
       // drinking water
-      return Graphics.COLOR_BLUE;
+      return ThemeManager.getColor(:blue, mIsDarkTheme);      
     }
     if (code == 2) {
       // Toilets
-      return Graphics.COLOR_YELLOW;
+      return ThemeManager.getColor(:yellow, mIsDarkTheme);
     }
     if (code == 3) {
       // Toilets + drinking water
-      return Graphics.COLOR_GREEN;
+      return ThemeManager.getColor(:green, mIsDarkTheme);
     }
     if (code == -1) {
       // Water not drinkable
-      return Graphics.COLOR_RED;
+      return ThemeManager.getColor(:red, mIsDarkTheme);
+    }
+    if (code == -2) {
+      // Toilets/water closed
+      return ThemeManager.getColor(:grey, mIsDarkTheme);
     }
 
     return mWaypointColor;
