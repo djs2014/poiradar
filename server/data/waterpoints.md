@@ -9,31 +9,22 @@ https://overpass-turbo.eu
 
 ## drinking_water + toilets + properties
 /*
-OSM-PYR-2026
+OSM_PYR_2026
 Region Pyreneeen / Girona
 */
-[out:json][timeout:60];
-nwr["amenity"~"^(toilets|drinking_water)$"](41.157802,-1.712877,44.684111,4.950330);
-out tags center;
+[out:json][timeout:60];nwr["amenity"~"^(toilets|drinking_water)$"](41.157802,-1.712877,44.684111,4.950330);out tags center;
 
 /*
-OSM-ALP-2026
+OSM_ALP_2026
 Region Alps
 */
-[out:json][timeout:60];
-(
-  nwr["amenity"~"^(toilets|drinking_water)$"](45.112135,5.954345,48.410817,12.617553);
-);
-out tags center;
+[out:json][timeout:60];nwr["amenity"~"^(toilets|drinking_water)$"](45.112135,5.954345,48.410817,12.617553);out tags center;
 
 /*
-OSM-NL-2026
+OSM_NL_2026
 Netherlands
 */
-[out:json][timeout:60];
-// gather results
-nwr["amenity"~"^(toilets|drinking_water)$"](50.049592,3.025890,53.971792,7.552257);
-out tags center;
+[out:json][timeout:60];nwr["amenity"~"^(toilets|drinking_water)$"](50.049592,3.025890,53.971792,7.552257);out tags center;
 
 -------------
 
