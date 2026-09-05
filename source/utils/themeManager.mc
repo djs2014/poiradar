@@ -19,14 +19,24 @@ class ThemeManager {
                     return 0x00AAFF; // Garmin blue
                 case :cyanBlue:
                     return 0x00D5FF; // Vibrant cyan-blue
+                case :darkBlue:
+                    return 0x0000AA; // Dark blue
                 case :yellow:
                     return 0xE5FF00; // Adjusted lemon yellow for LCD/Edge 1050
+                case :darkYellow:
+                    return 0x997700; // Dark gold/amber    
                 case :green:
-                    return 0x00FF66; // Bright mint green
+                    return 0x00FF66; // Bright mint green   
+                case :darkGreen:
+                    return 0x006600; // Dark green
                 case :red:
                     return 0xFF4444; // Bright red
+                case :darkRed:
+                    return 0xAA0000; // Dark red
                 case :grey:
                     return 0xAAAAAA; // Light grey
+                case :darkGrey:
+                    return 0x555555; // Dark grey
                 case :text:
                     return Graphics.COLOR_WHITE;
                 case :background:
@@ -39,14 +49,24 @@ class ThemeManager {
                     return 0x00AAFF; // Garmin blue
                 case :royalBlue:
                     return 0x0044CC; // Deep royal blue
+                case :darkBlue:
+                    return 0x0000AA; // Dark blue
                 case :yellow:
+                    return 0xC79C00; // Rich Gold / Warm Ochre
+                case :darkYellow:
                     return 0x997700; // Dark gold/amber
                 case :green:
                     return 0x008822; // Forest green
+                case :darkGreen:
+                    return 0x006600; // Dark green
                 case :red:
                     return 0xCC3333; // Deep red
+                case :darkRed:
+                    return 0xAA0000; // Dark red
                 case :grey:
                     return 0x555555; // Dark slate grey
+                case :darkGrey:
+                    return 0x555555; // Dark grey
                 case :text:
                     return Graphics.COLOR_BLACK;
                 case :background:

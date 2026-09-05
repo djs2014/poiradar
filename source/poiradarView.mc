@@ -543,6 +543,7 @@ class poiradarView extends WatchUi.DataField {
       var isClosestWpt = i == idxClosestRelevantWpt && mHighlightClosestWpt;
 
       var wptColor = getWayPointColor(wpt.code);
+      var wptCircleColor = getWayPointCircleColor(wpt.code);
       var closestWptLineColor = wptColor;
       var wptAvailable = wpt.available;
       
@@ -669,7 +670,7 @@ class poiradarView extends WatchUi.DataField {
           }
         }
         // Add circle around
-        dc.setColor(mFontColor, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(wptCircleColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius + 1);
         dc.setColor(wptColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius);
@@ -849,6 +850,35 @@ class poiradarView extends WatchUi.DataField {
     return mWaypointColor;
   }
 
+function getWayPointCircleColor(code as Number) as Number {
+    if (mIsDarkTheme || code == 0) {
+      // Dark theme, use font color for waypoint line (white)
+      return mFontColor;
+    }
+    
+    if (code == 1) {
+      // drinking water
+      return ThemeManager.getColor(:darkBlue, false);
+    }
+    if (code == 2) {
+      // Toilets
+      return ThemeManager.getColor(:darkYellow, false);
+    }
+    if (code == 3) {
+      // Toilets + drinking water
+      return ThemeManager.getColor(:darkGreen, false);
+    }
+    if (code == -1) {
+      // Water not drinkable
+      return ThemeManager.getColor(:darkRed, false);
+    }
+    if (code == -2) {
+      // Toilets/water closed
+      return ThemeManager.getColor(:darkGrey, false);
+    }
+
+    return mFontColor;
+}
   function calculatePoiStats(lat as Double, lon as Double) as Void {
     // Calc distance and bearing
     // Sort wpts from low to high
