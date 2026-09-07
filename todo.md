@@ -3,6 +3,9 @@ TEST
 -> call overpass api in Garmin
 -> only returning lat,lon
 -> only waterpoints or toilets
+-> azure?
+-> merge rivm met OSM NLD
+-> wpt label -> no km label if more waypoints close/overlapping
 
 node app to create ALP/NL/PYR sets
 node server/tools/createlocalsets.js -> timeouts

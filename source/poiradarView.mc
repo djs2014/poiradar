@@ -99,7 +99,7 @@ class poiradarView extends WatchUi.DataField {
 
     mWaypointColor = Graphics.COLOR_BLUE;
   }
-  
+
   function compute(info as Activity.Info) as Void {
     try {
       track = getBearing(info as Activity.Info?);
@@ -223,7 +223,7 @@ class poiradarView extends WatchUi.DataField {
     dc.setColor(getBackgroundColor(), getBackgroundColor());
     dc.clear();
     dc.setAntiAlias(true);
-    mIsDarkTheme = (getBackgroundColor() == Graphics.COLOR_BLACK);
+    mIsDarkTheme = getBackgroundColor() == Graphics.COLOR_BLACK;
 
     var mFontWptLabel = Graphics.FONT_TINY;
 
@@ -543,10 +543,11 @@ class poiradarView extends WatchUi.DataField {
       var isClosestWpt = i == idxClosestRelevantWpt && mHighlightClosestWpt;
 
       var wptColor = getWayPointColor(wpt.code);
-      var wptCircleColor = getWayPointCircleColor(wpt.code);
-      var closestWptLineColor = wptColor;
+      var wptLineColor = getWayPointLineColor(wpt.code);
+      var closestWptLineColor = wptLineColor;
       var wptAvailable = wpt.available;
-      
+      var noDrinkingWater = wpt.code == -1;
+
       var distanceKm = wpt.distanceMeters / 1000.0f; //  $.getDistanceFromLatLonInKm(lat, lon, wpt.lat, wpt.lon);
       var bearing = wpt.bearing; // $.getRhumbLineBearing(lat, lon, wpt.lat, wpt.lon);
 
@@ -670,12 +671,13 @@ class poiradarView extends WatchUi.DataField {
           }
         }
         // Add circle around
-        dc.setColor(wptCircleColor, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(wptLineColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius + 1);
         dc.setColor(wptColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, mWptRadius);
 
-        if ( wptAvailable &&
+        if (
+          wptAvailable &&
           mFlashWaypoint &&
           wpt.distanceMeters < $.g_alert_closeRangeMeters &&
           !wpt.flashed
@@ -690,14 +692,37 @@ class poiradarView extends WatchUi.DataField {
             dc.drawCircle(px, py, mWptRadius + 10);
           }
           wpt.flashed = true;
-        } 
+        }
         if (!wptAvailable) {
           dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
           dc.drawCircle(px, py, mWptRadius + 4);
           // draw a cross
           var crossSize = mWptRadius + 2;
-          dc.drawLine(px - crossSize, py - crossSize, px + crossSize, py + crossSize);
-          dc.drawLine(px - crossSize, py + crossSize, px + crossSize, py - crossSize);
+          dc.drawLine(
+            px - crossSize,
+            py - crossSize,
+            px + crossSize,
+            py + crossSize
+          );
+          dc.drawLine(
+            px - crossSize,
+            py + crossSize,
+            px + crossSize,
+            py - crossSize
+          );
+        }
+
+        if (noDrinkingWater) {
+          // Draw a line indicating no drinking water
+          dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+          dc.setPenWidth(2); // radius is 5
+          dc.drawLine(
+            px - mWptRadius,
+            py + mWptRadius / 2 - 1,
+            px + mWptRadius,
+            py + mWptRadius / 2 - 1
+          );
+          dc.setPenWidth(1);
         }
       } else {
         if ($.gDistance_grayscale && $.gCreateColors) {
@@ -828,57 +853,57 @@ class poiradarView extends WatchUi.DataField {
     }
     if (code == 1) {
       // drinking water
-      return ThemeManager.getColor(:blue, mIsDarkTheme);      
+      return ThemeManager.getColor(:blue);
     }
     if (code == 2) {
       // Toilets
-      return ThemeManager.getColor(:yellow, mIsDarkTheme);
+      return ThemeManager.getColor(:warmYellow);
     }
     if (code == 3) {
       // Toilets + drinking water
-      return ThemeManager.getColor(:green, mIsDarkTheme);
+      return ThemeManager.getColor(:green);
     }
     if (code == -1) {
       // Water not drinkable
-      return ThemeManager.getColor(:red, mIsDarkTheme);
+      return ThemeManager.getColor(:red);
     }
     if (code == -2) {
       // Toilets/water closed
-      return ThemeManager.getColor(:grey, mIsDarkTheme);
+      return ThemeManager.getColor(:grey);
     }
 
     return mWaypointColor;
   }
 
-function getWayPointCircleColor(code as Number) as Number {
+  function getWayPointLineColor(code as Number) as Number {
     if (mIsDarkTheme || code == 0) {
       // Dark theme, use font color for waypoint line (white)
       return mFontColor;
     }
-    
+
     if (code == 1) {
       // drinking water
-      return ThemeManager.getColor(:darkBlue, false);
+      return ThemeManager.getColor(:darkBlue);
     }
     if (code == 2) {
       // Toilets
-      return ThemeManager.getColor(:darkYellow, false);
+      return ThemeManager.getColor(:darkYellow);
     }
     if (code == 3) {
       // Toilets + drinking water
-      return ThemeManager.getColor(:darkGreen, false);
+      return ThemeManager.getColor(:darkGreen);
     }
     if (code == -1) {
       // Water not drinkable
-      return ThemeManager.getColor(:darkRed, false);
+      return ThemeManager.getColor(:darkRed);
     }
     if (code == -2) {
       // Toilets/water closed
-      return ThemeManager.getColor(:darkGrey, false);
+      return ThemeManager.getColor(:darkGrey);
     }
 
     return mFontColor;
-}
+  }
   function calculatePoiStats(lat as Double, lon as Double) as Void {
     // Calc distance and bearing
     // Sort wpts from low to high

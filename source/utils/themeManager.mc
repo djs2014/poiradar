@@ -10,68 +10,40 @@ import Toybox.Lang;
     var color = ThemeManager.getColor(:background, isDark));
 */
 class ThemeManager {
-
-    // Pass keys like :blue, :yellow, :green, :grey, :text, :background
-    static function getColor(key as Symbol, isDarkTheme as Boolean) as Number {
-        if (isDarkTheme) {
-            switch (key) {
-                case :blue:
-                    return 0x00AAFF; // Garmin blue
-                case :cyanBlue:
-                    return 0x00D5FF; // Vibrant cyan-blue
-                case :darkBlue:
-                    return 0x0000AA; // Dark blue
-                case :yellow:
-                    return 0xE5FF00; // Adjusted lemon yellow for LCD/Edge 1050
-                case :darkYellow:
-                    return 0x997700; // Dark gold/amber    
-                case :green:
-                    return 0x00FF66; // Bright mint green   
-                case :darkGreen:
-                    return 0x006600; // Dark green
-                case :red:
-                    return 0xFF4444; // Bright red
-                case :darkRed:
-                    return 0xAA0000; // Dark red
-                case :grey:
-                    return 0xAAAAAA; // Light grey
-                case :darkGrey:
-                    return 0x555555; // Dark grey
-                case :text:
-                    return Graphics.COLOR_WHITE;
-                case :background:
-                    return Graphics.COLOR_BLACK;
-            }
-        } else {
-            // Light Theme
-            switch (key) {
-                case :blue:
-                    return 0x00AAFF; // Garmin blue
-                case :royalBlue:
-                    return 0x0044CC; // Deep royal blue
-                case :darkBlue:
-                    return 0x0000AA; // Dark blue
-                case :yellow:
-                    return 0xC79C00; // Rich Gold / Warm Ochre
-                case :darkYellow:
-                    return 0x997700; // Dark gold/amber
-                case :green:
-                    return 0x008822; // Forest green
-                case :darkGreen:
-                    return 0x006600; // Dark green
-                case :red:
-                    return 0xCC3333; // Deep red
-                case :darkRed:
-                    return 0xAA0000; // Dark red
-                case :grey:
-                    return 0x555555; // Dark slate grey
-                case :darkGrey:
-                    return 0x555555; // Dark grey
-                case :text:
-                    return Graphics.COLOR_BLACK;
-                case :background:
-                    return Graphics.COLOR_WHITE;
-            }
+    static function getColor(key as Symbol) as Number {
+        switch (key) {
+            case :blue:
+                return 0x00aaff; // Garmin blue
+            case :cyanBlue:
+                return 0x00d5ff; // Vibrant cyan-blue
+            case :darkBlue:
+                return 0x0000aa;
+            case :yellow:
+                return 0xffff00;
+            case :warmYellow:
+                return 0xffea00;
+            case :lemonYellow:
+                return 0xe5ff00; // Adjusted lemon yellow for LCD/Edge 1050
+            case :darkYellow:
+                return 0x997700; // Dark gold/amber
+            case :green:
+                return 0x00ff66; // Bright mint green
+            case :forestGreen:
+                return 0x008822; // Forest green
+            case :darkGreen:
+                return 0x006600; // Dark green
+            case :red:
+                return 0xff4444; // Bright red
+            case :deepRed:
+                return 0xcc3333; // Deep red
+            case :darkRed:
+                return 0xaa0000; // Dark red
+            case :lightGrey:
+                return 0xaaaaaa; // Light grey
+            case :grey:
+                return 0x888888; // Medium grey
+            case :darkGrey:
+                return 0x555555; // Dark grey
         }
         return Graphics.COLOR_WHITE;
     }
