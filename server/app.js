@@ -2,7 +2,8 @@
 const http = require("http");
 
 const poi = require('./services/poi.js');
-// const fs = require('fs/promises');
+const overpass = require('./services/overpass.js');
+
 const compression = require('compression');
 const apikeys = require('./helpers/apikeys.js');
 
@@ -17,6 +18,11 @@ const shouldCompress = (req, res) => {
     }
     return compression.filter(req, res);
 };
+
+function safeParseInt(input, fallback = 0) {
+  const parsed = parseInt(input, 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+}
 
 app.use(compression({
     filter: shouldCompress,
@@ -39,52 +45,61 @@ app.get("/poi", async function (req, res) {
         const queryString = req.originalUrl.split('?').splice(1).join('?');
         console.log('Process poi: ' + queryString);
 
-        // TODO
         // authorization
         if (!req.headers.authorization) {
-            res.writeHead(401);
-            res.end("Unauthorized");
             console.log('Unauthorized');
-            return;
+            return res.status(401).send("Unauthorized");
         }
 
         let allowed = await apikeys.validApikey(req.headers.authorization);
         if (!allowed) {
-            res.writeHead(403);
-            res.end("Forbidden");
             console.log('Forbidden');
-            return;
+            return res.status(403).send("Forbidden");
         }
 
-         // lat, lon must exist
+        // lat, lon must exist
         if (!req.query.lat || !req.query.lon) {
-            res.writeHead(400);
-            res.end("Bad request");
             console.log('Bad request');
-            return;
+            return res.status(400).send("Bad request");
         }
 
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
 
-        // default poi set waterpunt poi @@TODO        
-        let maxRangeMeters = 10000;
-        if (req.query.maxRange) {
-            maxRangeMeters = parseInt(req.query.maxRange);
-        }
-        let maxWpts = 100;
-        if (req.query.maxWpts) {
-            maxWpts = parseInt(req.query.maxWpts);
-        }
+        let maxRangeMeters = safeParseInt(req.query.maxRange, 10000);
+        let maxWpts = safeParseInt(req.query.maxWpts, 100);
+
+        // Resolve data FIRST before writing headers
 
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-                 res.end(JSON.stringify(await poi.getInRange(lat, lon,
-                     maxRangeMeters, maxWpts)));
+        // 0 = RIVM waterpoints (default)
+        // 1 = OSM set (overpass)
+        // 2 = OSM waterpoints
+        // 3 = OSM toilets
+        // 4 = File OSM ALP
+        // 5 = File OSM PYR
+        // 6 = File OSM NL
+        let poiSet = safeParseInt(req.query.poiSet, 0);
+        
+        const useOverpass = (poiSet === 1 || poiSet === 2 || poiSet === 3);
+
+        let data;
+        if (useOverpass) {
+            data = await overpass.getInRange(lat, lon, maxRangeMeters, maxWpts, poiSet);
+        } else {
+            data = await poi.getInRange(lat, lon, maxRangeMeters, maxWpts, poiSet);
+        }
+
+        // Send response safely (Express res.json handles headers + stringify)
+        return res.json(data);
 
     } catch (err) {
-        res.writeHead(500);
-        res.end(err.message);
+        console.error('Error in /poi handler:', err);
+
+        // Guard against writing headers twice if headers were already sent
+        if (!res.headersSent) {
+            return res.status(500).send(err.message);
+        }
     }
 });
 

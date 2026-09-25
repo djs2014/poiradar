@@ -1,0 +1,5688 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-08-30T00:31:56Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/276664685",
+        "alt_name": "Spatzenbrunnen",
+        "amenity": "drinking_water",
+        "description": "im Winter abgestellt",
+        "fountain": "drinking",
+        "image": "File:Spatzenbrunnen, Aachen.jpg",
+        "name": "Möschebrunnen",
+        "wheelchair": "yes",
+        "wikidata": "Q1958159",
+        "wikimedia_commons": "Category:Spatzenbrunnen (Aachen)",
+        "wikipedia": "de:Möschebrunnen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0835375,
+          50.7744865
+        ]
+      },
+      "id": "node/276664685"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/554922089",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6406071,
+          50.7461
+        ]
+      },
+      "id": "node/554922089"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1149796424",
+        "amenity": "drinking_water",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3402787,
+          50.9234552
+        ]
+      },
+      "id": "node/1149796424"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1231231382",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1730502,
+          50.8548718
+        ]
+      },
+      "id": "node/1231231382"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1231600182",
+        "amenity": "drinking_water",
+        "depth": "40 meter"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1734,
+          50.85622
+        ]
+      },
+      "id": "node/1231600182"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1291958855",
+        "amenity": "drinking_water",
+        "mapillary": "3484019201853676"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0496996,
+          50.7690418
+        ]
+      },
+      "id": "node/1291958855"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1317755008",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "drinking_water:legal": "no",
+        "heritage": "8",
+        "heritage:operator": "UntereDenkmalbehörde",
+        "name": "Marktbrunnen",
+        "natural": "spring",
+        "temperature": "336 K",
+        "wheelchair": "yes",
+        "wikidata": "Q1685149",
+        "wikimedia_commons": "Category:Marktbrunnen (Burtscheid)",
+        "wikipedia": "de:Thermalbrunnen Burtscheid"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0922663,
+          50.7633061
+        ]
+      },
+      "id": "node/1317755008"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1352952498",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "drinking_water:legal": "no",
+        "fee": "no",
+        "fountain": "drinking",
+        "hazard": "stench",
+        "note": "Das schwefelhaltige Wasser aus dieser Quelle wird seit Menschengedenken als Trink- und sogar Heilwasser eingesetzt. Laut EU-Recht ist es jedoch \"kein Trinkwasser\" und daher auch so gekennzeichnet.\nGetrunken wird es dennoch von vielen Menschen.",
+        "panoramax": "227f9b0b-b1ac-4cb4-81b5-edc80b36c8cd",
+        "wheelchair": "yes",
+        "wikipedia": "https://de.wikipedia.org/wiki/Elisenbrunnen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0867653,
+          50.774186
+        ]
+      },
+      "id": "node/1352952498"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1356110980",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fountain": "drinking",
+        "name": "Borne à boire - Vieille montagne",
+        "note": "Horaire En service de mi-avril à octobre sur demande via un bouton pressoir",
+        "operator": "Ville de Liège",
+        "panoramax": "b33e2a31-3d19-403c-aed9-c4628319c064"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5915483,
+          50.6505054
+        ]
+      },
+      "id": "node/1356110980"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1408543385",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "check_date": "2023-06-24",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "name": "Borne à boire - Saint-Léonard",
+        "note": "Horaire En service de mi-avril à octobre sur demande via un bouton pressoir",
+        "operator": "Ville de Liège",
+        "panoramax": "5def3653-6e76-40d0-90f0-d5990dc5fcdc",
+        "source": "local_knowledge;opendata.liege.be;survey"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5854514,
+          50.6482059
+        ]
+      },
+      "id": "node/1408543385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1467535352",
+        "amenity": "drinking_water",
+        "charge": "4.00 EUR",
+        "description": "Wohnmobil-Wasseranschluß",
+        "fee": "yes",
+        "man_made": "water_tap",
+        "operator": "Stadt Monschau"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2319829,
+          50.5541981
+        ]
+      },
+      "id": "node/1467535352"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1504574476",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3759307,
+          50.9354012
+        ]
+      },
+      "id": "node/1504574476"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1847518680",
+        "amenity": "drinking_water",
+        "url": "http://www.heinsberg.de/kultur-freizeit/sehenswertes/der-gastes-brunnen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0950534,
+          51.0639987
+        ]
+      },
+      "id": "node/1847518680"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1894888549",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2023-08-11",
+        "covered": "no",
+        "fee": "no",
+        "indoor": "no",
+        "man_made": "water_tap",
+        "note": "In den Wintermonaten abgeschaltet/abgebaut, wird im Frühjahr wieder in Betrieb genommen. Bitte nicht löschen!",
+        "operator": "Stadt Aachen",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0862498,
+          50.7747486
+        ]
+      },
+      "id": "node/1894888549"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1935021812",
+        "amenity": "drinking_water",
+        "check_date": "2022-07-17"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5611943,
+          50.6221062
+        ]
+      },
+      "id": "node/1935021812"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2179728715",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "name": "Kolebron",
+        "natural": "spring",
+        "opening_hours": "24/7",
+        "panoramax": "1794d760-5fe3-4f7f-b5b5-d1ca8f695b0f",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8174946,
+          50.7500759
+        ]
+      },
+      "id": "node/2179728715"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2317578247",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "name": "Borne à boire - Vivegnis",
+        "note": "Horaire En service de mi-avril à octobre sur demande via un bouton pressoir",
+        "operator": "Ville de Liège",
+        "panoramax": "d8c295f9-d716-4d25-9345-db2c34777246"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5893505,
+          50.6525885
+        ]
+      },
+      "id": "node/2317578247"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2362319723",
+        "amenity": "drinking_water",
+        "check_date": "2026-07-25",
+        "fee": "yes",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2116773,
+          51.0516426
+        ]
+      },
+      "id": "node/2362319723"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2367837784",
+        "addr:housenumber": "295",
+        "addr:street": "Rue de Barisart",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "name": "Source Barisart",
+        "name:nl": "Barisartbron",
+        "natural": "spring",
+        "wikidata": "Q3491873"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8627302,
+          50.4744732
+        ]
+      },
+      "id": "node/2367837784"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2404886463",
+        "amenity": "drinking_water",
+        "drinking_water": "no",
+        "note": "no drinkable water sign is present"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8703623,
+          50.5757906
+        ]
+      },
+      "id": "node/2404886463"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2515756560",
+        "amenity": "drinking_water",
+        "in_cemetery": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4614281,
+          50.85624
+        ]
+      },
+      "id": "node/2515756560"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2816673875",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "image": "https://images.mapillary.com/EHB9lyBI4xpGKr2z5qwTzR/thumb-2048.jpg",
+        "indoor": "no",
+        "mapillary": "146161040758969",
+        "name": "Pouhon aux Armes d'Autriche",
+        "natural": "spring",
+        "note": "this was placed here in 2014 (http://www.lavenir.net/cnt/DMF20140625_00495806)",
+        "water_characteristic": "mineral"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8628429,
+          50.4929937
+        ]
+      },
+      "id": "node/2816673875"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2818477339",
+        "amenity": "drinking_water",
+        "name": "Source de Banneux-Notre Dame",
+        "natural": "spring",
+        "note": "Regular quality control",
+        "note:nl": "Regelmatige kwaliteitscontrole van het water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7506732,
+          50.5388176
+        ]
+      },
+      "id": "node/2818477339"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2818805166",
+        "amenity": "drinking_water",
+        "name": "Pouhon Pia",
+        "natural": "spring",
+        "wikidata": "Q27979105"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8770828,
+          50.4709288
+        ]
+      },
+      "id": "node/2818805166"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2942717856",
+        "amenity": "drinking_water",
+        "in_cemetery": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4318714,
+          50.8079906
+        ]
+      },
+      "id": "node/2942717856"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2998050686",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4403456,
+          50.4103056
+        ]
+      },
+      "id": "node/2998050686"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3338840292",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.224561,
+          50.5202368
+        ]
+      },
+      "id": "node/3338840292"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3495735979",
+        "amenity": "drinking_water",
+        "fee": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7908034,
+          50.642377
+        ]
+      },
+      "id": "node/3495735979"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3651406153",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9475736,
+          50.8524053
+        ]
+      },
+      "id": "node/3651406153"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3682124937",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7133223,
+          50.8354146
+        ]
+      },
+      "id": "node/3682124937"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3682128086",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2025-07-27",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8948626,
+          50.8154814
+        ]
+      },
+      "id": "node/3682128086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3682130429",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0208102,
+          50.7724157
+        ]
+      },
+      "id": "node/3682130429"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3709777402",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9853715,
+          51.1969986
+        ]
+      },
+      "id": "node/3709777402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3711022127",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7032889,
+          50.8400911
+        ]
+      },
+      "id": "node/3711022127"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3740323528",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "drinking_water": "yes",
+        "operator": "JoinThePipe, for Brabant Water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5804467,
+          51.2372659
+        ]
+      },
+      "id": "node/3740323528"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3754680492",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6943501,
+          50.8471881
+        ]
+      },
+      "id": "node/3754680492"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3799928457",
+        "amenity": "drinking_water",
+        "check_date": "2024-07-05",
+        "fountain": "bottle_refill",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.993265,
+          51.1924958
+        ]
+      },
+      "id": "node/3799928457"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3818717039",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7531426,
+          50.8392005
+        ]
+      },
+      "id": "node/3818717039"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3876065421",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6902168,
+          50.8512971
+        ]
+      },
+      "id": "node/3876065421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3939508304",
+        "amenity": "drinking_water",
+        "bottle": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7686653,
+          50.7338246
+        ]
+      },
+      "id": "node/3939508304"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3939508305",
+        "amenity": "drinking_water",
+        "bottle": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7688509,
+          50.7331142
+        ]
+      },
+      "id": "node/3939508305"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4019749189",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "name": "Fontaine Jacques Izoard",
+        "panoramax": "ce724513-dac1-4f21-bab4-5cd15677782d"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5579038,
+          50.6407866
+        ]
+      },
+      "id": "node/4019749189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4338827511",
+        "amenity": "drinking_water",
+        "charge": "€ 2,00/50 Liter",
+        "fee": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3727536,
+          50.4093376
+        ]
+      },
+      "id": "node/4338827511"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4419534133",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7000854,
+          50.5839069
+        ]
+      },
+      "id": "node/4419534133"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4423927756",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2369991,
+          50.5436024
+        ]
+      },
+      "id": "node/4423927756"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4472778615",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7011057,
+          50.8406216
+        ]
+      },
+      "id": "node/4472778615"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718914",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7048538,
+          51.251608
+        ]
+      },
+      "id": "node/4782718914"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718916",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9637077,
+          50.7876537
+        ]
+      },
+      "id": "node/4782718916"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718917",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8273164,
+          50.8646644
+        ]
+      },
+      "id": "node/4782718917"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718918",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9843789,
+          50.8352746
+        ]
+      },
+      "id": "node/4782718918"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718919",
+        "access": "no",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2026-06-19",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0260092,
+          50.8539678
+        ]
+      },
+      "id": "node/4782718919"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782718920",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9767961,
+          50.887498
+        ]
+      },
+      "id": "node/4782718920"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719121",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9707113,
+          50.9442442
+        ]
+      },
+      "id": "node/4782719121"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719122",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9080246,
+          50.9498766
+        ]
+      },
+      "id": "node/4782719122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719123",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7364025,
+          50.9761793
+        ]
+      },
+      "id": "node/4782719123"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719124",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8659568,
+          51.1053372
+        ]
+      },
+      "id": "node/4782719124"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719125",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0011545,
+          51.1465267
+        ]
+      },
+      "id": "node/4782719125"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719135",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9918713,
+          51.1905704
+        ]
+      },
+      "id": "node/4782719135"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782719136",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9096456,
+          51.1895305
+        ]
+      },
+      "id": "node/4782719136"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782771661",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6888786,
+          50.8496718
+        ]
+      },
+      "id": "node/4782771661"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782771662",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6939619,
+          50.8493153
+        ]
+      },
+      "id": "node/4782771662"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782771663",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6913473,
+          50.8438739
+        ]
+      },
+      "id": "node/4782771663"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782771664",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7161261,
+          50.8338915
+        ]
+      },
+      "id": "node/4782771664"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782885277",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7966176,
+          50.9493409
+        ]
+      },
+      "id": "node/4782885277"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4782885278",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8451856,
+          50.9837307
+        ]
+      },
+      "id": "node/4782885278"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5103661228",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3936487,
+          50.5097999
+        ]
+      },
+      "id": "node/5103661228"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5237197826",
+        "amenity": "drinking_water",
+        "in_cemetery": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3906219,
+          51.0535551
+        ]
+      },
+      "id": "node/5237197826"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5650360845",
+        "amenity": "drinking_water",
+        "mapillary": "https://www.mapillary.com/app/?pKey=1M5Jks1Szbth-9SVdWg_eg&lat=50.96480453709154&lng=5.499554080045176&z=17&focus=photo",
+        "panoramax": "d6a165e7-9f3e-4376-8076-d7a6270ce3b7",
+        "stateofrepair": "ok"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4996945,
+          50.9648792
+        ]
+      },
+      "id": "node/5650360845"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5720390521",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7123241,
+          50.8384449
+        ]
+      },
+      "id": "node/5720390521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5796148297",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5809286,
+          51.0168781
+        ]
+      },
+      "id": "node/5796148297"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5852993360",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "note": "Tappunt Wilhelminaberg",
+        "operator": "WML"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0213465,
+          50.8772449
+        ]
+      },
+      "id": "node/5852993360"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5922001387",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.976294,
+          50.9646379
+        ]
+      },
+      "id": "node/5922001387"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5980801638",
+        "amenity": "drinking_water",
+        "name": "WML"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.064157,
+          50.8686925
+        ]
+      },
+      "id": "node/5980801638"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6165341531",
+        "amenity": "drinking_water",
+        "fixme": "position",
+        "source": "https://opendata.liege.be/explore/dataset/points-eau-potable/map/?location=18,50.64413,5.56046&basemap=jawg.streets"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5595792,
+          50.643893
+        ]
+      },
+      "id": "node/6165341531"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6320441421",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7388557,
+          50.4669964
+        ]
+      },
+      "id": "node/6320441421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6424127008",
+        "OnroerendErfgoed:criteria": "BE",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "yes",
+        "heritage": "4",
+        "heritage:operator": "OnroerendErfgoed",
+        "heritage:website": "https://id.erfgoed.net/erfgoedobjecten/80677",
+        "mapillary": "https://www.mapillary.com/app/?lat=51.132580138117284&lng=5.45393005169753&z=17&pKey=KLD3PyDFA7cX6BEdiaEpvg&focus=photo&x=0.5030571862067731&y=0.5361249957025777&zoom=0",
+        "panoramax": "c6aa282f-8ea7-43ad-8708-db60f6861e00",
+        "ref:OnroerendErfgoed": "80677",
+        "start_date": "1863",
+        "stateofrepair": "ok"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4539338,
+          51.1325474
+        ]
+      },
+      "id": "node/6424127008"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6426498815",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7849706,
+          50.9067306
+        ]
+      },
+      "id": "node/6426498815"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6446013993",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6330611,
+          50.6004069
+        ]
+      },
+      "id": "node/6446013993"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6576867690",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7414164,
+          50.873579
+        ]
+      },
+      "id": "node/6576867690"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6736693236",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "in_cemetery": "yes",
+        "panoramax": "3fb6fe3b-f722-4256-802d-ef472dbb6f09",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.614514,
+          50.7909286
+        ]
+      },
+      "id": "node/6736693236"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6755279121",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0547787,
+          50.8925494
+        ]
+      },
+      "id": "node/6755279121"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6789365600",
+        "addr:street": "Bassinkade",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "man_made": "water_tap",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6908756,
+          50.856007
+        ]
+      },
+      "id": "node/6789365600"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6795720818",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "cold_water": "no",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "hot_water": "no",
+        "iced_water": "no",
+        "mapillary": "4769571383069988",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "operator:wikipedia": "nl:Waterleiding Maatschappij Limburg",
+        "panoramax": "f1b9e050-0fcd-472a-9087-f53bab77160b",
+        "room_temperature_water": "yes",
+        "seasonal": "yes",
+        "warm_water": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6851469,
+          50.8311546
+        ]
+      },
+      "id": "node/6795720818"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6863042080",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "intermittent": "no",
+        "name": "Pouhon La Sauvenière",
+        "natural": "spring",
+        "note": "survey: drinkable",
+        "water_characteristic": "ferruginous",
+        "wikidata": "Q27959454"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8982516,
+          50.4851381
+        ]
+      },
+      "id": "node/6863042080"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6863042081",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "intermittent": "no",
+        "name": "Pouhon du Groesbeek",
+        "natural": "spring",
+        "water_characteristic": "ferruginous",
+        "wikidata": "Q27960033"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.898259,
+          50.4850698
+        ]
+      },
+      "id": "node/6863042081"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7020215508",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.331111,
+          50.564782
+        ]
+      },
+      "id": "node/7020215508"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7020297090",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.332332,
+          50.5624195
+        ]
+      },
+      "id": "node/7020297090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028564989",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "operator:wikipedia": "nl:Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7861849,
+          50.9469195
+        ]
+      },
+      "id": "node/7028564989"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028564990",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "operator:wikipedia": "nl:Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8115168,
+          51.0321475
+        ]
+      },
+      "id": "node/7028564990"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028605885",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7223887,
+          50.7780892
+        ]
+      },
+      "id": "node/7028605885"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028605886",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8407329,
+          50.9586962
+        ]
+      },
+      "id": "node/7028605886"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028605887",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8433008,
+          50.9675789
+        ]
+      },
+      "id": "node/7028605887"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028605888",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8250883,
+          50.974262
+        ]
+      },
+      "id": "node/7028605888"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028605889",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8150198,
+          50.9847593
+        ]
+      },
+      "id": "node/7028605889"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028612075",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7675843,
+          51.0408204
+        ]
+      },
+      "id": "node/7028612075"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028612076",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8992991,
+          51.1838385
+        ]
+      },
+      "id": "node/7028612076"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028612077",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9357757,
+          51.2493918
+        ]
+      },
+      "id": "node/7028612077"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028627353",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8857993,
+          51.1374076
+        ]
+      },
+      "id": "node/7028627353"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028627354",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8950683,
+          51.1429188
+        ]
+      },
+      "id": "node/7028627354"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028627355",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7175697,
+          50.871208
+        ]
+      },
+      "id": "node/7028627355"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028654096",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0295853,
+          50.8620479
+        ]
+      },
+      "id": "node/7028654096"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028654097",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9517596,
+          50.9194975
+        ]
+      },
+      "id": "node/7028654097"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028654100",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0588905,
+          50.8612289
+        ]
+      },
+      "id": "node/7028654100"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028669153",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9340674,
+          50.9545487
+        ]
+      },
+      "id": "node/7028669153"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028669154",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8923126,
+          50.9198589
+        ]
+      },
+      "id": "node/7028669154"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028669155",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8774511,
+          50.9132068
+        ]
+      },
+      "id": "node/7028669155"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028669156",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7508862,
+          50.8827812
+        ]
+      },
+      "id": "node/7028669156"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028682471",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8663151,
+          50.9998377
+        ]
+      },
+      "id": "node/7028682471"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028682472",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8956004,
+          51.0044266
+        ]
+      },
+      "id": "node/7028682472"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028682473",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0108626,
+          51.1866285
+        ]
+      },
+      "id": "node/7028682473"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028720760",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0357261,
+          51.1218917
+        ]
+      },
+      "id": "node/7028720760"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028720761",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7818687,
+          51.0277969
+        ]
+      },
+      "id": "node/7028720761"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028720762",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9944568,
+          50.9780373
+        ]
+      },
+      "id": "node/7028720762"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028751341",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.849829,
+          51.1296463
+        ]
+      },
+      "id": "node/7028751341"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028751342",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8593435,
+          51.0014763
+        ]
+      },
+      "id": "node/7028751342"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028751343",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8779531,
+          50.9981509
+        ]
+      },
+      "id": "node/7028751343"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028751344",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8458353,
+          50.9922517
+        ]
+      },
+      "id": "node/7028751344"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028751345",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "no",
+        "fee": "no",
+        "indoor": "no",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8625901,
+          51.0608297
+        ]
+      },
+      "id": "node/7028751345"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028761729",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8329331,
+          50.8690195
+        ]
+      },
+      "id": "node/7028761729"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028791020",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6684727,
+          51.2440251
+        ]
+      },
+      "id": "node/7028791020"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028791021",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7048582,
+          51.2517763
+        ]
+      },
+      "id": "node/7028791021"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7028842212",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "note": "permission from WML to use source",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "source": "WML_Watertaps_2019_RevRK.gpx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7038187,
+          51.249
+        ]
+      },
+      "id": "node/7028842212"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7677317860",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8900912,
+          50.8664646
+        ]
+      },
+      "id": "node/7677317860"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7821805815",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "operational_status": "broken",
+        "panoramax": "d4517fa7-a8e0-4c01-896a-f0a762c950b3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5749111,
+          50.5598046
+        ]
+      },
+      "id": "node/7821805815"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7823738953",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7305406,
+          50.4669985
+        ]
+      },
+      "id": "node/7823738953"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7918412138",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.652007,
+          50.7025915
+        ]
+      },
+      "id": "node/7918412138"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8010514819",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "Waterleiding Maatschappij Limburg",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9750048,
+          50.8342834
+        ]
+      },
+      "id": "node/8010514819"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8011255072",
+        "amenity": "drinking_water",
+        "image": "https://images.mapillary.com/42dXK42Dsr9LI9ixlDHWos/thumb-2048.jpg",
+        "mapillary": "137271301681027"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8625713,
+          50.4930414
+        ]
+      },
+      "id": "node/8011255072"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8042312524",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8446413,
+          50.860948
+        ]
+      },
+      "id": "node/8042312524"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8194452154",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9042615,
+          50.9477256
+        ]
+      },
+      "id": "node/8194452154"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8569055813",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9785603,
+          50.8633781
+        ]
+      },
+      "id": "node/8569055813"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8847872258",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fountain": "bottle_refill",
+        "operator": "WML",
+        "panoramax": "28c9e676-6ce1-4937-a219-6f3ee12faa98",
+        "panoramax:0": "02c4f835-e526-402b-97f8-1978efcca1d2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7051945,
+          50.849592
+        ]
+      },
+      "id": "node/8847872258"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8931192137",
+        "amenity": "drinking_water",
+        "fountain": "bubbler"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7142963,
+          50.8457074
+        ]
+      },
+      "id": "node/8931192137"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9007752015",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "name": "Fontaine publique de Ham",
+        "water_characteristic": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5586249,
+          50.5414923
+        ]
+      },
+      "id": "node/9007752015"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9064007803",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4140793,
+          50.445845
+        ]
+      },
+      "id": "node/9064007803"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9232432465",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2995781,
+          50.6367649
+        ]
+      },
+      "id": "node/9232432465"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9623345111",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "fee": "no",
+        "indoor": "no",
+        "panoramax": "d1d3dfde-2576-4596-b9a9-c633288012a2",
+        "survey:date": "2022-03-30"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3773941,
+          50.960818
+        ]
+      },
+      "id": "node/9623345111"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9830799679",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "description": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "fee": "no",
+        "name": "Borne à boire - Boverie 2",
+        "operator": "Ville de Liège",
+        "panoramax": "88289919-b241-4f77-a8e9-360f81335058",
+        "seasonal": "summer"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5759717,
+          50.6276439
+        ]
+      },
+      "id": "node/9830799679"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850350993",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bubbler",
+        "name": "Borne à boire - Morinval",
+        "note": "En service de mi-avril à octobre sur demande via un bouton pressoir",
+        "operator": "Ville de Liège",
+        "panoramax": "81a08076-32df-4550-ab80-4179138f8402"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6039528,
+          50.6547214
+        ]
+      },
+      "id": "node/9850350993"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850350995",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "name": "Borne à boire - Citadelle",
+        "note": "Horaire En service de mi-avril à octobre sur demande via un bouton pressoir",
+        "operator": "Ville de Liège",
+        "panoramax": "e7ce3642-6bcc-4181-8dd1-e5382d0e57c4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5741002,
+          50.6473355
+        ]
+      },
+      "id": "node/9850350995"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850350998",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "description": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "fee": "no",
+        "man_made": "water_tap",
+        "name": "Borne à boire - Boverie 1",
+        "operator": "Ville de Liège",
+        "panoramax": "392f6df2-cbb5-4e17-96bb-a99bc10fee3b",
+        "seasonal": "summer"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5754649,
+          50.6289899
+        ]
+      },
+      "id": "node/9850350998"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850350999",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "name": "Borne à boire - Albert 1er",
+        "note": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "operator": "Ville de Liège",
+        "panoramax": "07a5b014-3902-4689-821d-f887f769aa3b",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5992165,
+          50.6212273
+        ]
+      },
+      "id": "node/9850350999"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850351000",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bubbler",
+        "name": "Borne à boire - Cointe (parc canin)",
+        "note": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "operator": "Ville de Liège",
+        "panoramax": "72fc8b19-2e4c-47f6-bbde-f675ce4c3c5e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5468543,
+          50.6286387
+        ]
+      },
+      "id": "node/9850351000"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850351001",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "name": "Borne à boire - Sainte-Agathe",
+        "note": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "operator": "Ville de Liège",
+        "panoramax": "0830036a-df2c-4086-a749-de475f1f2d57"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5599707,
+          50.644772
+        ]
+      },
+      "id": "node/9850351001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9850351002",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "name": "Borne à boire - Sainte-Marguerite (plaine de jeux)",
+        "note": "Horaire En service de mi-avril à octobre de 09h à 21h",
+        "operator": "Ville de Liège",
+        "panoramax": "b1a09b2f-74c3-4cd6-bb77-72703b5f14f8"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5590768,
+          50.6458695
+        ]
+      },
+      "id": "node/9850351002"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9922360482",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4345272,
+          51.2333415
+        ]
+      },
+      "id": "node/9922360482"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9931788936",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "covered": "no",
+        "fee": "no",
+        "indoor": "no",
+        "man_made": "water_tap",
+        "operator": "Stadt Aachen",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1136553,
+          50.7896863
+        ]
+      },
+      "id": "node/9931788936"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9951544583",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5077726,
+          50.874347
+        ]
+      },
+      "id": "node/9951544583"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10006704688",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5984723,
+          50.8314797
+        ]
+      },
+      "id": "node/10006704688"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10008353435",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3923378,
+          50.8581124
+        ]
+      },
+      "id": "node/10008353435"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10049926229",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5560069,
+          50.7304703
+        ]
+      },
+      "id": "node/10049926229"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10074947943",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill",
+        "name": "Limburgs Drinkwater"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7680426,
+          51.0059748
+        ]
+      },
+      "id": "node/10074947943"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10103033430",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5959123,
+          50.7869001
+        ]
+      },
+      "id": "node/10103033430"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10219356163",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0198763,
+          50.8962116
+        ]
+      },
+      "id": "node/10219356163"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742525261",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6747369,
+          50.9948693
+        ]
+      },
+      "id": "node/10742525261"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10792425042",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6902267,
+          50.8565608
+        ]
+      },
+      "id": "node/10792425042"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10829473507",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4808909,
+          50.8324523
+        ]
+      },
+      "id": "node/10829473507"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10901360092",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.331531,
+          50.9193354
+        ]
+      },
+      "id": "node/10901360092"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10901360102",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3311682,
+          50.9180799
+        ]
+      },
+      "id": "node/10901360102"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10982659544",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "description": "Disabled during winter according to sign. Dates not indicated",
+        "description:nl": "Buiten gebruik tijdens de winter, aldus bord. Geen datums aangegeven",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "seasonal": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9751526,
+          50.8901581
+        ]
+      },
+      "id": "node/10982659544"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11004586916",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2023-06-24",
+        "cold_water": "no",
+        "covered": "no",
+        "fee": "no",
+        "hot_water": "no",
+        "iced_water": "no",
+        "man_made": "water_tap",
+        "opening_hours": "24/7",
+        "operator": "Ville de Liège",
+        "panoramax": "9b20199f-8af0-404a-8477-909ad1bb9bb5",
+        "room_temperature_water": "yes",
+        "warm_water": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5906531,
+          50.6447523
+        ]
+      },
+      "id": "node/11004586916"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11021654806",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7908611,
+          50.7830484
+        ]
+      },
+      "id": "node/11021654806"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11063744457",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill",
+        "operator": "WML"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9780357,
+          50.9235541
+        ]
+      },
+      "id": "node/11063744457"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11071107267",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9118445,
+          50.7608808
+        ]
+      },
+      "id": "node/11071107267"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11115041519",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "drinking",
+        "operator": "Stadt Würselen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.127,
+          50.8164
+        ]
+      },
+      "id": "node/11115041519"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11122128885",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "operator": "Aquafin",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4357585,
+          51.1317322
+        ]
+      },
+      "id": "node/11122128885"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11148130052",
+        "amenity": "drinking_water",
+        "fountain": "drinking"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9345818,
+          50.8256121
+        ]
+      },
+      "id": "node/11148130052"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11165007527",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "operator": "WML Limburgs drinkwater"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9928663,
+          50.8609955
+        ]
+      },
+      "id": "node/11165007527"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11220542497",
+        "amenity": "drinking_water",
+        "description": "Free drinking water inside the Albert Heijn Jan Linders supermarket."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6776506,
+          50.843304
+        ]
+      },
+      "id": "node/11220542497"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11469918884",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "name": "Borne à boire - Boulevard de la Constitution",
+        "note": "Horaire : en service de mi-avril à octobre de 09h à 21h.",
+        "operator": "Ville de Liège",
+        "panoramax": "4b8f7dbc-af51-4ae8-bb60-67249b886197",
+        "seasonal": "spring;summer;autumn",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5875093,
+          50.6439373
+        ]
+      },
+      "id": "node/11469918884"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11483500092",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "indoor": "yes",
+        "opening_hours": "24/7",
+        "operator": "NMBS/SNCB",
+        "panoramax": "9bb6df7f-b5d8-4ece-bb3e-43c6532840ec",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5660215,
+          50.6244392
+        ]
+      },
+      "id": "node/11483500092"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11739690912",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3343316,
+          50.9957541
+        ]
+      },
+      "id": "node/11739690912"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11750209197",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "drinking_water": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "opening_hours": "24/7",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6547452,
+          51.0685102
+        ]
+      },
+      "id": "node/11750209197"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11784730626",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "cold_water": "yes",
+        "drinking_water": "yes",
+        "fountain": "bottle_refill",
+        "hot_water": "no",
+        "warm_water": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7089059,
+          51.2576083
+        ]
+      },
+      "id": "node/11784730626"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11796002082",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bubbler",
+        "operator": "Stadt Herzogenrath",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1186278,
+          50.8865159
+        ]
+      },
+      "id": "node/11796002082"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11873364338",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8784274,
+          51.0999999
+        ]
+      },
+      "id": "node/11873364338"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11898638248",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2383708,
+          50.5443303
+        ]
+      },
+      "id": "node/11898638248"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11898641701",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.238065,
+          50.5441736
+        ]
+      },
+      "id": "node/11898641701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11932583629",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6574574,
+          50.9027414
+        ]
+      },
+      "id": "node/11932583629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12001965641",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "no",
+        "fee": "no",
+        "indoor": "no",
+        "lit": "no",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.364626,
+          50.582667
+        ]
+      },
+      "id": "node/12001965641"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12006319940",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "fee": "no",
+        "fountain": "drinking",
+        "indoor": "yes",
+        "level": "0",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.082551,
+          50.7755755
+        ]
+      },
+      "id": "node/12006319940"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12009373686",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "description": "buitentappunt",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "name": "Kraanwater",
+        "operator": "De Watergroep",
+        "panoramax": "53f3dcac-8222-4a61-bd2d-5de4dff47548",
+        "seasonal": "no",
+        "website": "https://www.dewatergroep.be/nl-be/drinkwater/extra-services/drinkwatertappunten"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3679285,
+          51.1082037
+        ]
+      },
+      "id": "node/12009373686"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12023180652",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2024-08-11",
+        "description": "Anlässlich der Kampagne “EIN SPIEL – EIN TRINKBRUNNEN” für die Fußball-EM 2024 der Männer aufgestellt. Vom Bundesministerium für Umwelt, Naturschutz, nukleare Sicherheit und Verbraucherschutz (BMUV) gefördert und durchgeführt von a tip: tap e.V.",
+        "fee": "no",
+        "fountain": "bubbler",
+        "name": "EURO-Trinkbrunnen",
+        "operator": "Stadt Herzogenrath",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0887997,
+          50.8345317
+        ]
+      },
+      "id": "node/12023180652"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12063931168",
+        "amenity": "drinking_water",
+        "drinking_water": "yes",
+        "fountain": "drinking",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9642934,
+          50.7340205
+        ]
+      },
+      "id": "node/12063931168"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12078090136",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "operator": "De Watergroep",
+        "operator:wikidata": "Q2619987",
+        "panoramax": "95afd3e8-fab8-4bfa-8524-cf29111baa93"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5956572,
+          51.0074336
+        ]
+      },
+      "id": "node/12078090136"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12083364402",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5750881,
+          50.6164654
+        ]
+      },
+      "id": "node/12083364402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12085945813",
+        "amenity": "drinking_water",
+        "check_date": "2024-10",
+        "operator": "NEW AG",
+        "source": "survey"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.432422,
+          51.1939265
+        ]
+      },
+      "id": "node/12085945813"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12087071103",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2212621,
+          50.5494446
+        ]
+      },
+      "id": "node/12087071103"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12087118373",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "indoor": "yes",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0886953,
+          50.7680516
+        ]
+      },
+      "id": "node/12087118373"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12099427533",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "check_date": "2025-05-12",
+        "fee": "no",
+        "man_made": "water_tap",
+        "manufacturer": "ubidermis",
+        "manufacturer:website": "https://www.urbidermis.com/fr/mobilier-urbain/atlantida/",
+        "operator": "Ville de Liège",
+        "operator:wikidata": "Q3992"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5622028,
+          50.63431
+        ]
+      },
+      "id": "node/12099427533"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12104702244",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "drinking",
+        "operator": "Stadt Herzogenrath",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.094604,
+          50.8674452
+        ]
+      },
+      "id": "node/12104702244"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12107122246",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0136521,
+          50.776193
+        ]
+      },
+      "id": "node/12107122246"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12107132283",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418",
+        "seasonal": "yes",
+        "website": "https://www.wml.nl/alles-over-water/limburgs-water-drinken/watertaps-in-de-buurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.892215,
+          50.8376712
+        ]
+      },
+      "id": "node/12107132283"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12118345155",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9634453,
+          51.1927507
+        ]
+      },
+      "id": "node/12118345155"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12118346736",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9634405,
+          51.193014
+        ]
+      },
+      "id": "node/12118346736"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12118393069",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9636762,
+          51.1932828
+        ]
+      },
+      "id": "node/12118393069"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12155610701",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fountain": "bottle_refill",
+        "mapillary": "1438943976810226"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3402632,
+          50.9292788
+        ]
+      },
+      "id": "node/12155610701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12160487807",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "panoramax": "eaea63b2-d22b-438f-a58e-7277ec820dee"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3421304,
+          50.9323956
+        ]
+      },
+      "id": "node/12160487807"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12178734067",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "panoramax": "46005ebc-d68e-4d1e-b7c2-15f00c9db6bd"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7262528,
+          51.0372724
+        ]
+      },
+      "id": "node/12178734067"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12184007775",
+        "access": "customers",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4268075,
+          50.57892
+        ]
+      },
+      "id": "node/12184007775"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12244365909",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "panoramax": "06076072-9dd3-4fbb-9da3-74b84d721ae3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3545713,
+          50.8015891
+        ]
+      },
+      "id": "node/12244365909"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12245853115",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "panoramax": "d4339963-4bd4-4ed7-af7a-bb54f600f57c"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3418201,
+          50.842597
+        ]
+      },
+      "id": "node/12245853115"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12260549696",
+        "amenity": "drinking_water",
+        "fountain": "bubbler",
+        "mapillary": "2891474951006926",
+        "panoramax": "5b88e79e-7018-412b-bdbb-dfba2dc0b391"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3769393,
+          51.1544426
+        ]
+      },
+      "id": "node/12260549696"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12261435090",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4711192,
+          50.4961659
+        ]
+      },
+      "id": "node/12261435090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12296543191",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "indoor": "yes",
+        "panoramax": "2f5690c6-547b-4e3c-8fe8-58dd5559822b",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5601527,
+          50.5861336
+        ]
+      },
+      "id": "node/12296543191"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12302409102",
+        "amenity": "drinking_water",
+        "check_date": "2024-10",
+        "operator": "NEW AG",
+        "source": "survey"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.445127,
+          51.1969963
+        ]
+      },
+      "id": "node/12302409102"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12324073796",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "drinking_water": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "mapillary": "2423394971197253",
+        "opening_hours": "24/7",
+        "panoramax": "6254e6cb-24b5-423e-9bb2-1a3f887b3548",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7499232,
+          51.0231453
+        ]
+      },
+      "id": "node/12324073796"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12351736751",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fountain": "drinking",
+        "mapillary": "523400920540117"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4954875,
+          51.2238103
+        ]
+      },
+      "id": "node/12351736751"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12354188081",
+        "amenity": "drinking_water",
+        "man_made": "water_tap",
+        "panoramax": "3bc33a3b-a4df-435c-b37c-153bedbc2b7d"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4105252,
+          51.193792
+        ]
+      },
+      "id": "node/12354188081"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12378902143",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "indoor": "yes",
+        "man_made": "water_tap",
+        "panoramax": "d02d83b4-0ed8-4ba7-b02f-c1d8e1dd9d47",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3636554,
+          50.990397
+        ]
+      },
+      "id": "node/12378902143"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12382031987",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "dog": "designated",
+        "fountain": "drinking",
+        "panoramax": "8b2ffaed-14f8-42ba-80c9-a038e7387321"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3867402,
+          50.9860713
+        ]
+      },
+      "id": "node/12382031987"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12387888525",
+        "amenity": "drinking_water",
+        "check_date": "2024-11",
+        "operator": "NEW AG",
+        "source": "survey"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4404864,
+          51.1948921
+        ]
+      },
+      "id": "node/12387888525"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12398752504",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "opening_hours": "24/7",
+        "panoramax": "7abad711-bd7f-4e7b-bb31-03d033a28457",
+        "panoramax:0": "89ac60ed-b3a9-41c6-ba8f-04ee6d8aa955"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5131277,
+          50.8650678
+        ]
+      },
+      "id": "node/12398752504"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12403475744",
+        "amenity": "drinking_water",
+        "man_made": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "bc1c1c43-10ba-4a44-a0e5-68863839e0a9"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5520897,
+          50.8356977
+        ]
+      },
+      "id": "node/12403475744"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12407587880",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "man_made": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "5ae80976-a2df-401f-b7d9-b77770676496"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5716877,
+          50.9279871
+        ]
+      },
+      "id": "node/12407587880"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12458733964",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "drinking_water": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "mapillary": "1626390724756228",
+        "opening_hours": "24/7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4672492,
+          50.7775956
+        ]
+      },
+      "id": "node/12458733964"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12463837502",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.333514,
+          50.564071
+        ]
+      },
+      "id": "node/12463837502"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12551076735",
+        "amenity": "drinking_water",
+        "check_date": "2025-01",
+        "fountain": "bubbler",
+        "operator": "NEW AG",
+        "source": "survey"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4418621,
+          51.1659843
+        ]
+      },
+      "id": "node/12551076735"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12658030198",
+        "amenity": "drinking_water",
+        "fountain": "drinking",
+        "indoor": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.223612,
+          51.0552737
+        ]
+      },
+      "id": "node/12658030198"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12658071351",
+        "amenity": "drinking_water",
+        "fountain": "drinking",
+        "indoor": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0947661,
+          51.0638704
+        ]
+      },
+      "id": "node/12658071351"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12662605913",
+        "OnroerendErfgoed:criteria": "BE",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "description": "Beschermde dorpspomp met de drie lindebomen waar tot 1795 de jaarlijkse volksvergaderingen gehouden werden en recht gesproken werd",
+        "drinking_water": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "heritage": "4",
+        "heritage:operator": "OnroerendErfgoed",
+        "heritage:website": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/200287",
+        "historic": "yes",
+        "image": "File:Maasmechelen Dreef zn gerechtsbomen (7) - 205000 - onroerenderfgoed.jpg",
+        "man_made": "water_well",
+        "name": "Beschermde pomp en lindebomen",
+        "opening_hours": "24/7",
+        "pump": "manual",
+        "ref:OnroerendErfgoed": "3377",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7359724,
+          50.991871
+        ]
+      },
+      "id": "node/12662605913"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12749839501",
+        "amenity": "drinking_water",
+        "check_date": "2025-04",
+        "source": "survey",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4462786,
+          51.1675238
+        ]
+      },
+      "id": "node/12749839501"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12768664263",
+        "amenity": "drinking_water",
+        "fountain": "bottle_refill"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7222701,
+          50.8592318
+        ]
+      },
+      "id": "node/12768664263"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12800180370",
+        "amenity": "drinking_water",
+        "description": "Außerbetriebnahme im Winter.",
+        "fountain": "bubbler",
+        "man_made": "drinking_fountain",
+        "name": "Trinkwasserbrunnen Viersen Fußgängerzone",
+        "operator": "NEW",
+        "start_date": "2025-05-01",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3897055,
+          51.2565769
+        ]
+      },
+      "id": "node/12800180370"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12813402615",
+        "amenity": "drinking_water",
+        "fixme": "genaue Position",
+        "fountain": "drinking"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3160611,
+          51.079805
+        ]
+      },
+      "id": "node/12813402615"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12814178389",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "check_date": "2025-05-12",
+        "fee": "no",
+        "fountain": "water_tap",
+        "man_made": "water_tap",
+        "manufacturer": "ubidermis",
+        "manufacturer:website": "https://www.urbidermis.com/fr/mobilier-urbain/atlantida/",
+        "operator": "Ville de Liège",
+        "operator:wikidata": "Q3992",
+        "panoramax": "a194c1aa-842b-409e-9bfd-4977aef7cb96"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.562235,
+          50.6341491
+        ]
+      },
+      "id": "node/12814178389"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12843697394",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "panoramax": "846cf02d-c44f-4a65-8431-3f5d5d751d97"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.7189331,
+          50.5662774
+        ]
+      },
+      "id": "node/12843697394"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12857066446",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "no",
+        "fee": "no",
+        "indoor": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6126364,
+          50.6315764
+        ]
+      },
+      "id": "node/12857066446"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12860668323",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "indoor": "yes",
+        "opening_hours": "Tu 14:00-19:00; We 10:00-17:00; Th 14:00-17:00; Fr 14:00-17:00; Sa,Su 10:00-12:30",
+        "panoramax": "f582b95b-de07-4a1f-8e8a-0200699da314",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4188186,
+          50.9072982
+        ]
+      },
+      "id": "node/12860668323"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12860856821",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "panoramax": "bfb4d14f-0188-4373-a654-506805c0dd14",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4212125,
+          50.913787
+        ]
+      },
+      "id": "node/12860856821"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12862874550",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8762394,
+          51.0281892
+        ]
+      },
+      "id": "node/12862874550"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12883500907",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "indoor": "yes",
+        "lit": "yes",
+        "operator": "NMBS/SNCB",
+        "panoramax": "ababa1ca-3af0-4f6d-b559-f2fae7f8b965",
+        "seasonal": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8548837,
+          50.5883652
+        ]
+      },
+      "id": "node/12883500907"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12902257857",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8584127,
+          50.7055541
+        ]
+      },
+      "id": "node/12902257857"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12913106900",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9354214,
+          51.0228438
+        ]
+      },
+      "id": "node/12913106900"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12948972285",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "indoor": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0973237,
+          50.7687391
+        ]
+      },
+      "id": "node/12948972285"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12948972286",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "indoor": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0831023,
+          50.7675926
+        ]
+      },
+      "id": "node/12948972286"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12948972287",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "indoor": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0916113,
+          50.7686036
+        ]
+      },
+      "id": "node/12948972287"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12949983808",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "cold_water": "no",
+        "covered": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "hot_water": "no",
+        "iced_water": "no",
+        "opening_hours": "24/7",
+        "panoramax": "9a459c63-2023-408a-b4c9-75ab58ff1ed2",
+        "room_temperature_water": "yes",
+        "seasonal": "no",
+        "warm_water": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6977931,
+          50.9614428
+        ]
+      },
+      "id": "node/12949983808"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12951533749",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "cold_water": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill;water_tap",
+        "hot_water": "no",
+        "iced_water": "no",
+        "indoor": "yes",
+        "opening_hours": "PH off",
+        "room_temperature_water": "no",
+        "seasonal": "no",
+        "warm_water": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5757426,
+          50.6413644
+        ]
+      },
+      "id": "node/12951533749"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12953635780",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "operator": "La Roue Libre",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8111356,
+          50.6464521
+        ]
+      },
+      "id": "node/12953635780"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13030357369",
+        "amenity": "drinking_water",
+        "operator": "Limburgs Drinkwater"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9433497,
+          51.1570248
+        ]
+      },
+      "id": "node/13030357369"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13061869477",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9692036,
+          50.4440322
+        ]
+      },
+      "id": "node/13061869477"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13061887497",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "fee": "no",
+        "seasonal": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9730288,
+          50.4409646
+        ]
+      },
+      "id": "node/13061887497"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13073963901",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8720043,
+          50.8561415
+        ]
+      },
+      "id": "node/13073963901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13141141009",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9706938,
+          50.7092438
+        ]
+      },
+      "id": "node/13141141009"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13172894957",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "08:30-16:30",
+        "panoramax": "6e872287-0212-408b-954f-7c6017dc72c3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6047797,
+          50.6361585
+        ]
+      },
+      "id": "node/13172894957"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13200794545",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "drinking_water": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "mapillary": "1099498018552759",
+        "opening_hours": "24/7",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8090974,
+          51.1019131
+        ]
+      },
+      "id": "node/13200794545"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13277450946",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "opening_hours": "24/7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5500041,
+          51.251337
+        ]
+      },
+      "id": "node/13277450946"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13426200622",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9872854,
+          51.1821078
+        ]
+      },
+      "id": "node/13426200622"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13435263783",
+        "amenity": "drinking_water",
+        "operator": "WML Limburgs drinkwater",
+        "operator:wikidata": "Q27959418"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6795517,
+          51.2199342
+        ]
+      },
+      "id": "node/13435263783"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13537368842",
+        "amenity": "drinking_water",
+        "check_date": "2026-02-08",
+        "fee": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2234174,
+          51.0530357
+        ]
+      },
+      "id": "node/13537368842"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13625273548",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "edd4231c-4153-4442-8980-f6dfc83241d1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4723458,
+          50.7129754
+        ]
+      },
+      "id": "node/13625273548"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13666738900",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "1fafc75a-8e0c-4405-a89b-412e2b2b7c9d"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6063238,
+          50.6353118
+        ]
+      },
+      "id": "node/13666738900"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13666742130",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "f1f02a15-b883-443d-9d6c-bf64d4c69836"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6098004,
+          50.6341405
+        ]
+      },
+      "id": "node/13666742130"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13784550073",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2128628,
+          50.4279571
+        ]
+      },
+      "id": "node/13784550073"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13785191450",
+        "amenity": "drinking_water",
+        "indoor": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.3776899,
+          50.9608936
+        ]
+      },
+      "id": "node/13785191450"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13866688858",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "a5eca94b-bea9-4f28-bbee-d9dc0a4f4729"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8234672,
+          50.7375437
+        ]
+      },
+      "id": "node/13866688858"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13874687958",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "water_tap",
+        "opening_hours": "24/7",
+        "panoramax": "ae2548e5-a5d3-4d59-950b-694c4d7eaaea"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5413119,
+          50.622446
+        ]
+      },
+      "id": "node/13874687958"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13912221875",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5849102,
+          50.6343684
+        ]
+      },
+      "id": "node/13912221875"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13960298711",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "covered": "yes",
+        "drinking_water:legal": "no",
+        "fee": "no",
+        "fountain": "drinking",
+        "hazard": "stench",
+        "note": "Das schwefelhaltige Wasser aus dieser Quelle wird seit Menschengedenken als Trink- und sogar Heilwasser eingesetzt. Laut EU-Recht ist es jedoch \"kein Trinkwasser\" und daher auch so gekennzeichnet.\nGetrunken wird es dennoch von vielen Menschen",
+        "panoramax": "227f9b0b-b1ac-4cb4-81b5-edc80b36c8cd",
+        "wheelchair": "yes",
+        "wikipedia": "https://de.wikipedia.org/wiki/Elisenbrunnen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0867294,
+          50.7741283
+        ]
+      },
+      "id": "node/13960298711"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13975411642",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "seasonal": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9674726,
+          50.4454178
+        ]
+      },
+      "id": "node/13975411642"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13975411643",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "seasonal": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9729621,
+          50.4411056
+        ]
+      },
+      "id": "node/13975411643"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13975411646",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "seasonal": "no",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9652746,
+          50.4431721
+        ]
+      },
+      "id": "node/13975411646"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13989136102",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9772262,
+          50.4288836
+        ]
+      },
+      "id": "node/13989136102"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13989136301",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9721361,
+          50.4270178
+        ]
+      },
+      "id": "node/13989136301"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14001103901",
+        "amenity": "drinking_water",
+        "operator": "Domaine de Palogne"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5308288,
+          50.3981412
+        ]
+      },
+      "id": "node/14001103901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092771",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5384386,
+          51.1698405
+        ]
+      },
+      "id": "node/14005092771"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092772",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5378556,
+          51.1701707
+        ]
+      },
+      "id": "node/14005092772"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092773",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5373932,
+          51.170418
+        ]
+      },
+      "id": "node/14005092773"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092774",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5364516,
+          51.1709257
+        ]
+      },
+      "id": "node/14005092774"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092775",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5362455,
+          51.1708343
+        ]
+      },
+      "id": "node/14005092775"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092776",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5364888,
+          51.1704502
+        ]
+      },
+      "id": "node/14005092776"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092777",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5366362,
+          51.1701483
+        ]
+      },
+      "id": "node/14005092777"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092778",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5370153,
+          51.1695
+        ]
+      },
+      "id": "node/14005092778"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092779",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5373136,
+          51.169004
+        ]
+      },
+      "id": "node/14005092779"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092780",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5378288,
+          51.1691508
+        ]
+      },
+      "id": "node/14005092780"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092781",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5385823,
+          51.1694267
+        ]
+      },
+      "id": "node/14005092781"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092782",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5387238,
+          51.1704263
+        ]
+      },
+      "id": "node/14005092782"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092783",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5395664,
+          51.1697489
+        ]
+      },
+      "id": "node/14005092783"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092784",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5409631,
+          51.1702618
+        ]
+      },
+      "id": "node/14005092784"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092785",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5400961,
+          51.1705861
+        ]
+      },
+      "id": "node/14005092785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092786",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5394004,
+          51.1707901
+        ]
+      },
+      "id": "node/14005092786"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092787",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5385125,
+          51.1710759
+        ]
+      },
+      "id": "node/14005092787"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092788",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5376955,
+          51.1713592
+        ]
+      },
+      "id": "node/14005092788"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092789",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5369583,
+          51.1715975
+        ]
+      },
+      "id": "node/14005092789"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092790",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5378462,
+          51.1719536
+        ]
+      },
+      "id": "node/14005092790"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092791",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5389598,
+          51.1715809
+        ]
+      },
+      "id": "node/14005092791"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092792",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5400883,
+          51.1712051
+        ]
+      },
+      "id": "node/14005092792"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092793",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5411323,
+          51.1708583
+        ]
+      },
+      "id": "node/14005092793"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092794",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5421976,
+          51.1704873
+        ]
+      },
+      "id": "node/14005092794"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092795",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.543267,
+          51.1701406
+        ]
+      },
+      "id": "node/14005092795"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092796",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5425658,
+          51.1710012
+        ]
+      },
+      "id": "node/14005092796"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092797",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5414919,
+          51.1713627
+        ]
+      },
+      "id": "node/14005092797"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092798",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5403619,
+          51.1717443
+        ]
+      },
+      "id": "node/14005092798"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092799",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5392906,
+          51.1721148
+        ]
+      },
+      "id": "node/14005092799"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14005092800",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5382599,
+          51.1724682
+        ]
+      },
+      "id": "node/14005092800"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14008704995",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "operator": "Commune d'Oupeye",
+        "seasonal": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6140928,
+          50.7409143
+        ]
+      },
+      "id": "node/14008704995"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14008726951",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "operator": "Commune d'Oupeye"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6440343,
+          50.6955166
+        ]
+      },
+      "id": "node/14008726951"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14008726952",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "operator": "Commune d'Oupeye"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6234558,
+          50.7047839
+        ]
+      },
+      "id": "node/14008726952"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14049450515",
+        "amenity": "drinking_water",
+        "fountain": "bubbler"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.270218,
+          50.8194667
+        ]
+      },
+      "id": "node/14049450515"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14087917158",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1024795,
+          50.7614741
+        ]
+      },
+      "id": "node/14087917158"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14105356737",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.2768411,
+          50.7573858
+        ]
+      },
+      "id": "node/14105356737"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14122046938",
+        "amenity": "drinking_water",
+        "drinking_water:refill": "yes",
+        "water": "refill"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.3337123,
+          51.252071
+        ]
+      },
+      "id": "node/14122046938"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14132344276",
+        "amenity": "drinking_water",
+        "bottle": "yes",
+        "fee": "no",
+        "fountain": "bottle_refill",
+        "indoor": "yes",
+        "level": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5697703,
+          50.5843907
+        ]
+      },
+      "id": "node/14132344276"
+    }
+  ]
+}

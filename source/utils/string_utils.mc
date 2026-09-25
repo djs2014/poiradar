@@ -49,3 +49,22 @@ function stringReplacePos(
 
   return pre + result;
 }
+
+function replaceCommaWithDot(str as String?) as String {
+    if (str == null) {
+        return "";
+    }
+    
+    var chars = str.toCharArray();
+    var result = "";
+    
+    for (var i = 0; i < chars.size(); i++) {
+        if (chars[i] == ',') {
+            result += ".";
+        } else {
+            result += chars[i];
+        }
+    }
+    
+    return result;
+}

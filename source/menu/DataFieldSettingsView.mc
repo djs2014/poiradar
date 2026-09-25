@@ -58,11 +58,13 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
     menu.addItem(mi);
     mi = new WatchUi.MenuItem("Sound", null, "sound", null);
     menu.addItem(mi);
+    mi = new WatchUi.MenuItem("Advanced", null, "advanced", null);
+    menu.addItem(mi);
+    mi = new WatchUi.MenuItem("Help", null, "help", null);
+    menu.addItem(mi);
 
     var boolean = false;
 
-    boolean = Storage.getValue("distance_grayscale") ? true : false;
-    menu.addItem(new WatchUi.ToggleMenuItem("Grayscale distance", null, "distance_grayscale", boolean, null));
     boolean = Storage.getValue("debug") ? true : false;
     menu.addItem(new WatchUi.ToggleMenuItem("Debug", null, "debug", boolean, null));
     boolean = Storage.getValue("resetDefaults") ? true : false;
@@ -85,6 +87,10 @@ class DataFieldSettingsDelegate extends WatchUi.BehaviorDelegate {
 
 function getStorageNumberAsString(key as String) as String {
   return (getStorageValue(key, 0) as Number).format("%0d");
+}
+
+function getStorageFloatAsString(key as String) as String {
+  return (getStorageValue(key, 0) as Float).format("%0.1f");
 }
 
 function getMinimalGPSqualityText(value as Number) as String {
@@ -127,6 +133,59 @@ function getSoundModeText(value as SoundMode) as String {
       return "--";
   }
 }
+
+var maxPOIsets as Number = 7;
+enum POISet {
+  POISET_RIVM = 0,
+  POISET_OSM = 1,
+  POISET_OSM_WATERPOINTS = 2,
+  POISET_OSM_TOILETS = 3,
+  POISET_ALPS = 4,
+  POISET_PYRENEES = 5,
+  POISET_NL = 6,  
+}
+
+function toPOISet(value as Number) as POISet {
+  switch (value) {
+    case 0:
+      return POISET_RIVM;
+    case 1:
+      return POISET_OSM;
+    case 2:
+      return POISET_OSM_WATERPOINTS;
+    case 3:
+      return POISET_OSM_TOILETS;
+    case 4:
+      return POISET_ALPS;
+    case 5:
+      return POISET_PYRENEES;
+    case 6:
+      return POISET_NL;
+    default:
+      return POISET_RIVM;
+  }
+}
+function getPOIsetText(value as Number) as String {
+  switch (value) {
+    case POISET_RIVM:
+      return "NL drinking water RIVM";
+    case POISET_OSM:
+      return "OSM";
+    case POISET_OSM_WATERPOINTS:
+      return "OSM waterpoints";
+    case POISET_OSM_TOILETS:
+      return "OSM public toilets";
+    case POISET_ALPS:
+      return "Alps";
+    case POISET_PYRENEES:
+      return "Pyrenees";    
+    case POISET_NL:
+      return "Netherlands";
+    default:
+      return "RIVM drinking water";
+  }
+}
+
 
 function subMenuToggleMenuItem(key as String) as String {
   // if (key.equals("show_timer")) {
