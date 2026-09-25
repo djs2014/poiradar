@@ -1,6 +1,21 @@
 
 TEST
 -> call overpass api in Garmin
+
+### Overpass set toilets and water 50.0577228, 4.5327728
+POST https://overpass-api.de/api/interpreter?lat=50.0577228&lon=
+Content-Type: application/x-www-form-urlencoded
+
+query=[out:json][timeout:10];(nwr["amenity"~"^(toilets|drinking_water)"](around:20000,50.0577228,4.5327728););out tags center;
+
+Post
+[out:json][timeout:60];
+// gather results
+nwr["amenity"~"^(toilets|drinking_water)$"](50.049592,3.025890,53.971792,7.552257);
+out tags center;
+
+
+
 -> only returning lat,lon
 -> only waterpoints or toilets
 -> azure?
