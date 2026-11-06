@@ -1050,7 +1050,7 @@ class poiradarView extends WatchUi.DataField {
     }
 
     if ($.g_alert_proximity && numberProximity > 0) {
-      playAlertProximity(numberProximity);
+      playAlertCloseRange(numberProximity);
     }
 
     if ($.g_toast_proximity && numberToast > 0) {
@@ -1130,38 +1130,47 @@ class poiradarView extends WatchUi.DataField {
       case SMSubmarinePing:
         SoundEffects.playSubmarinePing(0);
         break;
-      default:
+      case SMSubmarinePing1040:
+        SoundEffects.playSubmarinePing(40);
         break;
-    }
-  }
-
-  function playAlertProximity(numberProximity as Number) as Void {
-    if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
-      return;
-    }
-
-    if ($.gAlert_sound == SMSilent) {
-      return;
-    }
-
-    if (beQuietCloseToStartLocation()) {
-      return;
-    }
-
-    switch ($.gAlert_sound) {
-      case SMBeep:
-        Attention.playTone(Attention.TONE_LAP);
+      case SMSubmarinePing1050:
+        SoundEffects.playSubmarinePing(50);
         break;
-      case SMPing:
-        SoundEffects.playPing(0);
-        break;
-      case SMSubmarinePing:
-        SoundEffects.playSubmarinePing(0);
+      case SMSubmarinePingOptimized:
+        SoundEffects.playSubmarinePingOptimized();
         break;
       default:
         break;
     }
   }
+
+  // function playAlertProximity(numberProximity as Number) as Void {
+  //   if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
+  //     return;
+  //   }
+
+  //   if ($.gAlert_sound == SMSilent) {
+  //     return;
+  //   }
+
+  //   if (beQuietCloseToStartLocation()) {
+  //     return;
+  //   }
+
+  //   switch ($.gAlert_sound) {
+  //     case SMBeep:
+  //       Attention.playTone(Attention.TONE_LAP);
+  //       break;
+  //     case SMPing:
+  //       SoundEffects.playPing(0);
+  //       break;
+  //     case SMSubmarinePing:
+  //       SoundEffects.playSubmarinePing(0);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 
   function processCloseRange(wpt as WayPoint) as Number {
     var key = Lang.format("$1$|$2$", [wpt.lon, wpt.lat]);

@@ -41,6 +41,60 @@ public class SoundEffects {
             });
         }
     }
+
+    public static function playSubmarinePing1040() as Void {
+        if (Attention has :playTone && Attention has :ToneProfile) {
+            
+            var sonarPing1040 = [
+                // 1. Transmit Attack & Rapid Downward Sweep (Fakes "depth" via sweep)
+                new Attention.ToneProfile(2600, 20),  // High piezo attack peak
+                new Attention.ToneProfile(2100, 30),  // Mid glide
+                new Attention.ToneProfile(1650, 40),  // Lower resonance boundary
+                new Attention.ToneProfile(1300, 50),  // Bottom limit of 1040 audibility
+
+                // 2. Propagation Silence
+                new Attention.ToneProfile(0, 160),    // Echo gap
+
+                // 3. Low Sub-Harmonic Echo Return
+                new Attention.ToneProfile(1400, 30),  // Warmer echo start
+                new Attention.ToneProfile(1100, 50)   // Fading tail
+            ] as Array<Attention.ToneProfile>;
+
+            Attention.playTone({
+                :toneProfile => sonarPing1040
+            });
+        }
+    }
+
+    public static function playSubmarinePing1050() as Void {
+        if (Attention has :playTone && Attention has :ToneProfile) {
+            
+            var sonarPing1050 = [
+                // 1. Deep Sonar Transmit (Fuller, rounder attack)
+                new Attention.ToneProfile(1600, 35),  // Warm transmit attack
+                new Attention.ToneProfile(1350, 45),  // Body glide
+                new Attention.ToneProfile(1100, 60),  // Deep resonance tail
+
+                // 2. Extended Propagation Delay
+                new Attention.ToneProfile(0, 200),    // Echo pause
+
+                // 3. Deep Return Echo
+                new Attention.ToneProfile(950, 40),   // Faint return pulse
+                new Attention.ToneProfile(750, 65)    // Low-end reverberation fadeout
+            ] as Array<Attention.ToneProfile>;
+
+            Attention.playTone({
+                :toneProfile => sonarPing1050
+            });
+        }
+    }
+
+    public static function playSubmarinePingOptimized() as Void {
+        if ($.gHasHighResScreen) {
+            playSubmarinePing1050();
+        }
+        playSubmarinePing1040();
+    }
 }
 /*
 Segment,Freq (Hz),Duration (ms),Acoustic Function
