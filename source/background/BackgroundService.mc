@@ -28,7 +28,7 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       System.println("1");
       System.println(ex.getErrorMessage());
       ex.printStackTrace();
-      Background.exit(CustomErrors.ERROR_BG_EXCEPTION);      
+      Background.exit(CustomErrors.ERROR_BG_EXCEPTION);
     }
   }
 
@@ -49,18 +49,6 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       var maxWpts = Storage.getValue("maxWaypoints");
       var poiSet = Storage.getValue("poiSet");
 
-      System.println(
-        Lang.format("Url[$1$] location [$2$] apiKey[$3$] apiVersion[$4$] maxRange[$5$] maxWpts[$6$] poiSet[$7$]", [
-          poiUrl,
-          location,
-          poiAPIKey,
-          apiVersion,
-          maxRange,
-          maxWpts,
-          poiSet,
-        ])
-      );
-
       if (poiUrl == null) {
         poiUrl = "";
       }
@@ -71,11 +59,8 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
       if (location == null) {
         return CustomErrors.ERROR_BG_NO_POSITION;
       }
-      if ((poiAPIKey as String).length() == 0) {
-        return CustomErrors.ERROR_BG_NO_API_KEY;
-      }
-      if ((poiUrl as String).length() == 0) {
-        return CustomErrors.ERROR_BG_NO_PROXY;
+      if (poiSet == null) {
+        poiSet = 0; // Default to waterpunt
       }
       if (maxRange == null || (maxRange as Number) > 100000) {
         maxRange = 30000;
@@ -85,14 +70,20 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
         maxWpts = 50;
         Storage.setValue("maxWaypoints", maxWpts);
       }
-      if (poiSet == null) {
-        poiSet = 0; // Default to waterpunt
-      }
 
       var lat = (location as Array)[0] as Double;
       var lon = (location as Array)[1] as Double;
-      if ((lat >= 179.99 || lat <= -179.99) && (lon >= 179.99 || lon <= -179.99)) {
-        System.println("1 Invalid location lat[" + lat + "] lon[" + lon + "] exit background service");
+      if (
+        (lat >= 179.99 || lat <= -179.99) &&
+        (lon >= 179.99 || lon <= -179.99)
+      ) {
+        System.println(
+          "Invalid location lat[" +
+            lat +
+            "] lon[" +
+            lon +
+            "] exit background service"
+        );
         return CustomErrors.ERROR_BG_NO_POSITION;
       }
       var params =
@@ -104,6 +95,27 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
           "maxWpts" => maxWpts as Number,
           "poiSet" => poiSet as Number,
         }) as Lang.Dictionary<Lang.Object, Lang.Object>;
+
+      // Direct Overpass query needs no proxy url/api key, literal 7 keeps
+      // this background-safe (POISET_OVERPASS_WATER enum is not (:background)).
+      if ((poiSet as Number) == 7) {
+        return requestOverpassData(params);
+      }
+
+      System.println(
+        Lang.format(
+          "Url[$1$] location [$2$] apiKey[$3$] apiVersion[$4$] maxRange[$5$] maxWpts[$6$] poiSet[$7$]",
+          [poiUrl, location, poiAPIKey, apiVersion, maxRange, maxWpts, poiSet]
+        )
+      );
+
+      if ((poiAPIKey as String).length() == 0) {
+        return CustomErrors.ERROR_BG_NO_API_KEY;
+      }
+      if ((poiUrl as String).length() == 0) {
+        return CustomErrors.ERROR_BG_NO_PROXY;
+      }
+
       requestData(poiUrl as String, poiAPIKey as String, params);
       return 0;
     } catch (ex) {
@@ -113,6 +125,75 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
     }
   }
 
+  function requestOverpassData(
+    params as Lang.Dictionary<Lang.Object, Lang.Object>
+  ) as Number {
+    try {
+      var lat = params["lat"] as Lang.Double?;
+      var lon = params["lon"] as Lang.Double?;
+      var maxRange = params["maxRange"] as Lang.Number?;
+
+      if (lat == null || lon == null) {
+        return CustomErrors.ERROR_BG_NO_POSITION;
+      }
+      if (maxRange == null) {
+        maxRange = 10000;
+      }
+
+      // Fixed, because result not order in closest by distance and to prevent out of memory
+      maxRange = 5000; // TEST
+      var maxWpts = 20;
+      // Double.format("%.7f") uses C printf-style formatting, which is
+      // locale-independent and always emits "." as decimal separator,
+      // so no comma-to-dot replacement is needed.
+      var latStr = (lat as Lang.Double).format("%.7f");
+      var lonStr = (lon as Lang.Double).format("%.7f");
+      var rangeStr = (maxRange as Lang.Number).format("%d");
+      var amenity = "drinking_water"; //|toilets
+      // POST https://overpass-api.de/api/interpreter
+      // Content-Type: application/x-www-form-urlencoded
+      // data=[out:json][timeout:10];(nwr["amenity"~"^(toilets|drinking_water)"](around:10000,50.0577228,4.5327728););out tags center;
+      // out skel = minimal as possible, or out of memory
+      var query = Lang.format(
+        "[out:json][timeout:20];(nwr['amenity'='$1$'](around:$2$,$3$,$4$););out skel $5$;",
+        [amenity, rangeStr, latStr, lonStr, maxWpts]
+      );
+      System.println(
+        "Requesting Overpass data query[" +
+          query +
+          "]"
+      );
+
+      var url = "https://overpass-api.de/api/interpreter";
+      var requestParams =
+        ({
+          "data" => query,
+        }) as Lang.Dictionary<Lang.Object, Lang.Object>;
+      var options = {
+        :method => Communications.HTTP_REQUEST_METHOD_POST,
+        :headers => {
+          "Content-Type" => Communications.REQUEST_CONTENT_TYPE_URL_ENCODED,
+        },
+        :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
+      };
+      var responseCallBack = method(:onReceiveResponseOverpass);
+      System.println(
+        "Making Overpass web request with url[" + url + "] query[" + query + "]"
+      );
+
+      Communications.makeWebRequest(
+        url,
+        requestParams,
+        options,
+        responseCallBack
+      );
+      return 0;
+    } catch (ex) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+      return CustomErrors.ERROR_BG_EXCEPTION;
+    }
+  }
   function requestData(
     poiUrl as String,
     poiAPIKey as String,
@@ -137,6 +218,46 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
     }
   }
 
+  function onReceiveResponseOverpass(
+    responseCode as Lang.Number,
+    responseData as Lang.Dictionary or Null or Lang.String
+  ) as Void {
+    try {
+      var curTime = System.getClockTime();
+      System.println(
+        "onReceiveResponseOverpass time " +
+          curTime.hour.format("%02d") +
+          ":" +
+          curTime.min.format("%02d") +
+          ":" +
+          curTime.sec.format("%02d")
+      );
+      System.println("onReceiveResponseOverpass responseCode " + responseCode);
+      if (responseCode == 200 && responseData != null) {
+        System.println("onReceiveResponseOverpass responseData not null");
+        // !! Do not convert responseData to string (println etc..) --> gives out of memory
+        Background.exit(responseData as PropertyValueType);
+      } else if (responseCode == 504) {
+        // Overpass gateway timeout (query too heavy): transient, foreground
+        // treats it as non-fatal and retries on the next temporal event.
+        System.println("Overpass gateway timeout");
+        Background.exit(CustomErrors.ERROR_BG_GATEWAY_TIMEOUT);
+      } else {
+        System.println("Response data:");
+        System.println(responseData);
+        Background.exit(responseCode);
+      }
+    } catch (ex instanceof Background.ExitDataSizeLimitException) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+      Background.exit(CustomErrors.ERROR_BG_EXIT_DATA_SIZE_LIMIT);
+    } catch (ex) {
+      System.println(ex.getErrorMessage());
+      ex.printStackTrace();
+      Background.exit(CustomErrors.ERROR_BG_EXCEPTION);
+    }
+  }
+
   function onReceiveResponse(
     responseCode as Lang.Number,
     responseData as Lang.Dictionary or Null or Lang.String
@@ -158,6 +279,10 @@ class BackgroundServiceDelegate extends System.ServiceDelegate {
         //System.println(responseData);   --> gives out of memory
         // var data = responseData as String;  --> gives out of memory
         Background.exit(responseData as PropertyValueType);
+      } else if (responseCode == 504) {
+        // Gateway timeout: transient, foreground treats it as non-fatal.
+        System.println("Gateway timeout");
+        Background.exit(CustomErrors.ERROR_BG_GATEWAY_TIMEOUT);
       } else {
         System.println("Not 200");
         System.println(responseData);

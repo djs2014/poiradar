@@ -134,7 +134,7 @@ function getSoundModeText(value as SoundMode) as String {
   }
 }
 
-var maxPOIsets as Number = 7;
+var maxPOIsets as Number = 8;
 enum POISet {
   POISET_RIVM = 0,
   POISET_OSM = 1,
@@ -142,7 +142,8 @@ enum POISet {
   POISET_OSM_TOILETS = 3,
   POISET_ALPS = 4,
   POISET_PYRENEES = 5,
-  POISET_NL = 6,  
+  POISET_NL = 6,
+  POISET_OVERPASS_WATER = 7,
 }
 
 function toPOISet(value as Number) as POISet {
@@ -161,6 +162,8 @@ function toPOISet(value as Number) as POISet {
       return POISET_PYRENEES;
     case 6:
       return POISET_NL;
+    case 7:
+      return POISET_OVERPASS_WATER;
     default:
       return POISET_RIVM;
   }
@@ -181,6 +184,8 @@ function getPOIsetText(value as Number) as String {
       return "Pyrenees";    
     case POISET_NL:
       return "Netherlands";
+    case POISET_OVERPASS_WATER:
+      return "Overpass water";
     default:
       return "RIVM drinking water";
   }

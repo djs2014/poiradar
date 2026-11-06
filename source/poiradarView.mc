@@ -142,7 +142,11 @@ class poiradarView extends WatchUi.DataField {
   }
 
   function onBackgroundData(data as Dictionary) as Void {
-    var poiData = $.toPoiData(data);
+    // Direct Overpass responses carry "elements", proxy responses carry "pts".
+    var poiData =
+      data["elements"] instanceof Array
+        ? $.overpassToPoiData(data)
+        : $.toPoiData(data);
     if (poiData.set.length() > 0) {
       mWpts = poiData.pts;
       mPoiSetName = poiData.set;
@@ -686,8 +690,7 @@ class poiradarView extends WatchUi.DataField {
           dc.drawCircle(px, py, mWptRadius + 2);
           dc.drawCircle(px, py, mWptRadius + 4);
           dc.drawCircle(px, py, mWptRadius + 6);
-          if ($.getEdgeVersion() >= 1050) {
-            // TODO test if flash twice for 1050 2-6 and 6-10
+          if ($.gHasHighResScreen) {
             dc.drawCircle(px, py, mWptRadius + 8);
             dc.drawCircle(px, py, mWptRadius + 10);
           }
@@ -1124,22 +1127,15 @@ class poiradarView extends WatchUi.DataField {
       return;
     }
 
+    SoundEffects.playSubmarinePing(numberInCloseRange);
+
     // TODO quick fix. WTF Edge1050 with speaker cannot play tone profiles. Not mentioned in the API docs
     // https://forums.garmin.com/developer/connect-iq/f/discussion/405695/the-toneprofile-does-not-work-on-venu3s
-    if ($.getEdgeVersion() >= 1050) {
-      Attention.playTone(Attention.TONE_LAP);
-      return;
-    }
-    var toneProfile =
-      [
-        new Attention.ToneProfile(1000, 40),
-        new Attention.ToneProfile(1500, 150),
-        new Attention.ToneProfile(3000, 0),
-      ] as Lang.Array<Attention.ToneProfile>;
-    Attention.playTone({
-      :toneProfile => toneProfile,
-      :repeatCount => numberInCloseRange - 1,
-    });
+    // if ($.getEdgeVersion() >= 1050) {
+    //   Attention.playTone(Attention.TONE_LAP);
+    //   return;
+    // }
+    
   }
 
   function playAlertProximity(numberProximity as Number) as Void {
@@ -1152,22 +1148,23 @@ class poiradarView extends WatchUi.DataField {
       return;
     }
 
+    SoundEffects.playSubmarinePing(numberProximity);
     // TODO quick fix
-    if ($.getEdgeVersion() >= 1050) {
-      Attention.playTone(Attention.TONE_LAP);
-      return;
-    }
+    // if ($.getEdgeVersion() >= 1050) {
+    //   Attention.playTone(Attention.TONE_LAP);
+    //   return;
+    // }
 
-    var toneProfile =
-      [
-        new Attention.ToneProfile(1000, 30),
-        new Attention.ToneProfile(1500, 50),
-        new Attention.ToneProfile(3000, 0),
-      ] as Lang.Array<Attention.ToneProfile>;
-    Attention.playTone({
-      :toneProfile => toneProfile,
-      :repeatCount => numberProximity - 1,
-    });
+    // var toneProfile =
+    //   [
+    //     new Attention.ToneProfile(1000, 30),
+    //     new Attention.ToneProfile(1500, 50),
+    //     new Attention.ToneProfile(3000, 0),
+    //   ] as Lang.Array<Attention.ToneProfile>;
+    // Attention.playTone({
+    //   :toneProfile => toneProfile,
+    //   :repeatCount => numberProximity - 1,
+    // });
   }
 
   function processCloseRange(wpt as WayPoint) as Number {

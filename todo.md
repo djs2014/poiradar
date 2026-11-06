@@ -1,3 +1,14 @@
+# Returns closest water points sorted by distance directly in JSON
+https://myprojects.geoapify.com/projects
+
+https://api.geoapify.com/v2/places?categories=service.drinking_water&filter=circle:4.89,52.37,2000&bias=proximity:4.89,52.37&limit=5&apiKey=YOUR_API_KEY
+
+3000 req per day free
+Geoapify Places API (Very Popular for Micro-Backends)
+Allows searching by categories=service.drinking_water,amenity.toilet within a circle or bounding box, automatically sorted by distance:
+
+
+
 
 TEST
 -> call overpass api in Garmin

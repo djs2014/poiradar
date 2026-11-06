@@ -17,6 +17,10 @@ class CustomErrors {
   static const ERROR_BG_HTTPSTATUS as Number = -9007;
   static const ERROR_BG_NO_PHONE as Number = -9008;
   static const ERROR_BG_GPS_LEVEL as Number = -9009;
+  static const ERROR_BG_GATEWAY_TIMEOUT as Number = -9010;
+  // Alias of Communications.BLE_CONNECTION_UNAVAILABLE (literal keeps this
+  // usable without importing Communications); transient, see testOnNonFatalError.
+  static const ERROR_BG_BLE_CONNECTION as Number = -104;
 }
 
     function getCommunicationError(errorNr as Lang.Number?, http as Lang.Number?) as String {
@@ -58,6 +62,7 @@ class CustomErrors {
           if (error == CustomErrors.ERROR_BG_NOT_SUPPORTED) {return "Bg not supported";}
           if (error == CustomErrors.ERROR_BG_NO_PHONE) {return "No phone";}
           if (error == CustomErrors.ERROR_BG_GPS_LEVEL) {return "Gps quality";}
+          if (error == CustomErrors.ERROR_BG_GATEWAY_TIMEOUT) {return "Gateway timeout";}
           if (error == CustomErrors.ERROR_BG_HTTPSTATUS) {
             if (http != null) { return "Http [" + (http as Number).format("%0d") + "]"; }
             return "Http [???]";

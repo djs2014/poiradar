@@ -3,6 +3,7 @@
 // 2026-06-04 added methods
 // 2026-06-05 Application.PropertyValueType mCurrentLocation
 // 2026-06-06 onBackgroundData check for null data
+// 2026-09-25 Handles background service scheduling and error management for the application.
 import Toybox.Application;
 import Toybox.Lang;
 import Toybox.System;
@@ -127,6 +128,8 @@ class BGServiceHandler {
       mError == CustomErrors.ERROR_BG_GPS_LEVEL ||
       mError == CustomErrors.ERROR_BG_NO_PHONE ||
       mError == CustomErrors.ERROR_BG_NO_POSITION ||
+      mError == CustomErrors.ERROR_BG_GATEWAY_TIMEOUT ||
+      mError == CustomErrors.ERROR_BG_BLE_CONNECTION ||
       mError == CustomErrors.ERROR_BG_EXCEPTION
     ) {
       mError = CustomErrors.ERROR_BG_NONE;
@@ -248,6 +251,8 @@ class BGServiceHandler {
       var code = data as Lang.Number;
       if (code < 0) {
         mError = code;
+        // Clear any stale HTTP status so getError() shows the custom text.
+        mHttpStatus = HTTP_OK;
       } else {
         mHttpStatus = code;
         mError = CustomErrors.ERROR_BG_HTTPSTATUS;
