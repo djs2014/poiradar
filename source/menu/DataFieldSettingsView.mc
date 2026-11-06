@@ -125,10 +125,12 @@ function getSoundModeText(value as SoundMode) as String {
   switch (value) {
     case SMSilent:
       return "No sound";
-    case SMOneBeep:
-      return "1 beep";
-    case SMBeepPerPoi:
-      return "Beep per poi";
+    case SMBeep:
+      return "Beep";
+    case SMPing:
+      return "Ping";
+    case SMSubmarinePing:
+      return "Submarine Ping";
     default:
       return "--";
   }

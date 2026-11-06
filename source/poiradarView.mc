@@ -1112,59 +1112,55 @@ class poiradarView extends WatchUi.DataField {
       return;
     }
 
-    switch ($.gAlert_sound) {
-      case SMSilent:
-        return;
-      case SMOneBeep:
-        numberInCloseRange = 1;
-        break;
-      case SMBeepPerPoi:
-      default:
-        break;
+    if ($.gAlert_sound == SMSilent) {
+      return;
     }
 
     if (beQuietCloseToStartLocation()) {
       return;
     }
 
-    SoundEffects.playSubmarinePing(numberInCloseRange);
-
-    // TODO quick fix. WTF Edge1050 with speaker cannot play tone profiles. Not mentioned in the API docs
-    // https://forums.garmin.com/developer/connect-iq/f/discussion/405695/the-toneprofile-does-not-work-on-venu3s
-    // if ($.getEdgeVersion() >= 1050) {
-    //   Attention.playTone(Attention.TONE_LAP);
-    //   return;
-    // }
-    
+    switch ($.gAlert_sound) {
+      case SMBeep:
+        Attention.playTone(Attention.TONE_LAP);
+        break;
+      case SMPing:
+        SoundEffects.playPing(0);
+        break;
+      case SMSubmarinePing:
+        SoundEffects.playSubmarinePing(0);
+        break;
+      default:
+        break;
+    }
   }
 
   function playAlertProximity(numberProximity as Number) as Void {
-    // $._soundMode == 0 ||
     if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
       return;
     }
 
+    if ($.gAlert_sound == SMSilent) {
+      return;
+    }
+
     if (beQuietCloseToStartLocation()) {
       return;
     }
 
-    SoundEffects.playSubmarinePing(numberProximity);
-    // TODO quick fix
-    // if ($.getEdgeVersion() >= 1050) {
-    //   Attention.playTone(Attention.TONE_LAP);
-    //   return;
-    // }
-
-    // var toneProfile =
-    //   [
-    //     new Attention.ToneProfile(1000, 30),
-    //     new Attention.ToneProfile(1500, 50),
-    //     new Attention.ToneProfile(3000, 0),
-    //   ] as Lang.Array<Attention.ToneProfile>;
-    // Attention.playTone({
-    //   :toneProfile => toneProfile,
-    //   :repeatCount => numberProximity - 1,
-    // });
+    switch ($.gAlert_sound) {
+      case SMBeep:
+        Attention.playTone(Attention.TONE_LAP);
+        break;
+      case SMPing:
+        SoundEffects.playPing(0);
+        break;
+      case SMSubmarinePing:
+        SoundEffects.playSubmarinePing(0);
+        break;
+      default:
+        break;
+    }
   }
 
   function processCloseRange(wpt as WayPoint) as Number {

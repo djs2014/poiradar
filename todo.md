@@ -1,3 +1,10 @@
+option between sound effect
+
+beep
+or ping
+
+
+
 # Returns closest water points sorted by distance directly in JSON
 https://myprojects.geoapify.com/projects
 

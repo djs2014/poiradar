@@ -2,7 +2,7 @@ import Toybox.Attention;
 import Toybox.Lang;
 
 public class SoundEffects {
-    public static function playShortPing(repeatCount as Integer) as Void {
+    public static function playPing(repeatCount as Integer) as Void {
         var toneProfile =
             [
                 new Attention.ToneProfile(1000, 40),

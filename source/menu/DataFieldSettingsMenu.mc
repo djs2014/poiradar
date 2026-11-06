@@ -596,24 +596,14 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
     if (id instanceof String && id.equals("alert_sound")) {
       var sp = new selectionMenuPicker("Alert sound", id as String);
-      for (var i = 0; i < 3; i++) {
+      for (var i = 0; i < $.maxSoundMode; i++) {
         sp.add($.getSoundModeText(i as SoundMode), null, i);
       }
       sp.setOnSelected(self, :onSelectedSelection, item);
       sp.show();
       return;
     }
-
-    // if (id instanceof String && id.equals("sound_mode")) {
-    //   var sp = new selectionMenuPicker("Sound level", id as String);
-    //   for (var i = 0; i <= 3; i++) {
-    //     sp.add($.getSoundModeText(i), null, i);
-    //   }sound
-    //   sp.setOnSelected(self, :onSelectedSelection, item);
-    //   sp.show();
-    //   return;
-    // }
-
+    
     if (id instanceof String && item instanceof ToggleMenuItem) {
       Storage.setValue(id as String, item.isEnabled());
       return;

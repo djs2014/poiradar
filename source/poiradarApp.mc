@@ -64,7 +64,7 @@ var g_show_closestWptRangeDegrees as Number = 90;
 
 // var g_alert_startAfterX as Number = 30;
 // var g_alert_startAfterUnits as AfterXUnits = AfterXKilometer;
-var gAlert_sound as SoundMode = SMOneBeep;
+var gAlert_sound as SoundMode = SMPing;
 
 
 // x km from start quiet
@@ -178,7 +178,7 @@ class poiradarApp extends Application.AppBase {
         // @@ refactor, remove
         // Storage.setValue("alert_startAfterX", $.g_alert_startAfterX);
         // Storage.setValue("alert_startAfterUnits", $.g_alert_startAfterUnits);
-        Storage.setValue("alert_sound", SMOneBeep);
+        Storage.setValue("alert_sound", SMPing);
         Storage.setValue("alert_quiet_start", 10.0f);
 
         Storage.setValue("loosefocusafterhit", true);

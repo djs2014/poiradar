@@ -5,8 +5,11 @@ enum AfterXUnits {
   AfterXKilometer = 0,
   AfterXMinutes = 1,
 }
+
+var maxSoundMode = 4;
 enum SoundMode {
   SMSilent = 0,
-  SMOneBeep = 1,
-  SMBeepPerPoi = 2,
+  SMBeep = 1,
+  SMPing = 2,
+  SMSubmarinePing = 3,
 }
