@@ -596,10 +596,10 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
     if (id instanceof String && id.equals("alert_sound")) {
       var sp = new selectionMenuPicker("Alert sound", id as String);
-      for (var i = 0; i < $.maxSoundMode; i++) {
+      for (var i = 0; i < $.cntSoundMode; i++) {
         sp.add($.getSoundModeText(i as SoundMode), null, i);
       }
-      sp.setOnSelected(self, :onSelectedSelection, item);
+      sp.setOnSelected(self, :onSelectedSoundModeSelection, item);
       sp.show();
       return;
     }
@@ -675,5 +675,38 @@ class GeneralMenuDelegate extends WatchUi.Menu2InputDelegate {
     value as Application.PropertyValueType
   ) as Void {
     Storage.setValue(storageKey, value);
+  }
+
+  function onSelectedSoundModeSelection(
+    storageKey as String,
+    value as Application.PropertyValueType
+  ) as Void {
+    Storage.setValue(storageKey, value);
+
+    // Play the selected sound mode
+    if (Attention has :playTone && System.getDeviceSettings().tonesOn) {
+      switch (value as SoundMode) {
+        case SMToneLap:
+          Attention.playTone(Attention.TONE_LAP);
+          break;
+        case SMToneLow:
+          Attention.playTone(Attention.TONE_ALERT_LO);
+          break;
+        case SMToneHigh:
+          Attention.playTone(Attention.TONE_ALERT_HI);
+          break;
+        case SMPing:
+          SoundEffects.playPing();
+          break;
+        case SMPingShortLow:
+          SoundEffects.playShortLowPing();
+          break;
+        case SMPingDeepLow:
+          SoundEffects.playDeepLowPing();
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

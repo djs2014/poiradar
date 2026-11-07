@@ -1121,56 +1121,28 @@ class poiradarView extends WatchUi.DataField {
     }
 
     switch ($.gAlert_sound) {
-      case SMBeep:
+      case SMToneLap:
         Attention.playTone(Attention.TONE_LAP);
         break;
+      case SMToneLow:
+        Attention.playTone(Attention.TONE_ALERT_LO);
+        break;
+      case SMToneHigh:
+        Attention.playTone(Attention.TONE_ALERT_HI);
+        break;
       case SMPing:
-        SoundEffects.playPing(0);
+        SoundEffects.playPing();
         break;
-      case SMSubmarinePing:
-        SoundEffects.playSubmarinePing(0);
+      case SMPingShortLow:
+        SoundEffects.playShortLowPing();
         break;
-      case SMSubmarinePing1040:
-        SoundEffects.playSubmarinePing(40);
-        break;
-      case SMSubmarinePing1050:
-        SoundEffects.playSubmarinePing(50);
-        break;
-      case SMSubmarinePingOptimized:
-        SoundEffects.playSubmarinePingOptimized();
-        break;
+      case SMPingDeepLow:
+        SoundEffects.playDeepLowPing();
+        break;      
       default:
         break;
     }
   }
-
-  // function playAlertProximity(numberProximity as Number) as Void {
-  //   if (!(Attention has :playTone) || !System.getDeviceSettings().tonesOn) {
-  //     return;
-  //   }
-
-  //   if ($.gAlert_sound == SMSilent) {
-  //     return;
-  //   }
-
-  //   if (beQuietCloseToStartLocation()) {
-  //     return;
-  //   }
-
-  //   switch ($.gAlert_sound) {
-  //     case SMBeep:
-  //       Attention.playTone(Attention.TONE_LAP);
-  //       break;
-  //     case SMPing:
-  //       SoundEffects.playPing(0);
-  //       break;
-  //     case SMSubmarinePing:
-  //       SoundEffects.playSubmarinePing(0);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
 
   function processCloseRange(wpt as WayPoint) as Number {
     var key = Lang.format("$1$|$2$", [wpt.lon, wpt.lat]);

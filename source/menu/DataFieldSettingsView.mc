@@ -125,18 +125,18 @@ function getSoundModeText(value as SoundMode) as String {
   switch (value) {
     case SMSilent:
       return "No sound";
-    case SMBeep:
-      return "Beep";
+    case SMToneLap:
+      return "Tone Lap";
+    case SMToneLow:
+      return "Tone Low";
+    case SMToneHigh:
+      return "Tone High";
     case SMPing:
       return "Ping";
-    case SMSubmarinePing:
-      return "Submarine Ping";
-    case SMSubmarinePing1040:
-      return "Submarine Ping *40";
-    case SMSubmarinePing1050:
-      return "Submarine Ping *50";
-    case SMSubmarinePingOptimized:
-      return "Submarine Ping Optimized";
+    case SMPingShortLow:
+      return "Short Low Ping";
+    case SMPingDeepLow:
+      return "Deep Low Ping";
     default:
       return "--";
   }
